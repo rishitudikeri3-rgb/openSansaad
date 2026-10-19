@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+
+# Env / secrets
+.env
+
+# Data: raw downloads and extracted text are never committed
+data/raw/*
+!data/raw/.gitkeep
+data/text/*
+!data/text/.gitkeep
+
+# Notebooks
+.ipynb_checkpoints/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+*:Zone.Identifier

@@ -1,0 +1,69 @@
+[project]
+name = "opensansad"
+version = "0.1.0"
+description = "Multi-agent system that makes Indian legislation legible: clause-level amendment genealogy, session tracking, bill metadata."
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "pydantic-settings>=2.4",
+    "sqlalchemy>=2.0",
+    "alembic>=1.13",
+    "psycopg[binary]>=3.2",
+    "neo4j>=5.20",
+    "redis>=5.0",
+    "celery[redis]>=5.4",
+    "httpx>=0.27",
+]
+
+[project.optional-dependencies]
+# Phase 1, step 3+: document extraction and OCR
+extract = [
+    "beautifulsoup4>=4.12",
+    "lxml>=5.2",
+    "pymupdf>=1.24",
+    "pdf2image>=1.17",
+    "pytesseract>=0.3.10",
+]
+# Phase 2+: agents. LLM access via any OpenAI-compatible endpoint (free providers / local Ollama).
+agents = [
+    "langgraph>=0.2",
+    "langchain>=0.3",
+    "langchain-openai>=0.2",
+]
+# Phase 3+: semantic retrieval over debates/reports
+retrieval = [
+    "chromadb>=0.5",
+]
+# Phase 5: API
+api = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.30",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3",
+    "ruff>=0.6",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/opensansad"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# Default run is offline. `pytest -m integration` overrides this (last -m wins).
+addopts = "-m 'not integration'"
+markers = [
+    "integration: requires the docker stack (postgres, redis, neo4j) to be running",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
