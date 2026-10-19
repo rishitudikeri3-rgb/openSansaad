@@ -3,6 +3,7 @@ from logging.config import fileConfig
 from alembic import context
 from sqlalchemy import engine_from_config, pool
 
+import opensansad.db.models  # noqa: F401  (registers tables on Base.metadata)
 from opensansad.config import get_settings
 from opensansad.db.base import Base
 

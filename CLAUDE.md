@@ -133,11 +133,16 @@ opensansad/
 ```
 acts(id, short_title, act_number, year, india_code_url, created_at)
 
-documents(id, act_id, doc_type, source, url, sha256, fetched_at, format,
-          is_scanned, ocr_confidence, text_path,
+documents(id, act_id, doc_type, source, title, url, sha256, fetched_at,
+          acquisition, format, raw_path, is_scanned, ocr_confidence, text_path,
           amending_act_number, amending_year)
-  doc_type ∈ {principal, amending, gazette, debate, committee_report,
-              bulletin, list_of_business, bill}
+  doc_type    ∈ {principal, amending, gazette, debate, committee_report,
+                 bulletin, list_of_business, bill, ordinance, notification,
+                 judgment, external_report}
+  source      ∈ {indiacode, egazette, eparlib, sansad, prs, other}
+  acquisition ∈ {fetched, manual}
+  format      ∈ {html, pdf, other}
+  unique(url, sha256): a re-fetch with new bytes is a new row, never an overwrite
 
 fetch_log(id, url, status_code, error, attempted_at)
 
@@ -190,7 +195,9 @@ Exit criteria: full stack up; act chosen and recorded; principal + all amending 
 
 - Phase 1, step 1 (skeleton) — **done** (2026-10-19): uv project on Python 3.12, docker stack (postgres 16, redis 7, neo4j 5) healthy, config, DB/Alembic plumbing (no tables yet), Neo4j client, Celery stub. `make test` (offline, sockets blocked) and `make test-integration` both pass.
 - Phase 1, step 2 (data recon) — **done** (2026-10-19): act chosen (Arbitration and Conciliation Act, 1996); findings in `docs/recon.md`. Open: confirm India Code / eParlib browser access; verify "(verify)" items in recon against primary sources during step 3
-- Phase 1, step 3 (ingestion) — next
+- Phase 1, step 3 (ingestion) — split into 3a schema → 3b cache → 3c extraction → 3d source adapters → 3e Celery tasks + manifest → 3f ingestion run
+  - 3a (schema) — **done** (2026-10-19): `db/models.py` (acts, documents, fetch_log), migration `005e8876ef09`; offline SQLite model tests + integration tests on a throwaway DB (incl. model/migration drift check)
+  - 3b (cache) — next
 
 ## 12. Decisions Log
 
@@ -207,4 +214,7 @@ Exit criteria: full stack up; act chosen and recorded; principal + all amending 
 - Later-phase deps are optional extras (`extract`, `agents`, `retrieval`, `api`), installed when their phase starts
 - Postgres tables (§8 schema) are created in step 3 alongside ingestion, not in step 1
 - **Free LLMs only — no paid APIs.** Provider-agnostic via OpenAI-compatible endpoint; specific provider/models chosen at Phase 2. Design for free-tier rate limits (caching of LLM calls, retries/backoff) and weaker models (tighter prompts, structured output, deterministic code doing as much as possible)
+- `doc_type` extended with `ordinance`, `notification`, `judgment`, `external_report`; `documents` gains `title`, `acquisition` (fetched/manual), `raw_path`
+- Enums stored as VARCHAR + CHECK (non-native) so adding values is a simple constraint migration
+- Integration tests that downgrade/migrate use a throwaway database (`opensansad_migration_test`), never the dev DB
 - Offline test guard: `tests/conftest.py` blocks socket connects unless a test is marked `integration`
