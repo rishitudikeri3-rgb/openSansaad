@@ -189,7 +189,8 @@ Exit criteria: full stack up; act chosen and recorded; principal + all amending 
 ## 11. Current status
 
 - Phase 1, step 1 (skeleton) — **done** (2026-10-19): uv project on Python 3.12, docker stack (postgres 16, redis 7, neo4j 5) healthy, config, DB/Alembic plumbing (no tables yet), Neo4j client, Celery stub. `make test` (offline, sockets blocked) and `make test-integration` both pass.
-- Phase 1, step 2 (data recon) — next
+- Phase 1, step 2 (data recon) — **done** (2026-10-19): act chosen (Arbitration and Conciliation Act, 1996); findings in `docs/recon.md`. Open: confirm India Code / eParlib browser access; verify "(verify)" items in recon against primary sources during step 3
+- Phase 1, step 3 (ingestion) — next
 
 ## 12. Decisions Log
 
@@ -197,7 +198,10 @@ Exit criteria: full stack up; act chosen and recorded; principal + all amending 
 - Bill metadata coverage: 2006 onward
 - Full stack retained (Postgres, Neo4j, Celery/Redis, React + D3) — not simplified
 - Solo build
-- Chosen act: **TBD (Phase 1, step 2 recon)**
+- Chosen act: **Arbitration and Conciliation Act, 1996 (Act 26 of 1996)** — amended by Act 3 of 2016 (2015 Amendment), Act 33 of 2019, Act 3 of 2021. Chosen for insert→omit and insert→struck-down chains (s87, Eighth Schedule), hand-verifiable size, strong intent trail (Law Commission 246th, Srikrishna HLC 2017, SORs, debates). Runner-up: Prevention of Corruption Act, 1988. Full recon in `docs/recon.md`
+- Known gap: no pre-2009 amending debates → Phase 3 OCR exercised on 1996 principal-act debates
+- Source access (2026-10-19): India Code WAF-blocks non-browser clients; eParlib unreachable; e-Gazette serves incomplete TLS chain; PRS `Crawl-delay: 10`. Step 3 cache must support manual import of browser-downloaded files (with URL + sha256 provenance), per-domain robots.txt crawl-delay, a pinned intermediate CA for e-Gazette (never `verify=False`), and long backoff after 403
+- Schema needs (step 3): genealogy events from judicial strike-downs (not only amending acts); enacted-vs-in-force status for provisions
 - Python pinned to **3.12** (`requires-python = ">=3.12,<3.13"`); system 3.14 too new for ChromaDB/LangChain/OCR deps
 - Only infra (postgres, redis, neo4j) runs in docker; Python code runs locally via `uv`
 - Later-phase deps are optional extras (`extract`, `agents`, `retrieval`, `api`), installed when their phase starts
