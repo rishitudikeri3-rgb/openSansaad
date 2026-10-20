@@ -207,7 +207,7 @@ Exit criteria: full stack up; act chosen and recorded; principal + all amending 
 - Bill metadata coverage: 2006 onward
 - Full stack retained (Postgres, Neo4j, Celery/Redis, React + D3) — not simplified
 - Solo build
-- Chosen act: **Arbitration and Conciliation Act, 1996 (Act 26 of 1996)** — amended by Act 3 of 2016 (2015 Amendment), Act 33 of 2019, Act 3 of 2021. Chosen for insert→omit and insert→struck-down chains (s87, Eighth Schedule), hand-verifiable size, strong intent trail (Law Commission 246th, Srikrishna HLC 2017, SORs, debates). Runner-up: Prevention of Corruption Act, 1988. Full recon in `docs/recon.md`
+- Chosen act: **Arbitration and Conciliation Act, 1996 (Act 26 of 1996)** — amended by Act 3 of 2016 (2015 Amendment), Act 33 of 2019, Act 3 of 2021. Chosen for insert→struck-down (s87, *Hindustan Construction* 2019) and likely insert→omit (Eighth Schedule, 2019→2021 — **verify**) chains, hand-verifiable size, strong intent trail (Law Commission 246th, Srikrishna HLC 2017, SORs, debates). Runner-up: Prevention of Corruption Act, 1988. Full recon in `docs/recon.md`
 - Known gap: no pre-2009 amending debates → Phase 3 OCR exercised on 1996 principal-act debates
 - Source access (2026-10-19): India Code WAF-blocks non-browser clients; eParlib unreachable; e-Gazette serves incomplete TLS chain; PRS `Crawl-delay: 10`. Step 3 cache must support manual import of browser-downloaded files (with URL + sha256 provenance), per-domain robots.txt crawl-delay, a pinned intermediate CA for e-Gazette (never `verify=False`), and long backoff after 403
 - Schema needs (step 3): genealogy events from judicial strike-downs (not only amending acts); enacted-vs-in-force status for provisions
@@ -226,4 +226,5 @@ Exit criteria: full stack up; act chosen and recorded; principal + all amending 
 - e-Gazette TLS: Let's Encrypt YR1 + Root YR (cross-signed by ISRG Root X1) bundled in `ingest/certs/`, added to certifi roots; verification always on
 - User-Agent must contain a real `contact:`; the cache refuses to start with the placeholder. Real contact lives only in `.env` (gitignored)
 - Rule 1 enforced by `tests/test_network_boundary.py` (AST scan: only cache.py may import HTTP clients)
-- Offline test guard: `tests/conftest.py` blocks socket connects unless a test is marked `integration`
+- Hardening (2026-10-20): domain also blocked after `DOMAIN_FAILURE_THRESHOLD` (4) consecutive connection failures (`DOMAIN_FAILURE_BLOCK_HOURS`, 1h) — silent drops treated like 403; docker ports bound to 127.0.0.1 only; `.env` and relative `DATA_DIR` anchored to repo root (`config.PROJECT_ROOT`); store records `last_seen` when a re-fetch returns identical bytes (robots freshness uses it)
+- Offline test guard: `tests/conftest.py` blocks socket connects and DNS lookups unless a test is marked `integration`

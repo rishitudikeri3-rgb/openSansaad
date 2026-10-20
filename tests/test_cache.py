@@ -371,3 +371,93 @@ def test_redirect_loop_gives_up(tmp_path, clock, recorder) -> None:
     with pytest.raises(FetchError, match="redirects"):
         cache.get("https://loop.test/a", source="prs")
     assert len([c for c in web.calls if not c.endswith("robots.txt")]) == 6  # 1 + 5 hops
+
+
+# ---- hardening: silent drops, robots freshness, Retry-After dates -------------
+
+
+def _dropping_handler(fail_paths: set[str]):
+    def handler(request: httpx.Request) -> httpx.Response:
+        if request.url.path == "/robots.txt":
+            return httpx.Response(404)
+        if request.url.path in fail_paths:
+            raise httpx.ConnectTimeout("timed out")
+        return httpx.Response(200, content=PDF + request.url.path.encode())
+    return handler
+
+
+def test_consecutive_connection_failures_block_domain(tmp_path, clock, recorder) -> None:
+    calls: list[str] = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        calls.append(request.url.path)
+        return _dropping_handler({"/a", "/b"})(request)
+
+    cache = Cache(RawStore(tmp_path), MemoryGate(clock=clock, sleep=clock.sleep), recorder,
+                  user_agent=UA, transport=httpx.MockTransport(handler), sleep=clock.sleep,
+                  max_attempts=4, failure_threshold=3, failure_block_seconds=3600,
+                  default_delay=0)
+
+    with pytest.raises(DomainBlocked, match="3 consecutive connection failures"):
+        cache.get("https://indiacode.test/a", source="indiacode")
+    assert calls.count("/a") == 3  # stopped before the 4th attempt
+    with pytest.raises(DomainBlocked):
+        cache.get("https://indiacode.test/b", source="indiacode")
+    assert "/b" not in calls
+
+
+def test_successful_response_resets_failure_count(tmp_path, clock, recorder) -> None:
+    gate = MemoryGate(clock=clock, sleep=clock.sleep)
+    cache = Cache(RawStore(tmp_path), gate, recorder, user_agent=UA,
+                  transport=httpx.MockTransport(_dropping_handler({"/bad"})), sleep=clock.sleep,
+                  max_attempts=2, failure_threshold=3, default_delay=0)
+
+    with pytest.raises(FetchError):
+        cache.get("https://flaky.test/bad", source="prs")  # 2 failures
+    cache.get("https://flaky.test/ok", source="prs")  # success resets
+    with pytest.raises(FetchError) as e:
+        cache.get("https://flaky.test/bad", source="prs")  # 2 more, still under 3
+    assert not isinstance(e.value, DomainBlocked)
+
+
+def test_retry_after_http_date(tmp_path, clock, recorder) -> None:
+    site = Site()
+    site.routes["/a.pdf"] = [
+        httpx.Response(503, headers={"Retry-After": "Tue, 20 Oct 2026 12:01:30 GMT"}),
+        httpx.Response(200, content=PDF),
+    ]
+    cache = make_cache(tmp_path, site, clock, recorder, default_delay=0,
+                       now=lambda: datetime(2026, 10, 20, 12, 0, 0, tzinfo=UTC))
+    cache.get("https://prs.test/a.pdf", source="prs")
+    assert clock.sleeps == [90.0]
+
+
+def test_long_running_cache_refreshes_robots(tmp_path, clock, recorder) -> None:
+    site = Site()
+    site.routes["/a"] = [httpx.Response(200, content=PDF)]
+    site.routes["/b"] = [httpx.Response(200, content=PDF + b"b")]
+    now = [datetime(2026, 10, 20, tzinfo=UTC)]
+    cache = make_cache(tmp_path, site, clock, recorder, now=lambda: now[0])
+
+    cache.get("https://prs.test/a", source="prs")
+    now[0] += timedelta(days=8)
+    cache.get("https://prs.test/b", source="prs")  # same instance, weeks later
+    assert site.calls.count("/robots.txt") == 2
+
+
+def test_unchanged_robots_recheck_counts_as_fresh(tmp_path, clock, recorder) -> None:
+    """Re-fetching identical robots.txt must reset its age, or it would be re-fetched forever."""
+    site = Site()
+    for p in ("/a", "/b", "/c"):
+        site.routes[p] = [httpx.Response(200, content=PDF + p.encode())]
+    now = [datetime(2026, 10, 20, tzinfo=UTC)]
+
+    def fresh_cache() -> Cache:
+        return make_cache(tmp_path, site, clock, recorder, now=lambda: now[0])
+
+    fresh_cache().get("https://prs.test/a", source="prs")
+    now[0] += timedelta(days=8)
+    fresh_cache().get("https://prs.test/b", source="prs")  # stale: re-check (identical bytes)
+    now[0] += timedelta(days=1)
+    fresh_cache().get("https://prs.test/c", source="prs")  # confirmed a day ago: no re-check
+    assert site.calls.count("/robots.txt") == 2

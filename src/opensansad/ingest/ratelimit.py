@@ -21,6 +21,12 @@ class DomainGate(Protocol):
     def blocked_for(self, domain: str) -> float:
         """Seconds remaining on a block, 0 if none."""
 
+    def record_failure(self, domain: str, window: float) -> int:
+        """Count a connection failure; returns consecutive failures within `window` seconds."""
+
+    def reset_failures(self, domain: str) -> None:
+        """The domain answered; clear its consecutive-failure count."""
+
 
 class MemoryGate:
     """Single-process gate. Used in tests with a fake clock; not safe across workers."""
@@ -34,6 +40,7 @@ class MemoryGate:
         self._sleep = sleep
         self._next: dict[str, float] = {}
         self._blocked_until: dict[str, float] = {}
+        self._failures: dict[str, tuple[int, float]] = {}  # domain -> (count, expires_at)
 
     def acquire(self, domain: str, min_interval: float) -> None:
         wait = self._next.get(domain, 0.0) - self._clock()
@@ -46,6 +53,16 @@ class MemoryGate:
 
     def blocked_for(self, domain: str) -> float:
         return max(0.0, self._blocked_until.get(domain, 0.0) - self._clock())
+
+    def record_failure(self, domain: str, window: float) -> int:
+        count, expires = self._failures.get(domain, (0, 0.0))
+        if self._clock() >= expires:
+            count = 0
+        self._failures[domain] = (count + 1, self._clock() + window)
+        return count + 1
+
+    def reset_failures(self, domain: str) -> None:
+        self._failures.pop(domain, None)
 
 
 # Atomically: if the domain's next-allowed time is in the future, return the wait;
@@ -88,3 +105,14 @@ class RedisGate:
     def blocked_for(self, domain: str) -> float:
         ttl_ms = self._r.pttl(f"{self._prefix}:blocked:{domain}")
         return max(0.0, ttl_ms / 1000) if ttl_ms and ttl_ms > 0 else 0.0
+
+    def record_failure(self, domain: str, window: float) -> int:
+        key = f"{self._prefix}:failures:{domain}"
+        pipe = self._r.pipeline()
+        pipe.incr(key)
+        pipe.pexpire(key, max(1, int(window * 1000)))
+        count, _ = pipe.execute()
+        return int(count)
+
+    def reset_failures(self, domain: str) -> None:
+        self._r.delete(f"{self._prefix}:failures:{domain}")

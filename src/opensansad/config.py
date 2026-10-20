@@ -6,12 +6,18 @@ Model names, API keys and service URLs live here and nowhere else.
 from functools import lru_cache
 from pathlib import Path
 
-from pydantic import SecretStr
+from pydantic import SecretStr, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+# src/opensansad/config.py -> repo root. Valid for the editable install `uv sync` creates.
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 
 class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
+    # Anchored to the repo root so notebooks/, workers etc. find .env regardless of cwd.
+    model_config = SettingsConfigDict(
+        env_file=PROJECT_ROOT / ".env", env_file_encoding="utf-8", extra="ignore"
+    )
 
     # Storage
     database_url: str = "postgresql+psycopg://opensansad:opensansad@localhost:5432/opensansad"
@@ -33,8 +39,16 @@ class Settings(BaseSettings):
     fetch_timeout_seconds: float = 30.0
     fetch_max_attempts: int = 4
     domain_block_hours: float = 6.0  # pause a whole domain after a 403
+    domain_failure_threshold: int = 4  # consecutive connection failures before pausing
+    domain_failure_block_hours: float = 1.0
     robots_ttl_days: float = 7.0  # robots.txt is the one thing re-fetched without force=True
     data_dir: Path = Path("data")
+
+    @field_validator("data_dir")
+    @classmethod
+    def _anchor_data_dir(cls, v: Path) -> Path:
+        """Relative paths resolve against the repo root, never the current directory."""
+        return v if v.is_absolute() else PROJECT_ROOT / v
 
     @property
     def raw_dir(self) -> Path:

@@ -93,3 +93,15 @@ def test_error_page_detection() -> None:
     assert not looks_like_error_page(b"<html><title>The Arbitration Act</title></html>")
     big = b"<html><title>Access Denied?</title>" + b"x" * 30_000
     assert not looks_like_error_page(big)  # real pages are large
+
+
+def test_identical_refetch_updates_last_seen_only(tmp_path: Path) -> None:
+    store = RawStore(tmp_path)
+    url = "https://prsindia.org/robots.txt"
+    t1, t2 = datetime(2026, 1, 1, tzinfo=UTC), datetime(2026, 3, 1, tzinfo=UTC)
+    first = store.write(url, "_robots", [b"x"], status_code=200, content_type=None,
+                        acquisition=Acquisition.FETCHED, now=t1)
+    again = store.write(url, "_robots", [b"x"], status_code=200, content_type=None,
+                        acquisition=Acquisition.FETCHED, now=t2)
+    assert again.path == first.path and again.fetched_at == t1
+    assert store.latest(url, "_robots").last_confirmed == t2

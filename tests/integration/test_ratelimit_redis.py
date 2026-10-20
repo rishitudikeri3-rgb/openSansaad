@@ -42,3 +42,16 @@ def test_block_expires(gate: RedisGate) -> None:
     assert 0 < gate.blocked_for("indiacode.test") <= 0.3
     time.sleep(0.4)
     assert gate.blocked_for("indiacode.test") == 0
+
+
+def test_failure_count_and_reset(gate: RedisGate) -> None:
+    assert gate.record_failure("drops.test", 60) == 1
+    assert gate.record_failure("drops.test", 60) == 2
+    gate.reset_failures("drops.test")
+    assert gate.record_failure("drops.test", 60) == 1
+
+
+def test_failure_count_expires(gate: RedisGate) -> None:
+    gate.record_failure("drops.test", 0.2)
+    time.sleep(0.3)
+    assert gate.record_failure("drops.test", 0.2) == 1

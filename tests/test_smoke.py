@@ -44,3 +44,13 @@ def test_celery_ping_runs_locally() -> None:
 def test_network_is_blocked_offline() -> None:
     with pytest.raises(RuntimeError, match="Network access"):
         socket.create_connection(("127.0.0.1", 9), timeout=0.1)
+
+
+def test_relative_data_dir_anchored_to_project_root(monkeypatch: pytest.MonkeyPatch) -> None:
+    from opensansad.config import PROJECT_ROOT
+
+    monkeypatch.setenv("DATA_DIR", "data")
+    monkeypatch.chdir("/tmp")
+    s = Settings(_env_file=None)
+    assert s.data_dir == PROJECT_ROOT / "data"
+    assert (PROJECT_ROOT / "pyproject.toml").exists()

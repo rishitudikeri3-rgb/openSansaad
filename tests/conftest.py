@@ -14,3 +14,4 @@ def _block_network(request: pytest.FixtureRequest, monkeypatch: pytest.MonkeyPat
 
     monkeypatch.setattr(socket.socket, "connect", guard)
     monkeypatch.setattr(socket.socket, "connect_ex", guard)
+    monkeypatch.setattr(socket, "getaddrinfo", guard)  # DNS lookups count as network too

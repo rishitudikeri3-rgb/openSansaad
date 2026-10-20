@@ -74,6 +74,7 @@ class Version:
     acquisition: str
     original_filename: str | None = None
     final_url: str | None = None  # where the bytes actually came from, if redirected
+    last_seen: str | None = None  # latest re-fetch that returned these exact bytes
 
 
 @dataclass(frozen=True)
@@ -89,6 +90,12 @@ class StoredDoc:
     acquisition: Acquisition
     from_cache: bool
     final_url: str | None = None
+    last_seen: datetime | None = None
+
+    @property
+    def last_confirmed(self) -> datetime:
+        """When the server last served these bytes (re-fetches of identical bytes count)."""
+        return self.last_seen or self.fetched_at
 
 
 class RawStore:
@@ -135,6 +142,7 @@ class RawStore:
             acquisition=Acquisition(v.acquisition),
             from_cache=from_cache,
             final_url=v.final_url,
+            last_seen=datetime.fromisoformat(v.last_seen) if v.last_seen else None,
         )
 
     def write(
@@ -150,7 +158,12 @@ class RawStore:
         final_url: str | None = None,
         now: datetime | None = None,
     ) -> StoredDoc:
-        """Stream bytes into a new version. Never overwrites; identical bytes reuse the old file."""
+        """Stream bytes into a new version. Never overwrites; identical bytes reuse the old file.
+
+        Raw bytes are immutable; meta.json is bookkeeping, so a re-fetch of identical bytes
+        updates that version's `last_seen` there.
+        """
+        ts = now or datetime.now(UTC)
         entry = self.entry_dir(url, source)
         entry.mkdir(parents=True, exist_ok=True)
         digest = hashlib.sha256()
@@ -169,10 +182,11 @@ class RawStore:
             for existing in meta["versions"]:
                 if existing["sha256"] == sha:
                     os.unlink(tmp_name)
+                    existing["last_seen"] = ts.isoformat()
+                    self._write_meta(url, source, meta)
                     return self._to_doc(url, source, Version(**existing), from_cache=False)
 
             fmt = sniff_format(head, content_type)
-            ts = now or datetime.now(UTC)
             name = f"{ts.strftime('%Y%m%dT%H%M%S%fZ')}_{sha[:12]}.{_EXT[fmt]}"
             os.replace(tmp_name, entry / name)
         except BaseException:
