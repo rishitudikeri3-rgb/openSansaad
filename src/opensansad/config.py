@@ -27,9 +27,13 @@ class Settings(BaseSettings):
     model_reasoning: str | None = None
     model_bulk: str | None = None
 
-    # Ingestion
-    user_agent: str = "OpenSansad/0.1 (academic research project)"
+    # Ingestion. The cache refuses to fetch until the placeholder is replaced with a real contact.
+    user_agent: str = "OpenSansad/0.1 (academic research project; contact: <your-email>)"
     request_delay_seconds: float = 1.5
+    fetch_timeout_seconds: float = 30.0
+    fetch_max_attempts: int = 4
+    domain_block_hours: float = 6.0  # pause a whole domain after a 403
+    robots_ttl_days: float = 7.0  # robots.txt is the one thing re-fetched without force=True
     data_dir: Path = Path("data")
 
     @property

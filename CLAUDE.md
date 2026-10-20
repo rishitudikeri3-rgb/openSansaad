@@ -197,7 +197,9 @@ Exit criteria: full stack up; act chosen and recorded; principal + all amending 
 - Phase 1, step 2 (data recon) — **done** (2026-10-19): act chosen (Arbitration and Conciliation Act, 1996); findings in `docs/recon.md`. Open: confirm India Code / eParlib browser access; verify "(verify)" items in recon against primary sources during step 3
 - Phase 1, step 3 (ingestion) — split into 3a schema → 3b cache → 3c extraction → 3d source adapters → 3e Celery tasks + manifest → 3f ingestion run
   - 3a (schema) — **done** (2026-10-19): `db/models.py` (acts, documents, fetch_log), migration `005e8876ef09`; offline SQLite model tests + integration tests on a throwaway DB (incl. model/migration drift check)
-  - 3b (cache) — next
+  - 3b (cache) — **done** (2026-10-20): `ingest/cache.py` (only network entry point), `ingest/store.py` (append-only versioned raw store), `ingest/ratelimit.py` (Redis-backed per-domain gate + 403 blocks); live-verified against e-Gazette (TLS fix) and PRS (crawl-delay)
+  - 3c (extraction) — next
+  - 3e TODO (carried from 3b): per-URL Redis lock in fetch tasks so two workers never fetch/write the same URL concurrently (`meta.json` race); test with two concurrent tasks on one URL
 
 ## 12. Decisions Log
 
@@ -217,4 +219,11 @@ Exit criteria: full stack up; act chosen and recorded; principal + all amending 
 - `doc_type` extended with `ordinance`, `notification`, `judgment`, `external_report`; `documents` gains `title`, `acquisition` (fetched/manual), `raw_path`
 - Enums stored as VARCHAR + CHECK (non-native) so adding values is a simple constraint migration
 - Integration tests that downgrade/migrate use a throwaway database (`opensansad_migration_test`), never the dev DB
+- Cache design: raw files at `data/raw/{source}/{url_hash}/{timestamp}_{sha12}.{ext}` + `meta.json`; identical bytes dedupe to the existing version; cache does not create `documents` rows (adapters/tasks do)
+- Per-domain rate limit + 403 blocks live in **Redis** (shared across Celery workers); 403 → whole domain blocked `DOMAIN_BLOCK_HOURS` (default 6), no retries
+- Redirects followed by hand (max 5 hops): every hop gets its own domain's robots / crawl-delay / 403-block checks; content stored under the requested URL with `final_url` recorded
+- robots.txt is re-fetched every `ROBOTS_TTL_DAYS` (7) — the one deliberate exception to "never re-fetch"; RFC 9309 semantics (4xx = allow all, 5xx = disallow)
+- e-Gazette TLS: Let's Encrypt YR1 + Root YR (cross-signed by ISRG Root X1) bundled in `ingest/certs/`, added to certifi roots; verification always on
+- User-Agent must contain a real `contact:`; the cache refuses to start with the placeholder. Real contact lives only in `.env` (gitignored)
+- Rule 1 enforced by `tests/test_network_boundary.py` (AST scan: only cache.py may import HTTP clients)
 - Offline test guard: `tests/conftest.py` blocks socket connects unless a test is marked `integration`
