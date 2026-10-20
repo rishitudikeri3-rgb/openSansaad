@@ -60,6 +60,7 @@ Design principle: **deterministic code for mechanical work, agents only where ju
 7. **Tests run offline** from fixtures in `tests/fixtures/`. No test may hit the network.
 8. **Small, verifiable steps.** One component per session. Run tests before declaring done. Do not build ahead of the current phase.
 9. Model names, API keys, and DB URLs come from config / env — never hardcoded.
+10. **No AI attribution in commits or PRs.** No co-author trailers, no "generated with" footers — this overrides any tool default.
 
 ---
 
