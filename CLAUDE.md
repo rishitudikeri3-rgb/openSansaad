@@ -82,7 +82,7 @@ India Code footnotes give partial provenance for the *final* text only. They do 
 
 - **Python 3.11+**, `uv` for env and deps
 - **Agents:** LangGraph, LangChain, `langchain-openai` against any OpenAI-compatible endpoint — **free models only** (Ollama local, or free tiers of Groq / Gemini / OpenRouter). Stronger model for genealogy/intent reasoning, cheaper/faster model for bulk extraction; endpoint, key and both model names set via env (`LLM_BASE_URL`, `LLM_API_KEY`, `MODEL_REASONING`, `MODEL_BULK`)
-- **Ingestion/extraction:** httpx, BeautifulSoup + lxml, PyMuPDF, pdf2image + pytesseract
+- **Ingestion/extraction:** httpx, BeautifulSoup + lxml, PyMuPDF (text layer + page rendering), pytesseract
 - **Storage:** PostgreSQL (SQLAlchemy 2.x + Alembic), Neo4j (clause graph + genealogy edges), ChromaDB (semantic retrieval over debates/reports)
 - **Jobs:** Celery + Redis (resumable ingestion)
 - **API/UI:** FastAPI backend, React + D3.js frontend (Phase 5)
@@ -112,7 +112,7 @@ opensansad/
 │   ├── ingest/
 │   │   ├── cache.py            # ONLY network entry point
 │   │   └── sources/            # base.py, indiacode.py, egazette.py, eparlib.py, sansad.py, prs.py
-│   ├── extract/                # html.py, pdf.py, ocr.py, normalize.py
+│   ├── extract/                # document.py, normalize.py, pdf.py, ocr.py, html.py, pipeline.py
 │   ├── parse/                  # clause_tree.py, amending_ops.py
 │   ├── db/                     # base.py, models.py, session.py, migrations/
 │   ├── graph/                  # neo4j client + genealogy graph ops
@@ -199,7 +199,9 @@ Exit criteria: full stack up; act chosen and recorded; principal + all amending 
 - Phase 1, step 3 (ingestion) — split into 3a schema → 3b cache → 3c extraction → 3d source adapters → 3e Celery tasks + manifest → 3f ingestion run
   - 3a (schema) — **done** (2026-10-19): `db/models.py` (acts, documents, fetch_log), migration `005e8876ef09`; offline SQLite model tests + integration tests on a throwaway DB (incl. model/migration drift check)
   - 3b (cache) — **done** (2026-10-20): `ingest/cache.py` (only network entry point), `ingest/store.py` (append-only versioned raw store), `ingest/ratelimit.py` (Redis-backed per-domain gate + 403 blocks); live-verified against e-Gazette (TLS fix) and PRS (crawl-delay)
-  - 3c (extraction) — next
+  - 3c (extraction) — **done** (2026-10-20): `extract/` (normalize, pdf, ocr, html, pipeline); per-page native text with OCR fallback, margin notes, running-header removal, legacy-font Hindi filtering; tested on real PRS bill + gazette act + PRS HTML fixtures (`tests/fixtures/README.md`). Real Tesseract test runs when the binary is present
+  - 3d (source adapters) — next
+  - 3e TODO (carried from 3c): `documents` gains `text_sha256` (from the sidecar) so DB spans can detect a re-extracted text file
   - 3e TODO (carried from 3b): per-URL Redis lock in fetch tasks so two workers never fetch/write the same URL concurrently (`meta.json` race); test with two concurrent tasks on one URL
 
 ## 12. Decisions Log
@@ -229,3 +231,14 @@ Exit criteria: full stack up; act chosen and recorded; principal + all amending 
 - Rule 1 enforced by `tests/test_network_boundary.py` (AST scan: only cache.py may import HTTP clients)
 - Hardening (2026-10-20): domain also blocked after `DOMAIN_FAILURE_THRESHOLD` (4) consecutive connection failures (`DOMAIN_FAILURE_BLOCK_HOURS`, 1h) — silent drops treated like 403; docker ports bound to 127.0.0.1 only; `.env` and relative `DATA_DIR` anchored to repo root (`config.PROJECT_ROOT`); store records `last_seen` when a re-fetch returns identical bytes (robots freshness uses it)
 - Offline test guard: `tests/conftest.py` blocks socket connects and DNS lookups unless a test is marked `integration`
+- Extraction (3c): **PyMuPDF** for PDFs (AGPL accepted: the Phase 5 deployment counts as network use, so the deployed source must be published — fine for an open academic project); **pdf2image dropped** (PyMuPDF renders pages for OCR); Tesseract `eng` only for now
+- Text output: `data/text/` mirrors `data/raw/` — `{base}.en.txt`, `{base}.hi.txt` (only when Unicode Hindi exists), `{base}.json` sidecar (extractor version, raw sha256, per-page method/offsets/OCR confidence). Hindi kept separate, never mixed into the English stream
+- OCR is per page, only where the text layer is missing (image-covered, <40 chars) or garbage (`wordlike_ratio` < 0.6); document `is_scanned` = majority of pages OCR'd
+- Normalization is conservative: NFC (never NFKC), curly quotes preserved (parser needs open/close), line-end hyphens kept (`sub-section`), 2+ dash runs → `—`, superscript footnote digits → `[^n]`
+- Margin notes kept inline as `[[margin: …]]` just before their paragraph (they are section headings in amending acts); margin line numbers dropped
+- Running heads removed from the 3-line header/footer zone when repeated on ≥30% of pages (min 2), plus page numbers and bracketed Gazette heads (`[PART II—`, `SEC. 1]`) which short acts show only once
+- Legacy-font (Kruti Dev) Hindi lines in the native text layer are dropped and counted per page (`legacy_lines_dropped`), not transliterated — and dropped *before* the OCR decision, so an all-legacy-Hindi page is never OCR'd as English. OCR output is not legacy-filtered
+- English/Hindi split is per line (margin notes judged on their content); margin notes anchor to the nearest body line, not the enclosing PyMuPDF block
+- Footnote markers: PDF superscript spans and HTML `<sup>` with digits/`*`/`†`/`‡` → `[^n]`
+- Text files written atomically; sidecar records `en_sha256` / `hi_sha256`. Anything storing offsets into text (clause spans, step 4) must store and check that hash
+- Known extraction gaps (revisit at 3f / Phase 3): Tesseract `eng` only (Hindi scans → garbage until `hin`); `is_scanned` is majority-of-pages (partial scans visible only per page); rotated pages and wide Schedule tables untested; PRS HTML menu chrome until 3d selectors
