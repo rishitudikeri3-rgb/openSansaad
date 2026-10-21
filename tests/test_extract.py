@@ -18,7 +18,7 @@ GAZETTE = FIX / "gazette_arbitration_act_2019_p1-3.pdf"
 PRS_HTML = FIX / "prs_billtrack_arbitration_2019.html"
 
 
-def no_ocr(page):
+def no_ocr(page, clip=None):
     raise AssertionError("OCR should not be needed")
 
 
@@ -138,7 +138,7 @@ def test_mixed_document_ocr_only_where_needed(tmp_path: Path) -> None:
 
     calls = []
 
-    def fake_ocr(page):
+    def fake_ocr(page, clip):
         calls.append(page.number)
         return "OCR TEXT for page", 0.8
 
@@ -265,7 +265,7 @@ def test_script_split_is_per_line(monkeypatch, tmp_path: Path) -> None:
 
     mixed = ["1. Short title.", "मध्यस्थम् और सुलह (संशोधन) अधिनियम", "[[margin: धारा 2 का संशोधन]]",
              "This Act may be called the Test Act."]
-    monkeypatch.setattr(pdf, "_native_lines", lambda page: mixed)
+    monkeypatch.setattr(pdf, "_native_lines", lambda page: list(enumerate(mixed)))
     doc = pymupdf.open()
     doc.new_page()
     path = tmp_path / "x.pdf"
@@ -305,3 +305,60 @@ def test_sidecar_records_text_hashes_and_no_temp_files_left(tmp_path: Path) -> N
     write_extraction(extract_file(raw, DocFormat.HTML), raw, raw_root, text_root)
     assert not en_path.with_name("v1.hi.txt").exists()
     assert json.loads(en_path.with_name("v1.json").read_text())["hi_sha256"] is None
+
+
+def test_image_body_under_text_masthead_is_ocrd_in_place(tmp_path: Path) -> None:
+    """Corrigendum layout: masthead and signature are text, the body is a pasted picture.
+
+    Real case (e-Gazette 2020/222961): body image 11.3% of the page; the masthead graphic,
+    7.7%, stays below MIN_REGION_AREA and is not OCR'd."""
+    tmp = pymupdf.open()
+    _text_page(tmp, SCANNED_TEXT)
+    pix = tmp[0].get_pixmap(dpi=100, clip=pymupdf.Rect(72, 72, 520, 300))
+    doc = pymupdf.open()
+    page = doc.new_page()
+    page.insert_textbox(pymupdf.Rect(72, 60, 520, 120),
+                        "MINISTRY OF LAW AND JUSTICE\nCORRIGENDUM\n"
+                        "New Delhi, the 6th November, 2020",
+                        fontsize=11)
+    page.insert_image(pymupdf.Rect(72, 200, 520, 420), pixmap=pix)
+    page.insert_text((72, 500), "Secretary to the Government of India.", fontsize=11)
+    path = tmp_path / "corr.pdf"
+    doc.save(path)
+
+    clips = []
+
+    def fake_ocr(page, clip):
+        clips.append(clip)
+        return "In the Arbitration Ordinance, for Subsitution read Substitution.", 0.9
+
+    p = extract_pdf(path, ocr=fake_ocr).pages[0]
+    assert len(clips) == 1 and clips[0] is not None and clips[0].y0 == pytest.approx(200, abs=1)
+    assert p.method == "mixed" and p.ocr_confidence == pytest.approx(0.9)
+    lines = p.en.split("\n")
+    body = lines.index("In the Arbitration Ordinance, for Subsitution read Substitution.")
+    assert lines.index("CORRIGENDUM") < body < lines.index("Secretary to the Government of India.")
+
+
+def test_small_images_are_not_ocrd(tmp_path: Path) -> None:
+    """A seal or emblem (< MIN_REGION_AREA of the page) is not a text region."""
+    tmp = pymupdf.open()
+    _text_page(tmp, "x")
+    pix = tmp[0].get_pixmap(dpi=20)
+    doc = pymupdf.open()
+    _text_page(doc, "1. Short title.\nThis Act may be called the Test Act, 2026. " * 3)
+    doc[0].insert_image(pymupdf.Rect(20, 20, 80, 80), pixmap=pix)
+    path = tmp_path / "seal.pdf"
+    doc.save(path)
+    assert extract_pdf(path, ocr=no_ocr).pages[0].method == "native"
+
+
+def test_letterless_lines_follow_the_previous_lines_script() -> None:
+    from opensansad.extract.pdf import _split_scripts
+
+    lines = ["(1)", "का.आ.", "3154", "(अ).—केन्द्रीय सरकार", "S.O. 3154(E).—In exercise of", "(1)",
+             "of section 1"]
+    en, hi = _split_scripts(lines)
+    assert hi == ["(1)", "का.आ.", "3154", "(अ).—केन्द्रीय सरकार"]  # leading "(1)": first script
+    assert en == ["S.O. 3154(E).—In exercise of", "(1)", "of section 1"]
+    assert _split_scripts(["12", "(3)"]) == (["12", "(3)"], [])  # no letters anywhere: English

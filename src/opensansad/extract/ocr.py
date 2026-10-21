@@ -13,13 +13,15 @@ def tesseract_available() -> bool:
     return shutil.which("tesseract") is not None
 
 
-def ocr_page(page: pymupdf.Page, lang: str = "eng", dpi: int = OCR_DPI) -> tuple[str, float]:
-    """Render a PDF page and OCR it. Returns (text, confidence 0..1).
+def ocr_page(
+    page: pymupdf.Page, lang: str = "eng", dpi: int = OCR_DPI, clip: pymupdf.Rect | None = None
+) -> tuple[str, float]:
+    """Render a PDF page (or just the `clip` region) and OCR it. Returns (text, confidence 0..1).
 
     Confidence is Tesseract's per-word confidence averaged with word length as weight,
     so a few misread punctuation marks don't dominate.
     """
-    pix = page.get_pixmap(dpi=dpi, colorspace=pymupdf.csGRAY)
+    pix = page.get_pixmap(dpi=dpi, colorspace=pymupdf.csGRAY, clip=clip)
     image = Image.frombytes("L", (pix.width, pix.height), pix.samples)
     data = pytesseract.image_to_data(image, lang=lang, output_type=pytesseract.Output.DICT)
 

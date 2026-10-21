@@ -20,10 +20,13 @@ from opensansad.extract.normalize import (
 
 MIN_NATIVE_CHARS = 40  # fewer non-space chars than this on an image-covered page -> scanned
 MIN_IMAGE_COVERAGE = 0.5
+MIN_REGION_AREA = 0.1  # an image this large (share of page) with no text over it gets OCR'd
 MIN_WORDLIKE = 0.6  # below this the text layer is treated as garbage (legacy-font Hindi etc.)
 _SUPERSCRIPT_FLAG = 1  # PyMuPDF span flag bit
 
-OcrFn = Callable[[pymupdf.Page], tuple[str, float]]
+# (page, clip) -> (text, confidence 0..1); clip=None means the whole page.
+OcrFn = Callable[[pymupdf.Page, pymupdf.Rect | None], tuple[str, float]]
+Line = tuple[float, str]  # (y position on the page, text)
 
 
 def _span_text(span: dict) -> str:
@@ -56,7 +59,7 @@ def _line_script(line: str) -> str:
     return script_of(line)
 
 
-def _native_lines(page: pymupdf.Page) -> list[str]:
+def _native_lines(page: pymupdf.Page) -> list[Line]:
     """Text lines in reading order, with margin material separated from the body.
 
     Gazette acts and bills print notes in the margin ("Amendment of section 2.",
@@ -100,13 +103,13 @@ def _native_lines(page: pymupdf.Page) -> list[str]:
 
     # Sort key (group y0, group x0, line index, 0 = note / 1 = body, note x0): body lines
     # keep block reading order and each note sorts just before the line it anchors to.
-    keyed: list[tuple[tuple, str]] = []
+    keyed: list[tuple[tuple, float, str]] = []  # (sort key, y on page, text)
     body_lines: list[tuple[float, tuple]] = []  # (line y0, sort key)
     for s, g, members in groups:
         if s == "body":
             for i, (r, text) in enumerate(members):
                 key = (g.y0, g.x0, i, 1, 0.0)
-                keyed.append((key, text))
+                keyed.append((key, r.y0, text))
                 body_lines.append((r.y0, key))
     for s, g, members in groups:
         if s == "body":
@@ -117,12 +120,12 @@ def _native_lines(page: pymupdf.Page) -> list[str]:
         # Anchor to the body LINE nearest the note's top, not the enclosing block: PyMuPDF
         # can merge two sections into one block, which would hoist the second note.
         if body_lines:
-            _, anchor = min(body_lines, key=lambda b: abs(b[0] - g.y0))
+            y, anchor = min(body_lines, key=lambda b: abs(b[0] - g.y0))
             key = (*anchor[:3], 0, g.x0)
         else:
-            key = (g.y0, g.x0, 0, 0, g.x0)
-        keyed.append((key, margin_note(texts)))
-    return [t for _, t in sorted(keyed, key=lambda kt: kt[0])]
+            y, key = g.y0, (g.y0, g.x0, 0, 0, g.x0)
+        keyed.append((key, y, margin_note(texts)))
+    return [(y, text) for _, y, text in sorted(keyed, key=lambda k: k[0])]
 
 
 def _image_coverage(page: pymupdf.Page) -> float:
@@ -134,6 +137,24 @@ def _image_coverage(page: pymupdf.Page) -> float:
     return min(1.0, covered / area)
 
 
+def _textless_image_regions(page: pymupdf.Page) -> list[pymupdf.Rect]:
+    """Large images with (almost) no text over them: content that only OCR can read.
+
+    Catches pages whose masthead is text but whose body was pasted in as a picture
+    (e.g. a Gazette corrigendum), which the whole-page rule below lets through.
+    """
+    page_area = page.rect.get_area() or 1
+    regions: list[pymupdf.Rect] = []
+    for img in page.get_images(full=True):
+        for rect in page.get_image_rects(img[0]):
+            rect = rect & page.rect
+            if rect.get_area() / page_area < MIN_REGION_AREA or rect in regions:
+                continue
+            if len("".join(page.get_textbox(rect).split())) < MIN_NATIVE_CHARS:
+                regions.append(rect)
+    return sorted(regions, key=lambda r: (r.y0, r.x0))
+
+
 def needs_ocr(native_text: str, image_coverage: float) -> bool:
     chars = len("".join(native_text.split()))
     if chars < MIN_NATIVE_CHARS:
@@ -141,10 +162,30 @@ def needs_ocr(native_text: str, image_coverage: float) -> bool:
     return wordlike_ratio(native_text) < MIN_WORDLIKE
 
 
-def default_ocr(page: pymupdf.Page) -> tuple[str, float]:
+def default_ocr(page: pymupdf.Page, clip: pymupdf.Rect | None = None) -> tuple[str, float]:
     from opensansad.extract.ocr import ocr_page
 
-    return ocr_page(page)
+    return ocr_page(page, clip=clip)
+
+
+def _split_scripts(lines: list[str]) -> tuple[list[str], list[str]]:
+    """English and Hindi lines. A line with no letters at all ("31", "(1)") goes with the
+    line before it: such lines are fragments of their neighbours, e.g. the number of a
+    Hindi "का.आ. 3154" set as a separate text run."""
+    en, hi, current = [], [], None
+    lettered = [_has_letters(ln) for ln in lines]
+    for i, line in enumerate(lines):
+        if lettered[i]:
+            current = _line_script(line)
+        elif current is None:  # leading fragments: use the first lettered line
+            nxt = next((lines[j] for j in range(i, len(lines)) if lettered[j]), "")
+            current = _line_script(nxt) if nxt else "en"
+        (hi if current == "hi" else en).append(line)
+    return en, hi
+
+
+def _has_letters(line: str) -> bool:
+    return any(ch.isalpha() for ch in line)
 
 
 def extract_pdf(path: Path, *, ocr: OcrFn | None = default_ocr) -> Extraction:
@@ -154,18 +195,26 @@ def extract_pdf(path: Path, *, ocr: OcrFn | None = default_ocr) -> Extraction:
     with pymupdf.open(path) as doc:
         for page in doc:
             lines = _native_lines(page)
-            ratio = wordlike_ratio("\n".join(lines))
+            ratio = wordlike_ratio("\n".join(t for _, t in lines))
             # Legacy-font Hindi is dropped BEFORE the OCR decision: a page of Kruti Dev text
             # is a real text layer, not a failed one, and must not be OCR'd as English.
-            legacy = [ln for ln in lines if looks_legacy_hindi(ln)]
-            lines = [ln for ln in lines if not looks_legacy_hindi(ln)]
-            if needs_ocr("\n".join(lines), _image_coverage(page)):
-                text, conf = ocr(page) if ocr else ("", None)
-                lines, method = text.split("\n"), "ocr"
+            legacy = [t for _, t in lines if looks_legacy_hindi(t)]
+            lines = [(y, t) for y, t in lines if not looks_legacy_hindi(t)]
+            if needs_ocr("\n".join(t for _, t in lines), _image_coverage(page)):
+                text, conf = ocr(page, None) if ocr else ("", None)
+                texts, method = text.split("\n"), "ocr"
+            elif ocr and (regions := _textless_image_regions(page)):
+                confs = []
+                for rect in regions:
+                    text, region_conf = ocr(page, rect)
+                    confs.append(region_conf)
+                    at = next((i for i, (y, _) in enumerate(lines) if y >= rect.y0), len(lines))
+                    lines[at:at] = [(rect.y0, t) for t in text.split("\n")]
+                texts, method = [t for _, t in lines], "mixed"
+                conf = sum(confs) / len(confs)
             else:
-                conf, method = None, "native"
-            en_lines = [ln for ln in lines if _line_script(ln) == "en"]
-            hi_lines = [ln for ln in lines if _line_script(ln) == "hi"]
+                texts, conf, method = [t for _, t in lines], None, "native"
+            en_lines, hi_lines = _split_scripts(texts)
             raw_pages.append((en_lines, hi_lines))
             meta.append({"method": method, "conf": conf, "ratio": ratio, "legacy": len(legacy)})
 

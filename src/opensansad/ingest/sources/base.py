@@ -9,7 +9,7 @@ number. A listing page cannot be trusted for those ("... (Amendment) Act, 2015" 
 of 2016); they come from the ingestion manifest and from the document text itself.
 """
 
-from abc import ABC, abstractmethod
+from abc import ABC
 from dataclasses import dataclass
 from typing import ClassVar
 from urllib.parse import urljoin
@@ -39,9 +39,10 @@ class SourceAdapter(ABC):
     source: ClassVar[Source]
     html_selector: ClassVar[str | None] = None  # main content, for extract_html
 
-    @abstractmethod
     def parse(self, url: str, html: bytes) -> list[DocRef]:
-        """References to documents listed on a page."""
+        """References to documents listed on a page. Sources fetched by ID (e-Gazette)
+        have no listing pages and do not implement it."""
+        raise NotImplementedError(f"{type(self).__name__} has no listing pages")
 
     def fetch(self, cache: Cache, url: str) -> StoredDoc:
         return cache.get(url, source=self.source.value)

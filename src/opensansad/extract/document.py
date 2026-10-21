@@ -1,9 +1,9 @@
 from dataclasses import dataclass, field
 from typing import Literal
 
-EXTRACTOR_VERSION = "2"
+EXTRACTOR_VERSION = "3"
 
-Method = Literal["native", "ocr", "html"]
+Method = Literal["native", "ocr", "mixed", "html"]  # mixed: native + OCR of image regions
 
 
 @dataclass
@@ -12,7 +12,7 @@ class Page:
     method: Method
     en: str
     hi: str = ""
-    ocr_confidence: float | None = None  # 0..1, OCR pages only
+    ocr_confidence: float | None = None  # 0..1, OCR / mixed pages only
     wordlike_ratio: float | None = None  # native text-layer quality, PDF pages only
     legacy_lines_dropped: int = 0  # legacy-font Hindi lines removed from the English text
 
