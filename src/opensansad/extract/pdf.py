@@ -10,6 +10,7 @@ from opensansad.extract.normalize import (
     LINE_BREAK_HYPHEN,
     document_vocab,
     footnote_marker,
+    function_word_ratio,
     is_marker_text,
     looks_legacy_hindi,
     normalize_text,
@@ -22,6 +23,21 @@ MIN_NATIVE_CHARS = 40  # fewer non-space chars than this on an image-covered pag
 MIN_IMAGE_COVERAGE = 0.5
 MIN_REGION_AREA = 0.1  # an image this large (share of page) with no text over it gets OCR'd
 MIN_WORDLIKE = 0.6  # below this the text layer is treated as garbage (legacy-font Hindi etc.)
+# An image region's OCR text enters the English stream only if it reads as English.
+# Devanagari / Urdu speeches pasted as images into RS 1996 / 2019 debates OCR (eng) to Latin
+# gibberish that passes wordlike_ratio (0.74-0.90). Neither OCR confidence (garbage up to
+# 0.72, poor English scans from 0.51) nor Tesseract OSD (labels poor English scans Arabic /
+# Devanagari / Cyrillic) separates them; the share of English function words does.
+MIN_FUNCTION_WORDS = 0.25
+MIN_JUDGED_TOKENS = 20  # fewer Latin tokens than this: too little to judge by words
+MIN_SHORT_REGION_CONFIDENCE = 0.8  # ... then keep only a confident read
+
+
+def reads_as_english(text: str, confidence: float) -> bool:
+    ratio, tokens = function_word_ratio(text)
+    if tokens >= MIN_JUDGED_TOKENS:
+        return ratio >= MIN_FUNCTION_WORDS
+    return bool(text.strip()) and confidence >= MIN_SHORT_REGION_CONFIDENCE
 _SUPERSCRIPT_FLAG = 1  # PyMuPDF span flag bit
 MAX_MARKER_SIZE = 0.85  # footnote superscripts are at most this share of the body text size
 MAX_JOIN_GAP = 1.5  # same-row fragments closer than this many text sizes may be joined
@@ -240,6 +256,7 @@ def extract_pdf(path: Path, *, ocr: OcrFn | None = default_ocr) -> Extraction:
             # is a real text layer, not a failed one, and must not be OCR'd as English.
             legacy = [t for _, t in lines if looks_legacy_hindi(t)]
             lines = [(y, t) for y, t in lines if not looks_legacy_hindi(t)]
+            dropped = 0
             if needs_ocr("\n".join(t for _, t in lines), _image_coverage(page)):
                 text, conf = ocr(page, None) if ocr else ("", None)
                 texts, method = text.split("\n"), "ocr"
@@ -247,16 +264,20 @@ def extract_pdf(path: Path, *, ocr: OcrFn | None = default_ocr) -> Extraction:
                 confs = []
                 for rect in regions:
                     text, region_conf = ocr(page, rect)
+                    if not reads_as_english(text, region_conf):
+                        dropped += 1  # counted, like legacy lines: content left unread
+                        continue
                     confs.append(region_conf)
                     at = next((i for i, (y, _) in enumerate(lines) if y >= rect.y0), len(lines))
                     lines[at:at] = [(rect.y0, t) for t in text.split("\n")]
-                texts, method = [t for _, t in lines], "mixed"
-                conf = sum(confs) / len(confs)
+                texts = [t for _, t in lines]
+                method, conf = ("mixed", sum(confs) / len(confs)) if confs else ("native", None)
             else:
                 texts, conf, method = [t for _, t in lines], None, "native"
             en_lines, hi_lines = _split_scripts(texts)
             raw_pages.append((en_lines, hi_lines))
-            meta.append({"method": method, "conf": conf, "ratio": ratio, "legacy": len(legacy)})
+            meta.append({"method": method, "conf": conf, "ratio": ratio, "legacy": len(legacy),
+                         "dropped": dropped})
 
     en_pages = strip_running_lines([en for en, _ in raw_pages])
     hi_pages = strip_running_lines([hi for _, hi in raw_pages])
@@ -270,6 +291,7 @@ def extract_pdf(path: Path, *, ocr: OcrFn | None = default_ocr) -> Extraction:
             ocr_confidence=m["conf"],
             wordlike_ratio=round(m["ratio"], 3),
             legacy_lines_dropped=m["legacy"],
+            ocr_regions_dropped=m["dropped"],
         )
         for i, (en, hi, m) in enumerate(zip(en_pages, hi_pages, meta, strict=True))
     ]

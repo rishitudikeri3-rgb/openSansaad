@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from typing import Literal
 
-EXTRACTOR_VERSION = "4"
+EXTRACTOR_VERSION = "5"
 
 Method = Literal["native", "ocr", "mixed", "html"]  # mixed: native + OCR of image regions
 
@@ -15,6 +15,7 @@ class Page:
     ocr_confidence: float | None = None  # 0..1, OCR / mixed pages only
     wordlike_ratio: float | None = None  # native text-layer quality, PDF pages only
     legacy_lines_dropped: int = 0  # legacy-font Hindi lines removed from the English text
+    ocr_regions_dropped: int = 0  # image regions not read as English (other script / low conf)
 
 
 @dataclass
@@ -25,6 +26,10 @@ class Extraction:
     @property
     def is_scanned(self) -> bool:
         return sum(p.method == "ocr" for p in self.pages) > len(self.pages) / 2
+
+    @property
+    def ocr_regions_dropped(self) -> int:
+        return sum(p.ocr_regions_dropped for p in self.pages)
 
     @property
     def ocr_confidence(self) -> float | None:

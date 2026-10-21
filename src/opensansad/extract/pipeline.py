@@ -91,6 +91,7 @@ def write_extraction(
                 "ocr_confidence": p.ocr_confidence,
                 "wordlike_ratio": p.wordlike_ratio,
                 "legacy_lines_dropped": p.legacy_lines_dropped,
+                "ocr_regions_dropped": p.ocr_regions_dropped,
             }
             for i, p in enumerate(extraction.pages)
         ],

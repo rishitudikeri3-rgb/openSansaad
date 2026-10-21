@@ -9,13 +9,22 @@ commented prompts.
     uv run python -m opensansad.ingest.discover bills "Arbitration" \\
         --match "ARBITRATION AND CONCILIATION" --act 26/1996
     uv run python -m opensansad.ingest.discover debates-ls "Arbitration and Conciliation" \\
+        "Arbitration and Conciliation (Amendment) Bill" \\
         --bills "Arbitration" --match "ARBITRATION AND CONCILIATION"
+    uv run python -m opensansad.ingest.discover --act 26/1996 debates-ls "..." --bills ... \\
+        --match ... --files --only 123456789/454809 123456789/469904
     uv run python -m opensansad.ingest.discover debates-rs 249 2019-07-18
 
 Debate candidates are annotated with the bills whose passage they fall within (from
 introduction to the last stage reached), naming the stage when the date is one (introduced,
 passed by a House, assent). A discussion can span days before a stage (16 Dec 2015 began
 the debate the Bill passed on 17 Dec), so a window, not only exact stage dates, is the rule.
+A long passage (the 1995 Bill: 15 months) puts a lot of unrelated business in its window, so
+items whose title names the bill are marked apart from those that only fall within it.
+
+One search query is not enough (the 2015 Bill's introduction is found by "... (Amendment)
+Bill" but not within the first 200 hits of "Arbitration and Conciliation"): several queries
+are merged, and a result capped by --max-pages is flagged PARTIAL in the output itself.
 """
 
 import argparse
@@ -109,14 +118,56 @@ def related(bills: Iterable[SansadBill], day: date | None) -> list[str]:
     return [m for b in bills if day and (m := bill_stages(b, day))]
 
 
+_YEAR = re.compile(r"\b(?:19|20)\d\d\b")
+
+
+def _letters(text: str) -> str:
+    return re.sub(r"[^a-z]", "", text.lower().replace("&", "and"))
+
+
+def names_bill(b: SansadBill, title: str) -> bool:
+    """Whether an item title names the bill: its name up to the year (leading "The" and
+    spacing / punctuation ignored), and its year unless the title gives none ("... and the
+    Arbitration and Conciliation Bill", 1996)."""
+    name = re.sub(r"^\s*the\s+", "", b.title, flags=re.I)
+    year = _YEAR.search(name)
+    core = _letters(name[:year.start()] if year else name)
+    years = set(_YEAR.findall(title))
+    return bool(core) and core in _letters(title) and (
+        not years or not year or year.group() in years)
+
+
 def debate_comment(item: DebateItem, bills: list[SansadBill]) -> str:
     when = f"{item.date}" if item.date else "undated"
     head = (f"{when}, LS {item.lok_sabha or '?'} session {item.session or '?'}; "
             f"{item.debate_type or '?'}; members: {', '.join(item.members) or '?'}")
-    found = related(bills, item.date)
-    match = ("within " + " | ".join(found)) if found else \
-        "outside every bill's passage: probably unrelated (search results are noisy)"
+    found = [(names_bill(b, item.title), m) for b in bills
+             if item.date and (m := bill_stages(b, item.date))]
+    named = [m for n, m in found if n]
+    if named:
+        match = "names " + " | ".join(named)
+    elif found:
+        match = ("date within " + " | ".join(m for _, m in found)
+                 + " (title does not name the bill)")
+    else:
+        match = "outside every bill's passage: probably unrelated (search results are noisy)"
     return f"{head}\n# {match}"
+
+
+def merged_search(eparlib, cache, queries: Iterable[str], *,
+                  max_pages: int) -> tuple[list[DebateItem], list[str]]:
+    """Items of several queries, each once (first query's order), plus a PARTIAL warning
+    for every query whose results were capped."""
+    items: dict[str, DebateItem] = {}
+    warnings = []
+    for q in queries:
+        found, total = eparlib.search(cache, q, max_pages=max_pages)
+        if len(found) < total:
+            warnings.append(f"# PARTIAL: {q!r} returned {len(found)} of {total} hits: "
+                            "raise --max-pages")
+        for i in found:
+            items.setdefault(i.handle, i)
+    return list(items.values()), warnings
 
 
 def _cli_manifest(path: Path | None) -> Manifest:
@@ -136,12 +187,14 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("name")
     p.add_argument("--match", help="regex the bill title must match")
     p = sub.add_parser("debates-ls", help="Lok Sabha debates from elibrary.sansad.in")
-    p.add_argument("query")
+    p.add_argument("query", nargs="+", help="one or more search queries (results merged)")
     p.add_argument("--bills", required=True, help="getBills name, for passage dates")
     p.add_argument("--match", help="regex for the bills whose passage counts")
+    p.add_argument("--only", nargs="+", metavar="HANDLE",
+                   help="only these items (e.g. 123456789/454809), as chosen by hand")
     p.add_argument("--files", action="store_true",
-                   help="also fetch each matching item's file list (one request per item)")
-    p.add_argument("--max-pages", type=int, default=4)
+                   help="print [[document]] blocks for the --only items (one request each)")
+    p.add_argument("--max-pages", type=int, default=10, help="per query, 50 hits a page")
     p = sub.add_parser("debates-rs", help="Rajya Sabha debates for one sitting day")
     p.add_argument("session", type=int)
     p.add_argument("day", type=date.fromisoformat)
@@ -155,6 +208,10 @@ def main(argv: list[str] | None = None) -> int:
         # A name search also returns other acts' bills (NDIAC for "Arbitration"): filling
         # in the act for all of them would be the listing deciding linkage.
         parser.error("--act with bills needs --match, so only this act's bills get it")
+    if args.cmd == "debates-ls" and args.files and not args.only:
+        # Every item in a passage window would be fetched: for the 1995 Bill that is
+        # 15 months of unrelated business. Files are for items chosen by hand.
+        parser.error("--files needs --only: choose the items from a listing first")
     manifest = _cli_manifest(args.manifest)
     sansad = SansadAdapter.from_settings()
     out: list[str] = []
@@ -165,11 +222,16 @@ def main(argv: list[str] | None = None) -> int:
         elif args.cmd == "debates-ls":
             bills = matching(sansad.bills(cache, args.bills), args.match)
             eparlib = EparlibAdapter.from_settings()
-            items, total = eparlib.search(cache, args.query, max_pages=args.max_pages)
-            print(f"# {len(items)} of {total} search hits", file=sys.stderr)
+            items, out = merged_search(eparlib, cache, args.query, max_pages=args.max_pages)
+            print(f"# {len(items)} distinct items", file=sys.stderr)
+            if args.only:
+                by_handle = {i.handle: i for i in items}
+                out += [f"# NOT FOUND in these results: {h}" for h in args.only
+                        if h not in by_handle]
+                items = [by_handle[h] for h in args.only if h in by_handle]
             for item in items:
                 comment = debate_comment(item, bills)
-                if not args.files or not related(bills, item.date):
+                if not args.files:
                     out.append(f"# {item.handle}: {item.title}\n# {comment}")
                     continue
                 for ref in new_refs(eparlib.files(cache, item), manifest):

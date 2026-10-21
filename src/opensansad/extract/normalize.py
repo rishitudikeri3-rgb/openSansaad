@@ -166,6 +166,29 @@ def wordlike_ratio(text: str) -> float:
     return good / len(tokens)
 
 
+# Common English function words: real English keeps them even when badly OCR'd.
+_FUNCTION_WORDS = frozenset("""
+a an the of and or to in on at by for with from as into upon under than so but if not no
+is are was were be been has have had may shall will would should it its this that these those
+which who whom where when there such any all other said he his she her they their sir mr hon
+""".split())
+
+
+def function_word_ratio(text: str) -> tuple[float, int]:
+    """Share of Latin-letter tokens that are common English function words, and the token count.
+
+    Devanagari or Urdu OCR'd with the English model comes out as word-like Latin gibberish
+    ("aeat IAT & GRA Jah Ta A araha") that passes wordlike_ratio; it almost never produces
+    "the", "of", "and". Measured (3f-ii): 71 such image regions 0.04-0.21; English OCR pages,
+    the worst 1995 Bill scan (conf 0.51) included, 0.32 and up.
+    """
+    tokens = [t.lower() for t in _LATIN_WORD.findall(text)]
+    if not tokens:
+        return 0.0, 0
+    return sum(t in _FUNCTION_WORDS for t in tokens) / len(tokens), len(tokens)
+
+
+_LATIN_WORD = re.compile(r"[A-Za-z]+")
 _ROMAN = re.compile(r"^[ivxlcdm]+$", re.I)
 _LEGACY_CHARS = re.compile(r"[ñª¡¢£¤¥¦§¨©«¬®¯°±²³´µ¶·¸º»¼½¾¿@`]")
 _INNER_PUNCT = re.compile(r"[A-Za-z][/;\].,'][A-Za-z]|[A-Za-z]\[|\[[A-Za-z]")

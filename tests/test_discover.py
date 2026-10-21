@@ -68,7 +68,7 @@ def test_debate_comment_from_elibrary_item() -> None:
     item = next(i for i in items if i.date == date(2015, 12, 16))
     comment = discover.debate_comment(item, _bills())
     assert comment.startswith("2015-12-16, LS 16 session VI;")
-    assert "within The Arbitration and Conciliation (Amendment) Bill, 2015: during passage" \
+    assert "names The Arbitration and Conciliation (Amendment) Bill, 2015: during passage" \
         in comment
     unrelated = next(i for i in items if i.date and not discover.related(_bills(), i.date))
     assert "probably unrelated" in discover.debate_comment(unrelated, _bills())
@@ -114,3 +114,54 @@ def test_cli_prints_candidates_through_the_cache(tmp_path: Path, monkeypatch, ca
     assert "252C_2015_LS_Eng.pdf" in out and 'act = "26/1996"' in out
     assert out.count("[[document]]") == out.count('act = "26/1996"')  # every block filled
     assert "INTERNATIONAL ARBITRATION CENTRE" not in out.upper()
+
+
+def test_names_bill_by_name_and_year() -> None:
+    by_year = {b.title.split(",")[-1].strip()[:4]: b for b in _bills()}
+    b2015, b2018, b1996 = by_year["2015"], by_year["2018"], by_year["1996"]
+    t = ("Further discussion on statutory resolution regarding Disapproval of Arbitration and "
+         "Conciliation (Amendment ) Ordinance and Arbitration and Conciliation (Amendment) "
+         "Bill, 2015")
+    assert discover.names_bill(b2015, t) and not discover.names_bill(b2018, t)  # year differs
+    assert not discover.names_bill(b1996, t)  # "(Amendment) Bill" is not "Bill"
+    t1996 = ("Statutory Resolution Re: Disapproval of Arbitration and Conciliation Third "
+             "Ordinance; and the Arbitration and Conciliation Bill")
+    assert discover.names_bill(b1996, t1996)  # no year in the title: name alone
+    assert not discover.names_bill(b2015, "Need to construct underpass at Shalimar station")
+
+
+def test_window_only_items_are_marked_apart() -> None:
+    items, _ = eparlib.parse_search(
+        "u", (FIX / "elibrary_search_arbitration_bill.json").read_bytes())
+    item = next(i for i in items if i.date == date(2015, 12, 16))
+    from dataclasses import replace
+    other = replace(item, title="Need to construct underpass at railway crossing")
+    comment = discover.debate_comment(other, _bills())
+    assert "# date within The Arbitration" in comment and "does not name the bill" in comment
+
+
+class _FakeEparlib:
+    def __init__(self, results):
+        self.results = results
+
+    def search(self, cache, query, *, max_pages):
+        return self.results[query]
+
+
+def test_merged_search_dedupes_and_flags_partial() -> None:
+    items, _ = eparlib.parse_search(
+        "u", (FIX / "elibrary_search_arbitration_bill.json").read_bytes())
+    a, b = items[0], items[1]
+    fake = _FakeEparlib({"q1": ([a, b], 225), "q2": ([b, a], 2)})
+    merged, warnings = discover.merged_search(fake, None, ["q1", "q2"], max_pages=4)
+    assert [i.handle for i in merged] == [a.handle, b.handle]
+    assert warnings == ["# PARTIAL: 'q1' returned 2 of 225 hits: raise --max-pages"]
+
+
+def test_files_need_only(tmp_path: Path, capsys) -> None:
+    import pytest
+
+    with pytest.raises(SystemExit):
+        discover.main(["--manifest", str(tmp_path / "m.toml"), "debates-ls", "q",
+                       "--bills", "Arbitration", "--files"])
+    assert "--files needs --only" in capsys.readouterr().err

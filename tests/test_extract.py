@@ -401,3 +401,57 @@ def test_table_cells_on_one_row_are_not_joined() -> None:
     """Fourth Schedule fee table: columns 10.6pt apart on one row stay separate lines."""
     lines = extract_pdf(BILL, ocr=no_ocr).pages[16].en.split("\n")
     assert "Rs. 12,37,500 plus 0.75 per cent. of the" in lines
+
+
+def _image_body_page(tmp_path: Path) -> Path:
+    tmp = pymupdf.open()
+    _text_page(tmp, SCANNED_TEXT)
+    pix = tmp[0].get_pixmap(dpi=100, clip=pymupdf.Rect(72, 72, 520, 300))
+    doc = pymupdf.open()
+    page = doc.new_page()
+    page.insert_textbox(pymupdf.Rect(72, 60, 520, 120), "RAJYA SABHA\nMonday, the 22nd July",
+                        fontsize=11)
+    page.insert_image(pymupdf.Rect(72, 200, 520, 420), pixmap=pix)
+    path = tmp_path / "speech.pdf"
+    doc.save(path)
+    return path
+
+
+# Real OCR output (3f-ii): a Hindi speech image in RS 22 Jul 1996 (conf 0.36), and a page
+# of the scanned 1995 Bill (conf 0.74), which OSD labelled Arabic.
+HINDI_AS_LATIN = ("aeat IAT & GRA Jah Ta A araha FRU WR Glas Gala 4 BAH at Fae Ferrara ara "
+                  "wel ge 2) a Fe AH aI Bh wel ai awe aA A aWaer 425 am wfa-qhe sfore % feare "
+                  "3 fen sien #1 aaa sien state ateT wa aA % aad sR ye afer St wa ser 2B")
+POOR_ENGLISH = ("(c) \u201cCourt\u201d mwans the principal Civil Court of original jurisdiction "
+                "in a district, and incledes the High Court-in exerete of jt ordinary onginal "
+                "civil jurbeliction, having jurisdiction to decke the qucations forming the "
+                "subject matter of the arbitration if the same had boon the subject matter of "
+                "a suit, bul docs not include a")
+
+
+def test_region_not_reading_as_english_is_dropped_and_counted(tmp_path: Path) -> None:
+    """Word-like gibberish (wordlike_ratio 0.83) must not enter the English stream."""
+    path = _image_body_page(tmp_path)
+    p = extract_pdf(path, ocr=lambda page, clip: (HINDI_AS_LATIN, 0.36)).pages[0]
+    assert "araha" not in p.en and "RAJYA SABHA" in p.en
+    assert p.method == "native" and p.ocr_confidence is None and p.ocr_regions_dropped == 1
+
+
+def test_poor_english_region_is_kept_at_low_confidence(tmp_path: Path) -> None:
+    p = extract_pdf(_image_body_page(tmp_path), ocr=lambda page, clip: (POOR_ENGLISH, 0.55))
+    page = p.pages[0]
+    assert page.method == "mixed" and "principal Civil Court" in page.en
+    assert page.ocr_regions_dropped == 0
+
+
+def test_short_region_is_judged_by_confidence(tmp_path: Path) -> None:
+    path = _image_body_page(tmp_path)
+    assert extract_pdf(path, ocr=lambda pg, c: ("In the Act.", 0.95)).pages[0].method == "mixed"
+    assert extract_pdf(path, ocr=lambda pg, c: ("aeat IAT", 0.4)).pages[0].ocr_regions_dropped == 1
+
+
+@pytest.mark.skipif(not tesseract_available(), reason="tesseract binary not installed")
+def test_real_corrigendum_region_is_latin_and_kept() -> None:
+    p = extract_pdf(FIX / "egazette_corrigendum_ord14_2020.pdf").pages[0]
+    assert p.method == "mixed" and p.ocr_regions_dropped == 0
+    assert p.ocr_confidence >= 0.8 and "Legislative Department" in p.en

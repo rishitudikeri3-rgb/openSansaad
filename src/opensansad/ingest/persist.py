@@ -66,6 +66,7 @@ class EntryResult:
 class Report:
     results: list[EntryResult] = field(default_factory=list)
     scanned: list[tuple[int, str]] = field(default_factory=list)  # (doc id, url): any OCR'd page
+    unread_images: list[tuple[int, str]] = field(default_factory=list)  # regions dropped
     stale: list[tuple[int, str]] = field(default_factory=list)  # rows not on EXTRACTOR_VERSION
     # Rows the manifest no longer describes: never deleted automatically.
     not_in_manifest: list[tuple[int, str]] = field(default_factory=list)
@@ -82,7 +83,8 @@ class Report:
         """Inverse of dataclasses.asdict (reports cross Celery as JSON)."""
         pairs = lambda key: [tuple(x) for x in d.get(key, [])]  # noqa: E731
         return cls(results=[EntryResult(**r) for r in d["results"]],
-                   scanned=pairs("scanned"), stale=pairs("stale"),
+                   scanned=pairs("scanned"), unread_images=pairs("unread_images"),
+                   stale=pairs("stale"),
                    not_in_manifest=pairs("not_in_manifest"), superseded=pairs("superseded"),
                    identical=dict(d.get("identical", {})))
 
@@ -142,6 +144,8 @@ def needs_extraction(doc: Document, data_dir: Path) -> bool:
         return False  # no extractor (e.g. errata .doc files)
     if doc.extractor_version != EXTRACTOR_VERSION or not doc.text_path or not doc.text_sha256:
         return True
+    if doc.ocr_regions_dropped is None:
+        return True  # extracted before the column existed (migration 092ecb5d2e51)
     text = data_dir / doc.text_path
     return not text.exists() or _sha256(text) != doc.text_sha256
 
@@ -160,6 +164,7 @@ def extract_document(doc: Document, entry: DocEntry, data_dir: Path, *,
     doc.extractor_version = sidecar["extractor_version"]
     doc.is_scanned = ex.is_scanned
     doc.ocr_confidence = ex.ocr_confidence
+    doc.ocr_regions_dropped = ex.ocr_regions_dropped
     doc.meta = None
     if doc.format is DocFormat.PDF and (doc.source is Source.EGAZETTE or
                                         doc.doc_type in _GAZETTE_COPIES):
@@ -292,6 +297,8 @@ def summarize(session: Session, manifest: Manifest, results: list[EntryResult],
     report = Report(results=list(results))
     report.scanned = [(d.id, d.url) for d in session.scalars(
         select(Document).where(Document.ocr_confidence.is_not(None)).order_by(Document.id))]
+    report.unread_images = [(d.id, d.url) for d in session.scalars(
+        select(Document).where(Document.ocr_regions_dropped > 0).order_by(Document.id))]
     report.stale = [(d.id, d.url) for d in stale(session)]
     in_manifest = {e.url for e in manifest.documents}
     latest = {e.url: stored.sha256 for e in manifest.documents
@@ -321,11 +328,13 @@ def ingest(manifest: Manifest, session: Session, store: RawStore, *,
 
 
 def stale(session: Session) -> list[Document]:
-    """Extractable rows whose text is missing or from another extractor version."""
+    """Extractable rows whose text is missing, from another extractor version, or written
+    before a column the extraction fills existed."""
     return list(session.scalars(select(Document).where(
         Document.format != DocFormat.OTHER,
         or_(Document.extractor_version.is_(None),
-            Document.extractor_version != EXTRACTOR_VERSION),
+            Document.extractor_version != EXTRACTOR_VERSION,
+            Document.ocr_regions_dropped.is_(None)),
     ).order_by(Document.id)))
 
 
@@ -361,7 +370,8 @@ def print_report(report: Report) -> None:
             print(f"{'':15}{r.detail}")
     print("\n" + ", ".join(f"{k} {v}" for k, v in report.counts().items()))
     print(f"scanned (any page OCR'd): {len(report.scanned)}; stale rows: {len(report.stale)}")
-    for label, rows in (("stale", report.stale), ("not in manifest", report.not_in_manifest),
+    for label, rows in (("image regions left unread", report.unread_images),
+                        ("stale", report.stale), ("not in manifest", report.not_in_manifest),
                         ("superseded", report.superseded)):
         for doc_id, url in rows:
             print(f"  {label} {doc_id}: {url}")

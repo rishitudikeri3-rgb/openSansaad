@@ -115,6 +115,8 @@ class Document(Base):
     # Unknown (NULL) until extraction has run.
     is_scanned: Mapped[bool | None] = mapped_column(Boolean)
     ocr_confidence: Mapped[float | None] = mapped_column(Float)
+    # Image regions left unread (another script, or OCR below MIN_REGION_CONFIDENCE).
+    ocr_regions_dropped: Mapped[int | None] = mapped_column(Integer)
     text_path: Mapped[str | None] = mapped_column(Text)
     # From the extraction sidecar: spans into text_path are valid only while this matches.
     text_sha256: Mapped[str | None] = mapped_column(String(64))

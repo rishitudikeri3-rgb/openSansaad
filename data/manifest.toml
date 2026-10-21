@@ -259,3 +259,167 @@ doc_type = "bill"
 title = "The Arbitration and Conciliation (Amendment) Bill, 2022 (amendment of section 20) (as introduced)"
 act = "26/1996"
 note = "Private Member's Bill (LS No. 243 of 2022), lapsed 4 Aug 2023: what a member proposed, attributed to the member, not the government."
+
+# --- 3f-ii: Lok Sabha debates (elibrary.sansad.in; each item is one discussion) ---
+
+[[document]]
+url = "https://elibrary.sansad.in/server/api/core/bitstreams/360f6c4e-0c12-4d06-85e3-2a7bb09049b3/content"
+source = "eparlib"
+doc_type = "debate"
+title = "Lok Sabha debate, 3 Dec 2015: introduction of the Arbitration and Conciliation (Amendment) Bill, 2015"
+act = "26/1996"
+note = "elibrary item 123456789/372281 (16th LS, session VI)."
+
+[[document]]
+url = "https://elibrary.sansad.in/server/api/core/bitstreams/06fd6c42-f3a6-4661-beb9-e49dac3c7947/content"
+source = "eparlib"
+doc_type = "debate"
+title = "Lok Sabha, 3 Dec 2015: explanatory statement laid on the reasons for immediate legislation by Ordinance 9 of 2015"
+act = "26/1996"
+note = "elibrary item 123456789/357154 (16th LS, session VI)."
+
+[[document]]
+url = "https://elibrary.sansad.in/server/api/core/bitstreams/9634e137-377d-4838-b9c1-6576cd5b15f5/content"
+source = "eparlib"
+doc_type = "debate"
+title = "Lok Sabha debate, 17 Dec 2015: further discussion on the Statutory Resolution disapproving Ordinance 9 of 2015 and the Arbitration and Conciliation (Amendment) Bill, 2015 (Bill passed)"
+act = "26/1996"
+note = "elibrary item 123456789/454809 (16th LS, session VI)."
+
+[[document]]
+url = "https://elibrary.sansad.in/server/api/core/bitstreams/629aef09-e96c-4481-a4ad-00000659359e/content"
+source = "eparlib"
+doc_type = "debate"
+title = "Lok Sabha debate, 18 Jul 2018: introduction of the Arbitration and Conciliation (Amendment) Bill, 2018"
+act = "26/1996"
+note = "elibrary item 123456789/372475 (16th LS; session not catalogued: XV per neighbouring items of Jul-Aug 2018)."
+
+[[document]]
+url = "https://elibrary.sansad.in/server/api/core/bitstreams/103beaff-544f-4a1b-8156-4ec8eca9afe8/content"
+source = "eparlib"
+doc_type = "debate"
+title = "Lok Sabha debate, 10 Aug 2018: discussion on the Arbitration and Conciliation (Amendment) Bill, 2018 (Bill passed; later lapsed)"
+act = "26/1996"
+note = "elibrary item 123456789/469904 (16th LS; session not catalogued: XV per neighbouring items of Jul-Aug 2018)."
+
+[[document]]
+url = "https://elibrary.sansad.in/server/api/core/bitstreams/2c73c4b3-9367-4e65-b323-6b92b35d075c/content"
+source = "eparlib"
+doc_type = "debate"
+title = "Lok Sabha debate, 1 Aug 2019: consideration of the Arbitration and Conciliation (Amendment) Bill, 2019 as passed by Rajya Sabha"
+act = "26/1996"
+note = "elibrary item 123456789/382710 (17th LS, session I)."
+
+[[document]]
+url = "https://elibrary.sansad.in/server/api/core/bitstreams/581a04f4-fbb9-4569-9a1f-01c6bec2b840/content"
+source = "eparlib"
+doc_type = "debate"
+title = "Lok Sabha debate, 4 Feb 2021: introduction of the Arbitration and Conciliation (Amendment) Bill, 2021"
+act = "26/1996"
+note = "elibrary item 123456789/377365 (17th LS, session V)."
+
+[[document]]
+url = "https://elibrary.sansad.in/server/api/core/bitstreams/8a2a7fce-4501-4c53-9e3f-4ca3a2cc7fff/content"
+source = "eparlib"
+doc_type = "debate"
+title = "Lok Sabha, 4 Feb 2021: explanatory statement laid on the reasons for immediate legislation by Ordinance 14 of 2020"
+act = "26/1996"
+note = "elibrary item 123456789/377369 (17th LS, session V)."
+
+[[document]]
+url = "https://elibrary.sansad.in/server/api/core/bitstreams/4688b482-4a08-4056-98ae-cbaaabed6d92/content"
+source = "eparlib"
+doc_type = "debate"
+title = "Lok Sabha debate, 12 Feb 2021: combined discussion on the Statutory Resolution disapproving Ordinance 14 of 2020 and the Arbitration and Conciliation (Amendment) Bill, 2021 (Bill passed)"
+act = "26/1996"
+note = "elibrary item 123456789/377058 (17th LS, session V)."
+
+[[document]]
+url = "https://elibrary.sansad.in/server/api/core/bitstreams/ae88f9e0-133e-4387-a7fe-8c5660be313f/content"
+source = "eparlib"
+doc_type = "debate"
+title = "Lok Sabha debate, 1 Aug 1996: Statutory Resolution disapproving the Arbitration and Conciliation (Third) Ordinance, 1996 and the Arbitration and Conciliation Bill (discussion begun)"
+act = "26/1996"
+note = "elibrary item 123456789/405850 (11th LS, session II). Library-rebuilt PDF (its own OCR text, no page images); the PDF also carries neighbouring business of the day (e.g. CTBT)."
+
+[[document]]
+url = "https://elibrary.sansad.in/server/api/core/bitstreams/f6b8f5e3-2c49-429c-99c2-abe2f3808f2f/content"
+source = "eparlib"
+doc_type = "debate"
+title = "Lok Sabha debate, 2 Aug 1996: Statutory Resolution disapproving the Arbitration and Conciliation (Third) Ordinance, 1996 and the Arbitration and Conciliation Bill (Bill passed)"
+act = "26/1996"
+note = "elibrary item 123456789/410380 (11th LS, session II). Library-rebuilt PDF (its own OCR text, no page images); two-column pages read imperfectly."
+
+[[document]]
+url = "https://elibrary.sansad.in/server/api/core/bitstreams/c8ce7938-c0eb-4b93-9c8f-39c28c0c41f3/content"
+source = "eparlib"
+doc_type = "debate"
+title = "Lok Sabha, 4 Aug 2023: introduction of the Arbitration and Conciliation (Amendment) Bill, 2022 (amendment of section 20), a Private Member's Bill"
+act = "26/1996"
+note = "elibrary item 123456789/391004 (17th LS, session XII). Private Member's Bill: the member's proposal, never the government's position. The PDF holds only the item title (an introduction has no speeches)."
+
+# --- 3f-ii: Rajya Sabha debates (sansad.in date-wise; each PDF is the whole sitting) ---
+
+[[document]]
+url = "https://cms.rajyasabha.nic.in/UploadedFiles/Debates/OfficialDebatesDatewise/Floor/237/F23.12.2015.pdf"
+source = "sansad"
+doc_type = "debate"
+title = "Rajya Sabha debate, 23 Dec 2015 (session 237), floor version (as spoken): sitting including the passage of the Arbitration and Conciliation (Amendment) Bill, 2015"
+act = "26/1996"
+note = "Whole day of the sitting (the record as spoken, each member in their own language); the Bill is one item in it."
+
+[[document]]
+url = "https://cms.rajyasabha.nic.in/UploadedFiles/Debates/OfficialDebatesDatewise/Floor/249/F15.07.2019.pdf"
+source = "sansad"
+doc_type = "debate"
+title = "Rajya Sabha debate, 15 Jul 2019 (session 249), floor version (as spoken): sitting including the introduction of the Arbitration and Conciliation (Amendment) Bill, 2019"
+act = "26/1996"
+note = "Whole day of the sitting (the record as spoken, each member in their own language); the Bill is one item in it."
+
+[[document]]
+url = "https://cms.rajyasabha.nic.in/UploadedFiles/Debates/OfficialDebatesDatewise/English/249/E15.07.2019.pdf"
+source = "sansad"
+doc_type = "debate"
+title = "Rajya Sabha debate, 15 Jul 2019 (session 249), English version: sitting including the introduction of the Arbitration and Conciliation (Amendment) Bill, 2019"
+act = "26/1996"
+note = "Whole day of the sitting (English version); the Bill is one item in it."
+
+[[document]]
+url = "https://cms.rajyasabha.nic.in/UploadedFiles/Debates/OfficialDebatesDatewise/Floor/249/F18.07.2019.pdf"
+source = "sansad"
+doc_type = "debate"
+title = "Rajya Sabha debate, 18 Jul 2019 (session 249), floor version (as spoken): sitting including the passage of the Arbitration and Conciliation (Amendment) Bill, 2019"
+act = "26/1996"
+note = "Whole day of the sitting (the record as spoken, each member in their own language); the Bill is one item in it."
+
+[[document]]
+url = "https://cms.rajyasabha.nic.in/UploadedFiles/Debates/OfficialDebatesDatewise/English/249/E18.07.2019.pdf"
+source = "sansad"
+doc_type = "debate"
+title = "Rajya Sabha debate, 18 Jul 2019 (session 249), English version: sitting including the passage of the Arbitration and Conciliation (Amendment) Bill, 2019"
+act = "26/1996"
+note = "Whole day of the sitting (English version); the Bill is one item in it."
+
+[[document]]
+url = "https://cms.rajyasabha.nic.in/UploadedFiles/Debates/OfficialDebatesDatewise/Floor/253/1032021/F10032021.pdf"
+source = "sansad"
+doc_type = "debate"
+title = "Rajya Sabha debate, 10 Mar 2021 (session 253), floor version (as spoken): sitting including the passage of the Arbitration and Conciliation (Amendment) Bill, 2021"
+act = "26/1996"
+note = "Whole day of the sitting (the record as spoken, each member in their own language); the Bill is one item in it."
+
+[[document]]
+url = "https://cms.rajyasabha.nic.in/UploadedFiles/Debates/OfficialDebatesDatewise/English/253/1032021/ED-10-03-2021-FINAL.pdf"
+source = "sansad"
+doc_type = "debate"
+title = "Rajya Sabha debate, 10 Mar 2021 (session 253), English version: sitting including the passage of the Arbitration and Conciliation (Amendment) Bill, 2021"
+act = "26/1996"
+note = "Whole day of the sitting (English version); the Bill is one item in it."
+
+[[document]]
+url = "https://cms.rajyasabha.nic.in/UploadedFiles/Debates/OfficialDebatesDatewise/Floor/178/F22.07.1996.pdf"
+source = "sansad"
+doc_type = "debate"
+title = "Rajya Sabha debate, 22 Jul 1996 (session 178), floor version (as spoken): sitting including the passage of the Arbitration and Conciliation Bill, 1995"
+act = "26/1996"
+note = "Whole day of the sitting (the record as spoken, each member in their own language); the Bill is one item in it."

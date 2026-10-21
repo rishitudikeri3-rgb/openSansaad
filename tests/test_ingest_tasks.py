@@ -156,3 +156,24 @@ def test_cache_is_built_lazily_once(ctx) -> None:
     assert built == []
     ingest_tasks.enqueue_manifest().get()
     assert len(built) == 1  # built on first use inside a task, then reused
+
+
+def test_rows_from_before_the_dropped_regions_column_are_stale(ctx) -> None:
+    ingest_tasks.enqueue_manifest().get()
+    with ctx.sessions() as s:
+        doc = s.scalars(select(Document)).one()
+        assert doc.ocr_regions_dropped == 0
+        doc.ocr_regions_dropped = None  # as left by migration 092ecb5d2e51
+        s.commit()
+    report = Report.from_dict(ingest_tasks.enqueue_stale().get())
+    assert [(r.status, r.extracted) for r in report.results] == [("updated", True)]
+    assert report.unread_images == []
+
+
+def test_unread_image_regions_are_reported(ctx) -> None:
+    ingest_tasks.enqueue_manifest().get()
+    with ctx.sessions() as s:
+        s.scalars(select(Document)).one().ocr_regions_dropped = 3
+        s.commit()
+    report = Report.from_dict(ingest_tasks.summarize_task.delay([]).get())
+    assert [u for _, u in report.unread_images] == [GAZETTE_URL]
