@@ -83,7 +83,34 @@ Accepted gap: no pre-2009 amending debates. Phase 3 OCR is exercised on the 1996
 
 ## 5. Open issues before step 3
 
-1. **India Code access.** Try opening `https://www.indiacode.nic.in/handle/123456789/1978` in a normal browser. If that works, the block targets non-browser clients, and the manual-import path is the plan.
-2. **eParlib access.** Try `https://eparlib.sansad.in` in a browser, on a different day and network if possible.
+1. **India Code access.** ~~Try opening the act page in a normal browser.~~ **Result (2026-10-21): fails in a normal browser on home broadband AND on mobile data.** Not a client- or network-specific block: the site is down or unreachable from India in general. Manual import is not possible either.
+2. **eParlib access.** **Result (2026-10-21): fails in a browser on both networks**, same as above.
+   → Alternatives to verify in step 3d (not yet confirmed): Legislative Department (legislative.gov.in) act PDFs for principal-act text and footnotes; sansad.in / Lok Sabha documents for LS debates; Rajya Sabha debates repository (rsdebate.nic.in); committee reports via sansad.in and PRS links. Re-check India Code / eParlib periodically: if they come back, they are preferred.
+3. **Alternative-source check (2026-10-21, one GET each via the cache):**
+
+   | Site | Result |
+   |---|---|
+   | legislative.gov.in | Redirects to `www.`; **`403` on robots.txt** (first request). Domain auto-blocked 6 h; no further requests. Same WAF pattern as India Code. Browser check by hand still to do |
+   | sansad.in/ls | `200`, Next.js app. `__NEXT_DATA__` holds only CMS content (labels, banners, links); no debate / business data in the HTML. robots.txt `404` (no restrictions) |
+   | rsdebate.nic.in | **`302` → `sansad.in/rs/debates/officials`**: the RS debates repository has moved into sansad.in. Page is Next.js with server-side props containing only labels; records are loaded client-side from an API not yet identified |
+
+   Consequences: sansad.in is now the single reachable source for LS + RS debates (and likely committee reports, Lists of Business). Its data API must be identified in 3d-iv (from the JS bundles, a few GETs). Principal-act text has **no confirmed reachable source** yet.
+4. **legislative.gov.in, browser (2026-10-21):** opens in a browser (blocks only non-browser clients). Search for the Act lists only two relevant items, both downloaded by the user and checked:
+   - `static/uploads/2025/07/c9e37abb1a23bb484298e88c47ca17bb.pdf` (27 pp, scanned), listed as "The Arbitration and Conciliation Act, 1996": actually **Gazette Part VI (13 Sep 2012) carrying the authoritative *Assamese* translation** of the Act. Not usable; not imported. **No English consolidated text on the site.**
+   - `static/uploads/2025/07/4a626088198adecc1bec4a662dd8f76d.pdf` (1 p, scanned, OCR conf 0.93): explanatory note, "Amendment to the Fourth Schedule". Corrects the model-fee entry for "Above Rs.10,00,00,000 and up to Rs.20,00,00,000" ("over and above Rs.1,00,00,000" → "Rs.10,00,00,000") **with effect from 23 Oct 2015**, by notification under **s.11A(2)** (draft laid LS 19 Jul 2017, RS 21 Jul 2017). **Imported** (manual, sha256 `039b4cfa…`).
+   → New genealogy event type: **delegated amendment of a Schedule by central-government notification, with retrospective effect**. The notification itself (e-Gazette, likely 2017–18) still to be located.
+5. **PRS + e-Gazette check (2026-10-21, via the cache):**
+
+   | Document | Source | Result |
+   |---|---|---|
+   | Act 3 of 2016 (2015 Amendment), Gazette copy, 1 Jan 2016 | PRS `2015/Arbitration_and_Conciliation_Act,_2015_1.pdf` | ✅ 15 pp, born-digital |
+   | Act 33 of 2019 | PRS (fixture) | ✅ |
+   | Act 3 of 2021, Gazette copy, 11 Mar 2021 | PRS `2021/Arbitration and Conciliation (Amendment) Act, 2021.pdf` | ✅ 2 pp, born-digital |
+   | Bill 252 of 2015 (LS, as introduced) | PRS | ✅ 28 pp, born-digital |
+   | Bill 100 of 2018 (LS, lapsed) | PRS | ✅ 17 pp, born-digital |
+   | Bill 16 of 2021 (LS, as introduced) | PRS | ✅ 7 pp, born-digital |
+   | Original 1996 Act; 2015 & 2020 Ordinances; s.11A Fourth Schedule notification | e-Gazette | ⏳ search is an ASP.NET POST form with session IDs in URLs: not GET-able. Browser search needed; browser search (2026-10-21, Ministry of Law, Aug 1996) **lists** the 1996 Gazettes (e.g. Act 26 of 1996 likely Extra Ordinary Part II-Sec 1, 19-Aug-1996, entry 48447; commencement notification under s.1(3) appointing 22 Aug 1996, entry 48743, Part II-Sec 3(i), 22-Aug-1996), but every entry shows Gazette ID "NOT available" and the files do not open or download |
+
+   Bills carry an **annexure of extracts from the principal Act** (pre-amendment text of every provision they touch). This gives primary text of the affected 1996 provisions even without the original Act, and an independent check on reconstructed intermediate versions.
 3. **Judgments as genealogy events.** `s87` shows that courts change the operative law. The data model needs an event type for judicial strike-down. This is a schema decision for step 3.
 4. **Commencement vs enactment.** Provisions enacted but not notified need a status on clauses and operations.
