@@ -6,7 +6,16 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from opensansad.db.base import Base
-from opensansad.db.models import Acquisition, Act, DocFormat, DocType, Document, FetchLog, Source
+from opensansad.db.models import (
+    Acquisition,
+    Act,
+    Authority,
+    DocFormat,
+    DocType,
+    Document,
+    FetchLog,
+    Source,
+)
 
 
 @pytest.fixture
@@ -85,3 +94,13 @@ def test_constraint_names_follow_convention() -> None:
     names = {c.name for c in Base.metadata.tables["documents"].constraints}
     assert {"pk_documents", "uq_documents_url", "ck_documents_doc_type",
             "fk_documents_act_id_acts"} <= names
+
+
+def test_authority_defaults_to_primary_and_is_checked(session: Session) -> None:
+    session.add(_doc())
+    session.add(_doc(url="https://example.org/consolidated", authority=Authority.SECONDARY))
+    session.commit()
+    assert [d.authority for d in session.query(Document).order_by(Document.id)] == [
+        Authority.PRIMARY, Authority.SECONDARY]
+    with pytest.raises(IntegrityError):
+        session.execute(text("UPDATE documents SET authority = 'hearsay'"))

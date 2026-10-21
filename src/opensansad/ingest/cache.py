@@ -28,9 +28,15 @@ import certifi
 import httpx
 from sqlalchemy.orm import Session, sessionmaker
 
-from opensansad.db.models import Acquisition, FetchLog
+from opensansad.db.models import Acquisition, DocFormat, FetchLog
 from opensansad.ingest.ratelimit import DomainGate
-from opensansad.ingest.store import RawStore, StoredDoc, looks_like_error_page, normalize_url
+from opensansad.ingest.store import (
+    RawStore,
+    StoredDoc,
+    looks_like_error_page,
+    normalize_url,
+    sniff_format,
+)
 
 ROBOTS_SOURCE = "_robots"
 _RETRY_STATUS = {429, 500, 502, 503, 504}
@@ -208,6 +214,8 @@ class Cache:
             head = f.read(20_001)
         if looks_like_error_page(head):
             raise NotADocument(f"{path} looks like an error / access-denied page, not a document")
+        if sniff_format(head) is DocFormat.OTHER:
+            raise NotADocument(f"{path} is neither PDF nor HTML")
         return self.store.import_file(normalize_url(url), source, path)
 
     # ---- internals --------------------------------------------------------

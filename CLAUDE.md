@@ -111,7 +111,11 @@ opensansad/
 │   ├── config.py               # pydantic-settings
 │   ├── ingest/
 │   │   ├── cache.py            # ONLY network entry point
-│   │   └── sources/            # base.py, indiacode.py, egazette.py, eparlib.py, sansad.py, prs.py
+│   │   ├── store.py            # append-only versioned raw store (written only via cache.py)
+│   │   ├── ratelimit.py        # Redis per-domain gate + blocks
+│   │   ├── manual.py           # hand-downloaded imports → data/manual_imports.jsonl
+│   │   ├── certs/              # bundled CA certs (e-Gazette)
+│   │   └── sources/            # base.py, prs.py, egazette.py (later: indiacode.py, eparlib.py, sansad.py)
 │   ├── extract/                # document.py, normalize.py, pdf.py, ocr.py, html.py, pipeline.py
 │   ├── parse/                  # clause_tree.py, amending_ops.py
 │   ├── db/                     # base.py, models.py, session.py, migrations/
@@ -203,7 +207,10 @@ Exit criteria: full stack up; act chosen and recorded; principal + all amending 
   - 3d (source adapters) — split into 3d-i base + PRS → 3d-ii e-Gazette → 3d-iii India Code / legislative.gov.in (manual imports) → 3d-iv sansad.in API recon + samples
     - 3d-i — **done** (2026-10-21): `ingest/sources/base.py` (`DocRef`, `SourceAdapter`, `LayoutChanged`), `ingest/sources/prs.py` (bill-tracker page → title, ministry, status timeline, classified document links; `article` content selector). Also: cache blocks every domain in a redirect chain on a 403; RFC 3986 percent-encoding normalization of cache keys; line-end hyphens resolved against the document's own vocabulary (extractor v2)
     - 3d-ii — **done** (2026-10-21): `ingest/sources/egazette.py` — URL builders (`gazette_pdf_url(year, file_id)`, `url_for_gazette_id`), `parse_gazette` / `meta_from_extraction` (masthead → kind act/ordinance/notification/corrigendum, Gazette ID, part/section/sub-section, issue no. + date, ministry/department, title, number/year, assent date, S.O. number, dated, corrigendum target, `from_ocr` flag), `EgazetteAdapter` (`ref`, `describe`; no listing pages — `SourceAdapter.parse` now optional). Extractor v3: OCR of large text-less image regions inserted in place (page method `mixed`); letterless lines take the previous line's script
+    - 3d-iii — **done** (2026-10-21): `ingest/manual.py` (`python -m opensansad.ingest.manual FILE --url … --source … --doc-type … --title … [--secondary] [--note …]`) imports via `Cache.import_local` and appends to the committed `data/manual_imports.jsonl`; `documents.authority` (primary/secondary, migration `9fa0d87b24fb`); `import_local` also refuses non-PDF/HTML. s.11A explanatory note backfilled. India Code adapter deferred (site unreachable, nothing to test against); annexure reading moved to step 4
   - 3e TODO (carried from 3c): `documents` gains `text_sha256` (from the sidecar) so DB spans can detect a re-extracted text file
+  - 3e TODO (carried from 3d): re-extract when a sidecar's `extractor_version` is older than `EXTRACTOR_VERSION` (current v2 texts are stale)
+  - 3e TODO (carried from 3d): Gazette metadata from `meta_from_extraction` on the extraction the task already made — not `EgazetteAdapter.describe()`, which extracts (and OCRs) again
   - 3e TODO (carried from 3b): per-URL Redis lock in fetch tasks so two workers never fetch/write the same URL concurrently (`meta.json` race); test with two concurrent tasks on one URL
 
 ## 12. Decisions Log
@@ -253,10 +260,18 @@ Exit criteria: full stack up; act chosen and recorded; principal + all amending 
 - PRS summaries → `external_report` (secondary analysis), never a primary source for what government/Parliament said
 - Cache keys use RFC 3986 §6.2.2 normalization (encode disallowed chars, decode %XX only for unreserved, uppercase hex; reserved chars untouched). URLs probed by hand on 2026-10-21 with `%28…%29` differ from adapter keys with `(…)`: those 3 PRS PDFs are re-fetched once in 3f
 - A 403 anywhere in a redirect chain (page or robots.txt) blocks every domain in the chain
-- Line-end hyphenation: the document is its own dictionary (keep `subject-matter` if seen hyphenated, join `arbi-tration` if `arbitration` seen); undecided → keep only after legal prefixes (sub-, non-, co-, inter-, …). Wrapped margin notes resolved the same way. `EXTRACTOR_VERSION` = 2
+- Line-end hyphenation: the document is its own dictionary (keep `subject-matter` if seen hyphenated, join `arbi-tration` if `arbitration` seen); undecided → keep only after legal prefixes (sub-, non-, co-, inter-, …). Wrapped margin notes resolved the same way (introduced in extractor v2; current version in `extract/document.py`)
 - e-Gazette files are GET-able by Gazette ID: `egazette.gov.in/WriteReadData/{year}/{id}.pdf` (verified 2026-10-21 on Act 3 of 2021, byte-identical to the PRS copy). Discovery (finding IDs) stays a manual browser search; fetching is automated through the cache
 - e-Gazette (2026-10-21): fetched Ordinance 9 of 2015 (scanned; via internal no. 166406, Gazette ID "NOT available"), Ordinance 14 of 2020 and its corrigendum. 1996 Gazettes 404 under both 1996/ and 2013/ paths: confirmed unavailable. Corrigenda are genealogy events (text corrections, no legal change)
 - S.O. 3154(E) (30 Aug 2019) commenced only ss. 1, 4–9, 11–13, 15 of Act 33 of 2019: **enacted vs in force confirmed from a primary source**; genealogy carries per-provision commencement from commencement notifications
 - Extractor v3 (2026-10-21): an image covering ≥ `MIN_REGION_AREA` (10%) of a page with < 40 native chars over it is OCR'd by clip and inserted at its y position (page method `mixed`). Calibrated on the real corrigendum (body image 11.3%, masthead graphic 7.7% — must stay excluded). Lines with no letters ("31", "(1)") follow the previous line's script, leading ones the first lettered line's
 - e-Gazette metadata comes from the document's own masthead (`parse_gazette`), never from search-result rows. Values read from OCR'd pages carry `from_ocr=True` and are leads to verify (2015 Ordinance OCRs "PART II" as "PART I"). doc_type: act → amending if "(AMENDMENT)" in title else principal; ordinance → ordinance; notification and corrigendum → notification
 - Known extraction gaps (added 2026-10-21): fake-bold Hindi text layers repeat each line up to 4× (S.O. 3154 cover); stray legacy fragments like "la- 2887]" survive; Hindi text layer has broken conjuncts; OCR'd pages mix margin notes into the body
+- Manual imports (3d-iii): every hand-downloaded file is logged in **`data/manual_imports.jsonl`** (committed; url, sha256, original import time, source, doc_type, title, authority, note) so the corpus can be rebuilt by re-downloading and checking hashes. Same url + bytes → no-op; same bytes with different title/type/authority → `ImportConflict` (edit the log by hand). Step 3e reads the log when creating `documents` rows
+- `documents.authority` ∈ {primary, secondary}, default primary. Secondary = third-party compilation (e.g. the consolidated copy for never-amended provisions): usable as text, never cited as the source of a claim (Verification Agent enforces)
+- Bill annexures are **as-in-force snapshots at introduction**, not 1996 text: only the 2015 Bill annexure gives original wording; 2018/2019/2021 annexures are intermediate-version checks. `*` runs mark extract gaps, not omissions. Parsed in step 4 with the clause parser (details in `docs/recon.md`)
+- India Code adapter deferred until the site is reachable: no adapter is written against pages that cannot be seen or tested
+- legislative.gov.in s.11A item is the government's **explanatory note on the draft** notification (OCR, 1 page), not the notification: model-fee correction in the Fourth Schedule (Rs.10–20 crore row), effective 23 Oct 2015; draft laid LS 19 Jul / RS 21 Jul 2017. Final notification not located
+- "Scanned docs flagged" (Phase 1 exit) = `ocr_confidence IS NOT NULL` (any page OCR'd or mixed), not `is_scanned` (majority of pages): the corrigendum is `is_scanned=False` but its whole legal content is OCR
+- Manual import checks run before any bytes enter the raw store (hash first): a refused import leaves no orphan file. Bytes the cache already fetched for that URL are refused (no manual record needed)
+- Known extraction gap (3d-ii): image-region OCR thresholds (≥10% of page, <40 native chars over it) calibrated on one file; image bodies split into small tiles, or images under a real text layer, are missed. Re-check across the corpus in 3f

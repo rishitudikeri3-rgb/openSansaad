@@ -58,6 +58,11 @@ class Acquisition(StrEnum):
     MANUAL = "manual"  # downloaded by hand in a browser, imported via cache.import_local
 
 
+class Authority(StrEnum):
+    PRIMARY = "primary"  # issued by Parliament / Government / a court, or a faithful copy
+    SECONDARY = "secondary"  # third-party compilation: usable as text, never cited for a claim
+
+
 def _enum(cls: type[StrEnum], name: str) -> Enum:
     # Non-native enum (VARCHAR + CHECK): adding values later is a plain constraint change.
     return Enum(
@@ -100,6 +105,9 @@ class Document(Base):
     sha256: Mapped[str] = mapped_column(String(64))
     fetched_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
     acquisition: Mapped[Acquisition] = mapped_column(_enum(Acquisition, "acquisition"))
+    authority: Mapped[Authority] = mapped_column(
+        _enum(Authority, "authority"), default=Authority.PRIMARY, server_default="primary"
+    )
     format: Mapped[DocFormat] = mapped_column(_enum(DocFormat, "format"))
     raw_path: Mapped[str] = mapped_column(Text)
     # Unknown (NULL) until extraction has run.
