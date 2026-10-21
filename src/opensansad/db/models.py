@@ -7,6 +7,7 @@ from datetime import datetime
 from enum import StrEnum
 
 from sqlalchemy import (
+    JSON,
     Boolean,
     DateTime,
     Enum,
@@ -18,6 +19,7 @@ from sqlalchemy import (
     UniqueConstraint,
     func,
 )
+from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from opensansad.db.base import Base
@@ -114,9 +116,14 @@ class Document(Base):
     is_scanned: Mapped[bool | None] = mapped_column(Boolean)
     ocr_confidence: Mapped[float | None] = mapped_column(Float)
     text_path: Mapped[str | None] = mapped_column(Text)
+    # From the extraction sidecar: spans into text_path are valid only while this matches.
+    text_sha256: Mapped[str | None] = mapped_column(String(64))
+    extractor_version: Mapped[str | None] = mapped_column(String(16))
     # Set when doc_type is amending / ordinance / gazette copy of an amending act.
     amending_act_number: Mapped[int | None] = mapped_column(Integer)
     amending_year: Mapped[int | None] = mapped_column(Integer)
+    # What the document says about itself (e.g. a Gazette masthead), as read by the extractor.
+    meta: Mapped[dict | None] = mapped_column(JSON().with_variant(JSONB(), "postgresql"))
 
     act: Mapped[Act | None] = relationship(back_populates="documents")
 

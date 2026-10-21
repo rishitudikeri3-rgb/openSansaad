@@ -77,3 +77,42 @@ def test_downgrade_then_upgrade(engine: Engine, alembic_cfg: Config) -> None:
     assert "documents" not in inspect(engine).get_table_names()
     command.upgrade(alembic_cfg, "head")
     assert "documents" in inspect(engine).get_table_names()
+
+
+def test_ingest_round_trip_on_postgres(engine: Engine, tmp_path: Path) -> None:
+    """JSONB meta and timezone-aware fetched_at survive Postgres; a re-run changes nothing."""
+    from sqlalchemy.orm import Session
+
+    from opensansad.db.models import Acquisition
+    from opensansad.ingest.manifest import load_manifest
+    from opensansad.ingest.persist import ingest
+    from opensansad.ingest.store import RawStore
+
+    url = "https://egazette.gov.in/WriteReadData/2021/225832.pdf"
+    store = RawStore(tmp_path / "raw")
+    store.write(url, "egazette", [(REPO_ROOT / "tests/fixtures/egazette_act3_2021_p1.pdf")
+                                  .read_bytes()],
+                status_code=200, content_type="application/pdf",
+                acquisition=Acquisition.FETCHED)
+    (tmp_path / "manifest.toml").write_text(f'''
+[[act]]
+id = "26/1996"
+short_title = "The Arbitration and Conciliation Act, 1996"
+
+[[document]]
+url = "{url}"
+source = "egazette"
+doc_type = "amending"
+title = "The Arbitration and Conciliation (Amendment) Act, 2021"
+act = "26/1996"
+number = "3/2021"
+''')
+    manifest = load_manifest(tmp_path / "manifest.toml")
+    with Session(engine) as session:
+        first = ingest(manifest, session, store, ocr=None)
+        second = ingest(manifest, session, store, ocr=None)
+    assert first.counts() == {"added": 1, "extracted": 1}
+    assert second.counts() == {"unchanged": 1, "extracted": 0}
+    with engine.connect() as conn:
+        assert conn.execute(text(
+            "SELECT meta->>'number', jsonb_typeof(meta) FROM documents")).one() == ("3", "object")

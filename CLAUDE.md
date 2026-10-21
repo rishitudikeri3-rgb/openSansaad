@@ -104,6 +104,8 @@ opensansad/
 ├── pyproject.toml
 ├── alembic.ini
 ├── data/
+│   ├── manifest.toml           # corpus decisions: doc types, act links, numbers (committed)
+│   ├── manual_imports.jsonl    # provenance of hand-downloaded files (committed)
 │   ├── raw/{source}/           # untouched downloads (gitignored)
 │   ├── text/                   # extracted text (gitignored)
 │   └── ground_truth/           # hand-built genealogy (committed)
@@ -114,6 +116,8 @@ opensansad/
 │   │   ├── store.py            # append-only versioned raw store (written only via cache.py)
 │   │   ├── ratelimit.py        # Redis per-domain gate + blocks
 │   │   ├── manual.py           # hand-downloaded imports → data/manual_imports.jsonl
+│   │   ├── manifest.py         # loads + validates data/manifest.toml
+│   │   ├── persist.py          # manifest → acts/documents rows + extracted text
 │   │   ├── certs/              # bundled CA certs (e-Gazette)
 │   │   └── sources/            # base.py, prs.py, egazette.py, sansad.py, eparlib.py (later: indiacode.py)
 │   ├── extract/                # document.py, normalize.py, pdf.py, ocr.py, html.py, pipeline.py
@@ -139,7 +143,8 @@ opensansad/
 acts(id, short_title, act_number, year, india_code_url, created_at)
 
 documents(id, act_id, doc_type, source, title, url, sha256, fetched_at,
-          acquisition, format, raw_path, is_scanned, ocr_confidence, text_path,
+          acquisition, authority, format, raw_path, is_scanned, ocr_confidence,
+          text_path, text_sha256, extractor_version, meta,
           amending_act_number, amending_year)
   doc_type    ∈ {principal, amending, gazette, debate, committee_report,
                  bulletin, list_of_business, bill, ordinance, notification,
@@ -209,9 +214,8 @@ Exit criteria: full stack up; act chosen and recorded; principal + all amending 
     - 3d-ii — **done** (2026-10-21): `ingest/sources/egazette.py` — URL builders (`gazette_pdf_url(year, file_id)`, `url_for_gazette_id`), `parse_gazette` / `meta_from_extraction` (masthead → kind act/ordinance/notification/corrigendum, Gazette ID, part/section/sub-section, issue no. + date, ministry/department, title, number/year, assent date, S.O. number, dated, corrigendum target, `from_ocr` flag), `EgazetteAdapter` (`ref`, `describe`; no listing pages — `SourceAdapter.parse` now optional). Extractor v3: OCR of large text-less image regions inserted in place (page method `mixed`); letterless lines take the previous line's script
     - 3d-iii — **done** (2026-10-21): `ingest/manual.py` (`python -m opensansad.ingest.manual FILE --url … --source … --doc-type … --title … [--secondary] [--note …]`) imports via `Cache.import_local` and appends to the committed `data/manual_imports.jsonl`; `documents.authority` (primary/secondary, migration `9fa0d87b24fb`); `import_local` also refuses non-PDF/HTML. s.11A explanatory note backfilled. India Code adapter deferred (site unreachable, nothing to test against); annexure reading moved to step 4
     - 3d-iv — **done** (2026-10-21): `ingest/sources/sansad.py` (getBills with duplicate-row merge and per-stage file links, Lists of Business by date, LS session calendar from page data, RS date-wise debates) and `ingest/sources/eparlib.py` (elibrary.sansad.in DSpace search + item files → original PDF as `debate`). sansad.in access verified with samples cached (Phase 1 exit item). Extractor v4: jittered same-row fragments joined; footnote markers need size ≤ 85% of body. Findings in `docs/recon.md` §5.6
-  - 3e TODO (carried from 3c): `documents` gains `text_sha256` (from the sidecar) so DB spans can detect a re-extracted text file
-  - 3e TODO (carried from 3d): re-extract when a sidecar's `extractor_version` is older than `EXTRACTOR_VERSION` (current v2 texts are stale)
-  - 3e TODO (carried from 3d): Gazette metadata from `meta_from_extraction` on the extraction the task already made — not `EgazetteAdapter.describe()`, which extracts (and OCRs) again
+  - 3e split into 3e-i manifest + persistence → 3e-ii Celery tasks, per-URL lock, listing refresh
+    - 3e-i — **done** (2026-10-21): `data/manifest.toml` (1 act, 15 documents: every cached document file), `ingest/manifest.py` (validation lists every problem; manual entries take source/type/title/authority from the import log), `ingest/persist.py` (`python -m opensansad.ingest.persist [--offline] [--no-ocr]`: upsert on (url, sha256), extraction when text is missing / changed on disk / older extractor, masthead check, report with scanned + stale rows). Migration `48e8e5a42dd2` (`text_sha256`, `extractor_version`, `meta`). Dev DB loaded: 15 rows, 4 with OCR'd pages, all mastheads agree with the manifest
   - 3e TODO (carried from 3b): per-URL Redis lock in fetch tasks so two workers never fetch/write the same URL concurrently (`meta.json` race); test with two concurrent tasks on one URL
   - 3e TODO (carried from 3d-iv): refresh policy for listing/API URLs (sansad getBills, Lists of Business, sessions, elibrary search): TTL + `force`, since the cache never re-fetches by default — needed by the Phase 4 Session Monitor
   - 3e TODO (carried from 3d-iv): when `parse_bills` merges duplicate rows of one bill, log fields whose values conflict (it currently keeps the furthest status silently)
@@ -261,7 +265,7 @@ Exit criteria: full stack up; act chosen and recorded; principal + all amending 
 - **Base text of the 1996 Act** (e-Gazette lists the Aug 1996 Gazettes but files are "NOT available"; India Code down): amended provisions take their pre-amendment text from **Bill annexures** (extracts from the principal Act; primary). Never-amended provisions (text unchanged since 1996) from a **secondary consolidated copy**, acquired manually in 3f, flagged secondary and never cited as the source of a genealogy claim. Re-check e-Gazette / India Code periodically and swap in primary text if available
 - Adapters return `DocRef`s and never write to the DB (3e persists). A listing page never decides act linkage or amending-act numbers ("(Amendment) Act, 2015" is Act 3 of 2016): those come from the manifest and the document text. Unclassified links are kept with `doc_type=None`, not guessed. Layout drift raises `LayoutChanged`
 - PRS summaries → `external_report` (secondary analysis), never a primary source for what government/Parliament said
-- Cache keys use RFC 3986 §6.2.2 normalization (encode disallowed chars, decode %XX only for unreserved, uppercase hex; reserved chars untouched). URLs probed by hand on 2026-10-21 with `%28…%29` differ from adapter keys with `(…)`: those 3 PRS PDFs are re-fetched once in 3f
+- Cache keys use RFC 3986 §6.2.2 normalization (encode disallowed chars, decode %XX only for unreserved, uppercase hex; reserved chars untouched). URLs probed by hand on 2026-10-21 with `%28…%29` / `%2C` differed from adapter keys with `(…)` / `,`: 5 PRS PDFs, re-fetched under the adapter keys in 3e-i (bytes identical), their old rows deleted; the old raw entries stay (never deleted). Manifest URLs are written exactly as the adapters produce them
 - A 403 anywhere in a redirect chain (page or robots.txt) blocks every domain in the chain
 - Line-end hyphenation: the document is its own dictionary (keep `subject-matter` if seen hyphenated, join `arbi-tration` if `arbitration` seen); undecided → keep only after legal prefixes (sub-, non-, co-, inter-, …). Wrapped margin notes resolved the same way (introduced in extractor v2; current version in `extract/document.py`)
 - e-Gazette files are GET-able by Gazette ID: `egazette.gov.in/WriteReadData/{year}/{id}.pdf` (verified 2026-10-21 on Act 3 of 2021, byte-identical to the PRS copy). Discovery (finding IDs) stays a manual browser search; fetching is automated through the cache
@@ -289,3 +293,10 @@ Exit criteria: full stack up; act chosen and recorded; principal + all amending 
 - elibrary.sansad.in search results are noisy (a query matches unrelated discussions): which debate items belong to a bill is a manifest decision, made by matching item dates to the bill's stage dates, never by the adapter. `EparlibAdapter.search` returns `(items, total)` so a page-capped result is visibly partial
 - Extractor v4's footnote-marker rule (superscript flag + size ≤ 85% of the body median) was calibrated on PRS/e-Gazette/elibrary PDFs only; unverified on India Code PDFs — re-check if they become available
 - sansad getBills filter values are percent-encoded (titles contain `&`)
+- Manifest (3e-i): `data/manifest.toml`, TOML (stdlib `tomllib`, no new dependency). Only document files go in it, not listing / API pages. `number` = the instrument's own number (amending act or ordinance) → `amending_act_number/year`
+- Masthead check: every e-Gazette PDF, and amending acts / ordinances from other sources (PRS hosts Gazette copies), have their masthead read into `documents.meta` from the extraction just made. If its doc type or number disagrees with the manifest, the entry is refused (rolled back, reported, exit 1), never resolved silently either way. Waivable per entry only with `masthead_check = false` plus a note (for OCR misreads). PRS copy of the 2015 Amendment Act confirmed by its masthead as No. 3 of 2016
+- `documents.raw_path` / `text_path` are relative to DATA_DIR (`raw/...`, `text/...`). `documents.meta` is JSONB on Postgres (JSON elsewhere)
+- persist commits once per entry: a refused or failing entry never blocks or half-writes the others. Text written for a rolled-back entry is harmless derived data (re-extracted next run)
+- Manifest `corrects = "N/YYYY"` for corrigenda, checked against the masthead's target like `number` (a masthead target with no `corrects` in the manifest is refused)
+- persist report lists rows needing a hand decision — `not in manifest`, `superseded` (not the latest bytes at its URL), `identical bytes` at several URLs — and never deletes anything. Any exception in one entry (corrupt PDF, OCR crash, I/O) is rolled back and reported for that entry only
+- Byte-identical copies (e-Gazette 225832 = PRS copy of Act 3 of 2021) keep one row per URL (provenance). Step 4 parses **one copy per sha256, preferring e-Gazette**, so clauses are not duplicated

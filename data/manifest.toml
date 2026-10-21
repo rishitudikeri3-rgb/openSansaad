@@ -1,0 +1,137 @@
+# OpenSansad ingestion manifest: what each document is and which act it belongs to.
+# Decisions made here by hand; checked against the documents' own text on ingestion.
+# URLs exactly as the source adapters produce them (cache keys).
+# Format: src/opensansad/ingest/manifest.py. Load: uv run python -m opensansad.ingest.persist
+
+[[act]]
+id = "26/1996"
+short_title = "The Arbitration and Conciliation Act, 1996"
+
+# ---- 1995 Bill (base-text cross-check) ------------------------------------------------
+
+[[document]]
+url = "https://sansad.in/getFile/BillsTexts/RSBillTexts/Asintroduced/arbtrn.pdf?source=legislation"
+source = "sansad"
+doc_type = "bill"
+title = "The Arbitration and Conciliation Bill, 1995 (as introduced in Rajya Sabha)"
+act = "26/1996"
+note = "Scanned. Bill as introduced, not the Act as passed: a cross-check for the 1996 base text."
+
+# ---- 2015 Amendment: Ordinance 9 of 2015 -> Act 3 of 2016 -----------------------------
+
+[[document]]
+url = "https://egazette.gov.in/WriteReadData/2015/166406.pdf"
+source = "egazette"
+doc_type = "ordinance"
+title = "The Arbitration and Conciliation (Amendment) Ordinance, 2015"
+act = "26/1996"
+number = "9/2015"
+
+[[document]]
+url = "https://prsindia.org/files/bills_acts/bills_parliament/2015/Arbitration_and_Conciliation_bill,_2015_1.pdf"
+source = "prs"
+doc_type = "bill"
+title = "The Arbitration and Conciliation (Amendment) Bill, 2015"
+act = "26/1996"
+
+[[document]]
+url = "https://prsindia.org/files/bills_acts/bills_parliament/2015/Arbitration_and_Conciliation_Act,_2015_1.pdf"
+source = "prs"
+doc_type = "amending"
+title = "The Arbitration and Conciliation (Amendment) Act, 2015"
+act = "26/1996"
+number = "3/2016"
+note = "Gazette copy hosted by PRS. Titled 2015, numbered Act 3 of 2016."
+
+[[document]]
+url = "https://elibrary.sansad.in/server/api/core/bitstreams/c7efc397-699e-4af7-8482-3b27e93ded2f/content"
+source = "eparlib"
+doc_type = "debate"
+title = "Lok Sabha debate, 16 Dec 2015: Statutory Resolution disapproving Ordinance 9 of 2015 and the Arbitration and Conciliation (Amendment) Bill, 2015 (discussion not concluded)"
+act = "26/1996"
+note = "elibrary item 123456789/336356 (16th LS, session VI)."
+
+# ---- 2018 Bill (lapsed) ----------------------------------------------------------------
+
+[[document]]
+url = "https://prsindia.org/files/bills_acts/bills_parliament/2018/The%20Arbitration%20and%20Conciliation%20(Amendment)%20Bill,%202018.pdf"
+source = "prs"
+doc_type = "bill"
+title = "The Arbitration and Conciliation (Amendment) Bill, 2018"
+act = "26/1996"
+note = "Lapsed on dissolution of the 16th Lok Sabha."
+
+# ---- 2019 Amendment: Act 33 of 2019 -----------------------------------------------------
+
+[[document]]
+url = "https://prsindia.org/files/bills_acts/bills_parliament/2019/THE%20ARBITRATION%20AND%20CONCILIATION%20(AMENDMENT)%20BILL,%202019.pdf"
+source = "prs"
+doc_type = "bill"
+title = "The Arbitration and Conciliation (Amendment) Bill, 2019"
+act = "26/1996"
+
+[[document]]
+url = "https://prsindia.org/files/bills_acts/bills_parliament/2019/Arbitration%20and%20Conciliation%20(Amendment)%20Act,%202019.pdf"
+source = "prs"
+doc_type = "amending"
+title = "The Arbitration and Conciliation (Amendment) Act, 2019"
+act = "26/1996"
+number = "33/2019"
+note = "Gazette copy hosted by PRS."
+
+[[document]]
+url = "https://egazette.gov.in/WriteReadData/2019/211902.pdf"
+source = "egazette"
+doc_type = "notification"
+title = "S.O. 3154(E), 30 Aug 2019: commencement of ss. 1, 4-9, 11-13 and 15 of Act 33 of 2019"
+act = "26/1996"
+
+# ---- 2021 Amendment: Ordinance 14 of 2020 -> Act 3 of 2021 ----------------------------
+
+[[document]]
+url = "https://egazette.gov.in/WriteReadData/2020/222941.pdf"
+source = "egazette"
+doc_type = "ordinance"
+title = "The Arbitration and Conciliation (Amendment) Ordinance, 2020"
+act = "26/1996"
+number = "14/2020"
+
+[[document]]
+url = "https://egazette.gov.in/WriteReadData/2020/222961.pdf"
+source = "egazette"
+doc_type = "notification"
+title = "Corrigendum to the Arbitration and Conciliation (Amendment) Ordinance, 2020"
+act = "26/1996"
+corrects = "14/2020"
+note = "Corrects the s.3 marginal heading (\"Subsitution\" -> \"Substitution\"). Body is an image (OCR)."
+
+[[document]]
+url = "https://prsindia.org/files/bills_acts/bills_parliament/2021/Arbitration%20and%20Conciliation%20(Amendment)%20Bill,%202021.pdf"
+source = "prs"
+doc_type = "bill"
+title = "The Arbitration and Conciliation (Amendment) Bill, 2021"
+act = "26/1996"
+
+[[document]]
+url = "https://prsindia.org/files/bills_acts/bills_parliament/2021/Arbitration%20and%20Conciliation%20(Amendment)%20Act,%202021.pdf"
+source = "prs"
+doc_type = "amending"
+title = "The Arbitration and Conciliation (Amendment) Act, 2021"
+act = "26/1996"
+number = "3/2021"
+note = "Gazette copy hosted by PRS; byte-identical to the e-Gazette file."
+
+[[document]]
+url = "https://egazette.gov.in/WriteReadData/2021/225832.pdf"
+source = "egazette"
+doc_type = "amending"
+title = "The Arbitration and Conciliation (Amendment) Act, 2021"
+act = "26/1996"
+number = "3/2021"
+
+# ---- Delegated amendments ---------------------------------------------------------------
+
+[[document]]
+url = "https://www.legislative.gov.in/static/uploads/2025/07/4a626088198adecc1bec4a662dd8f76d.pdf"
+manual = true
+act = "26/1996"
