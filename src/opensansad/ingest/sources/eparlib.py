@@ -120,7 +120,8 @@ class EparlibAdapter(SourceAdapter):
         total = 0
         for page in range(max_pages):
             url = search_url(query, scope=scope, page=page, size=size)
-            batch, total = parse_search(url, self.fetch(cache, url).path.read_bytes())
+            page_bytes = self.fetch(cache, url, listing=True).path.read_bytes()
+            batch, total = parse_search(url, page_bytes)
             items += batch
             if not batch or len(items) >= total:
                 break
@@ -128,4 +129,5 @@ class EparlibAdapter(SourceAdapter):
 
     def files(self, cache: Cache, item: DebateItem) -> list[DocRef]:
         url = bundles_url(item.uuid)
-        return parse_bundles(url, self.fetch(cache, url).path.read_bytes(), item)
+        payload = self.fetch(cache, url, listing=True).path.read_bytes()
+        return parse_bundles(url, payload, item)

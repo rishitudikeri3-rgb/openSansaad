@@ -77,6 +77,15 @@ class Report:
     def ok(self) -> bool:
         return all(r.status not in ("missing", "error") for r in self.results)
 
+    @classmethod
+    def from_dict(cls, d: dict) -> "Report":
+        """Inverse of dataclasses.asdict (reports cross Celery as JSON)."""
+        pairs = lambda key: [tuple(x) for x in d.get(key, [])]  # noqa: E731
+        return cls(results=[EntryResult(**r) for r in d["results"]],
+                   scanned=pairs("scanned"), stale=pairs("stale"),
+                   not_in_manifest=pairs("not_in_manifest"), superseded=pairs("superseded"),
+                   identical=dict(d.get("identical", {})))
+
     def counts(self) -> dict[str, int]:
         out: dict[str, int] = {}
         for r in self.results:
@@ -205,48 +214,88 @@ def find_stored(store: RawStore, entry: DocEntry, cache: Cache | None,
     return store.latest(entry.url, entry.source.value)
 
 
-def ingest(manifest: Manifest, session: Session, store: RawStore, *,
-           cache: Cache | None = None, manual_log: Path | None = None,
-           ocr: OcrFn | None = default_ocr,
-           extract: Callable[..., Extraction] = extract_file) -> Report:
-    """Persist every manifest entry; one transaction per entry, so a refusal stays local."""
-    from opensansad.ingest.manual import LOG_NAME
-
+def data_dir_of(store: RawStore) -> Path:
     if store.root.name != "raw":
         raise ValueError(f"raw store must be DATA_DIR/raw, got {store.root}")
-    data_dir = store.root.parent
-    manual_log = manual_log or data_dir / LOG_NAME
-    acts = {key: ensure_act(session, a.number, a.year, a.short_title)
-            for key, a in manifest.acts.items()}
+    return store.root.parent
+
+
+def ensure_acts(session: Session, manifest: Manifest) -> None:
+    """Create / update the manifest's acts. Run once, before any entries (in parallel
+    workers, two entries creating one act would collide on its unique key)."""
+    for a in manifest.acts.values():
+        ensure_act(session, a.number, a.year, a.short_title)
     session.commit()
 
-    report = Report()
-    latest: dict[str, str] = {}  # url -> sha256 of the version persisted this run
-    for entry in manifest.documents:
-        try:
-            stored = find_stored(store, entry, cache, manual_log)
-            if stored is None:
-                report.results.append(EntryResult(entry.url, "missing", detail="not in raw store"))
-                continue
-            doc, status = ensure_document(session, entry, stored,
-                                          acts.get(entry.act) if entry.act else None, data_dir)
-            extracted = needs_extraction(doc, data_dir)
-            if extracted:
-                extract_document(doc, entry, data_dir, ocr=ocr, extract=extract)
-                status = "updated" if status == "unchanged" else status
-            check_masthead(doc, entry)
-            session.commit()
-            report.results.append(EntryResult(entry.url, status, doc.id, extracted))
-            latest[entry.url] = stored.sha256
-        except Exception as e:  # noqa: BLE001 - one bad file must not stop the run
-            session.rollback()
-            report.results.append(EntryResult(entry.url, "error",
-                                              detail=f"{type(e).__name__}: {e}"))
 
+def ingest_entry(entry: DocEntry, session: Session, store: RawStore, *,
+                 cache: Cache | None = None, manual_log: Path | None = None,
+                 ocr: OcrFn | None = default_ocr,
+                 extract: Callable[..., Extraction] = extract_file) -> EntryResult:
+    """Persist one manifest entry in its own transaction. Never raises: any failure is
+    rolled back and returned as an "error" result, so one bad file never stops a run."""
+    from opensansad.ingest.manual import LOG_NAME
+
+    data_dir = data_dir_of(store)
+    try:
+        stored = find_stored(store, entry, cache, manual_log or data_dir / LOG_NAME)
+        if stored is None:
+            return EntryResult(entry.url, "missing", detail="not in raw store")
+        act = None
+        if entry.act:
+            act = session.scalars(select(Act).where(
+                Act.act_number == entry.act[0], Act.year == entry.act[1])).first()
+            if act is None:
+                raise EntryRefused(f"act {entry.act[0]}/{entry.act[1]} not in the database "
+                                   "(ensure_acts runs first)")
+        doc, status = ensure_document(session, entry, stored, act, data_dir)
+        extracted = needs_extraction(doc, data_dir)
+        if extracted:
+            extract_document(doc, entry, data_dir, ocr=ocr, extract=extract)
+            status = "updated" if status == "unchanged" else status
+        check_masthead(doc, entry)
+        session.commit()
+        return EntryResult(entry.url, status, doc.id, extracted)
+    except Exception as e:  # noqa: BLE001 - one bad file must not stop the run
+        session.rollback()
+        return EntryResult(entry.url, "error", detail=f"{type(e).__name__}: {e}")
+
+
+def reextract(doc_id: int, manifest: Manifest, session: Session, store: RawStore, *,
+              ocr: OcrFn | None = default_ocr,
+              extract: Callable[..., Extraction] = extract_file) -> EntryResult:
+    """Re-extract one stale row (any version of its URL), with its manifest entry's
+    settings. Rows the manifest no longer describes are refused, not guessed at."""
+    doc = session.get(Document, doc_id)
+    if doc is None:
+        return EntryResult(f"documents.id={doc_id}", "error", detail="no such row")
+    entry = next((e for e in manifest.documents if e.url == doc.url), None)
+    if entry is None:
+        return EntryResult(doc.url, "error", doc.id, detail="not in manifest: not re-extracted")
+    try:
+        extract_document(doc, entry, data_dir_of(store), ocr=ocr, extract=extract)
+        check_masthead(doc, entry)
+        session.commit()
+        return EntryResult(doc.url, "updated", doc.id, True)
+    except Exception as e:  # noqa: BLE001
+        session.rollback()
+        return EntryResult(doc.url, "error", doc_id, detail=f"{type(e).__name__}: {e}")
+
+
+def summarize(session: Session, manifest: Manifest, results: list[EntryResult],
+              store: RawStore) -> Report:
+    """The run's results plus what the database as a whole needs a decision on.
+
+    "Superseded" is judged against the raw store's latest version of each URL, not the
+    run's results: a re-extraction run may have touched an older version.
+    """
+    report = Report(results=list(results))
     report.scanned = [(d.id, d.url) for d in session.scalars(
         select(Document).where(Document.ocr_confidence.is_not(None)).order_by(Document.id))]
     report.stale = [(d.id, d.url) for d in stale(session)]
     in_manifest = {e.url for e in manifest.documents}
+    latest = {e.url: stored.sha256 for e in manifest.documents
+              if (stored := store.latest(e.url, e.source.value))}
     by_sha: dict[str, list[str]] = {}
     for d in session.scalars(select(Document).order_by(Document.id)):
         if d.url not in in_manifest:
@@ -256,6 +305,19 @@ def ingest(manifest: Manifest, session: Session, store: RawStore, *,
         by_sha.setdefault(d.sha256, []).append(d.url)
     report.identical = {sha: urls for sha, urls in by_sha.items() if len(urls) > 1}
     return report
+
+
+def ingest(manifest: Manifest, session: Session, store: RawStore, *,
+           cache: Cache | None = None, manual_log: Path | None = None,
+           ocr: OcrFn | None = default_ocr,
+           extract: Callable[..., Extraction] = extract_file) -> Report:
+    """Persist every manifest entry, one after another (the Celery tasks run them in
+    parallel: tasks/ingest_tasks.py)."""
+    data_dir_of(store)
+    ensure_acts(session, manifest)
+    results = [ingest_entry(e, session, store, cache=cache, manual_log=manual_log,
+                            ocr=ocr, extract=extract) for e in manifest.documents]
+    return summarize(session, manifest, results, store)
 
 
 def stale(session: Session) -> list[Document]:
@@ -291,6 +353,22 @@ def _jsonable(value):
     return value.isoformat() if isinstance(value, date) else value
 
 
+def print_report(report: Report) -> None:
+    for r in report.results:
+        mark = "  (extracted)" if r.extracted else ""
+        print(f"{r.status:9} {r.doc_id or '-':>4}  {r.url}{mark}")
+        if r.detail:
+            print(f"{'':15}{r.detail}")
+    print("\n" + ", ".join(f"{k} {v}" for k, v in report.counts().items()))
+    print(f"scanned (any page OCR'd): {len(report.scanned)}; stale rows: {len(report.stale)}")
+    for label, rows in (("stale", report.stale), ("not in manifest", report.not_in_manifest),
+                        ("superseded", report.superseded)):
+        for doc_id, url in rows:
+            print(f"  {label} {doc_id}: {url}")
+    for sha, urls in report.identical.items():
+        print(f"  identical bytes {sha[:12]}: " + "\n      ".join([""] + urls))
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="python -m opensansad.ingest.persist",
                                      description="Load the manifest into the database.")
@@ -320,19 +398,7 @@ def main(argv: list[str] | None = None) -> int:
         if cache:
             cache.close()
 
-    for r in report.results:
-        mark = "  (extracted)" if r.extracted else ""
-        print(f"{r.status:9} {r.doc_id or '-':>4}  {r.url}{mark}")
-        if r.detail:
-            print(f"{'':15}{r.detail}")
-    print("\n" + ", ".join(f"{k} {v}" for k, v in report.counts().items()))
-    print(f"scanned (any page OCR'd): {len(report.scanned)}; stale rows: {len(report.stale)}")
-    for label, rows in (("stale", report.stale), ("not in manifest", report.not_in_manifest),
-                        ("superseded", report.superseded)):
-        for doc_id, url in rows:
-            print(f"  {label} {doc_id}: {url}")
-    for sha, urls in report.identical.items():
-        print(f"  identical bytes {sha[:12]}: " + "\n      ".join([""] + urls))
+    print_report(report)
     return 0 if report.ok else 1
 
 

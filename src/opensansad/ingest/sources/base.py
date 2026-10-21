@@ -11,6 +11,7 @@ of 2016); they come from the ingestion manifest and from the document text itsel
 
 from abc import ABC
 from dataclasses import dataclass
+from datetime import timedelta
 from typing import ClassVar
 from urllib.parse import urljoin
 
@@ -44,8 +45,23 @@ class SourceAdapter(ABC):
         have no listing pages and do not implement it."""
         raise NotImplementedError(f"{type(self).__name__} has no listing pages")
 
-    def fetch(self, cache: Cache, url: str) -> StoredDoc:
-        return cache.get(url, source=self.source.value)
+    def __init__(self, listing_max_age: timedelta | None = None) -> None:
+        # How old a stored listing page may be before it is re-fetched. None: never
+        # (fine for one-off ingestion; the Session Monitor needs fresh listings).
+        self.listing_max_age = listing_max_age
+
+    @classmethod
+    def from_settings(cls) -> "SourceAdapter":
+        """An adapter that refreshes listings older than LISTING_TTL_HOURS."""
+        from opensansad.config import get_settings
+
+        return cls(listing_max_age=get_settings().listing_max_age)
+
+    def fetch(self, cache: Cache, url: str, *, listing: bool = False) -> StoredDoc:
+        """A document (fetched once, never refreshed) or a listing page (refreshed when
+        older than listing_max_age)."""
+        return cache.get(url, source=self.source.value,
+                         max_age=self.listing_max_age if listing else None)
 
 
 def absolute(base: str, href: str) -> str:

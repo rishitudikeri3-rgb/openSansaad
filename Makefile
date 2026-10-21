@@ -1,4 +1,4 @@
-.PHONY: install up down logs test test-integration migrate lint
+.PHONY: install up down logs test test-integration migrate lint worker
 
 install:
 	uv sync
@@ -23,3 +23,6 @@ migrate:
 
 lint:
 	uv run ruff check src tests
+
+worker:
+	uv run celery -A opensansad.tasks.celery_app worker --loglevel=info --concurrency=2

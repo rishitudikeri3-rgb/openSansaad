@@ -115,6 +115,7 @@ opensansad/
 │   │   ├── cache.py            # ONLY network entry point
 │   │   ├── store.py            # append-only versioned raw store (written only via cache.py)
 │   │   ├── ratelimit.py        # Redis per-domain gate + blocks
+│   │   ├── locks.py            # per-URL fetch locks (Redis across workers)
 │   │   ├── manual.py           # hand-downloaded imports → data/manual_imports.jsonl
 │   │   ├── manifest.py         # loads + validates data/manifest.toml
 │   │   ├── persist.py          # manifest → acts/documents rows + extracted text
@@ -127,7 +128,7 @@ opensansad/
 │   ├── agents/                 # one module per agent (Phase 2+)
 │   ├── workflows/              # LangGraph graphs (Phase 2+)
 │   ├── eval/                   # metrics vs ground truth (Phase 2+)
-│   ├── tasks/                  # celery_app.py, ingest_tasks.py
+│   ├── tasks/                  # celery_app.py, ingest_tasks.py (`make worker`)
 │   └── api/                    # FastAPI (Phase 5)
 ├── frontend/                   # React + D3 (Phase 5)
 ├── tests/
@@ -216,9 +217,7 @@ Exit criteria: full stack up; act chosen and recorded; principal + all amending 
     - 3d-iv — **done** (2026-10-21): `ingest/sources/sansad.py` (getBills with duplicate-row merge and per-stage file links, Lists of Business by date, LS session calendar from page data, RS date-wise debates) and `ingest/sources/eparlib.py` (elibrary.sansad.in DSpace search + item files → original PDF as `debate`). sansad.in access verified with samples cached (Phase 1 exit item). Extractor v4: jittered same-row fragments joined; footnote markers need size ≤ 85% of body. Findings in `docs/recon.md` §5.6
   - 3e split into 3e-i manifest + persistence → 3e-ii Celery tasks, per-URL lock, listing refresh
     - 3e-i — **done** (2026-10-21): `data/manifest.toml` (1 act, 15 documents: every cached document file), `ingest/manifest.py` (validation lists every problem; manual entries take source/type/title/authority from the import log), `ingest/persist.py` (`python -m opensansad.ingest.persist [--offline] [--no-ocr]`: upsert on (url, sha256), extraction when text is missing / changed on disk / older extractor, masthead check, report with scanned + stale rows). Migration `48e8e5a42dd2` (`text_sha256`, `extractor_version`, `meta`). Dev DB loaded: 15 rows, 4 with OCR'd pages, all mastheads agree with the manifest
-  - 3e TODO (carried from 3b): per-URL Redis lock in fetch tasks so two workers never fetch/write the same URL concurrently (`meta.json` race); test with two concurrent tasks on one URL
-  - 3e TODO (carried from 3d-iv): refresh policy for listing/API URLs (sansad getBills, Lists of Business, sessions, elibrary search): TTL + `force`, since the cache never re-fetches by default — needed by the Phase 4 Session Monitor
-  - 3e TODO (carried from 3d-iv): when `parse_bills` merges duplicate rows of one bill, log fields whose values conflict (it currently keeps the furthest status silently)
+    - 3e-ii — **done** (2026-10-21): `ingest/locks.py` (`RedisLock` / `MemoryLock`) held by `Cache` around every fetch, robots.txt fetch and `import_local`, with a re-check of the store once held; `Cache.get(max_age=…)` + adapters' `listing_max_age` (listing/API pages only; `SourceAdapter.from_settings()` applies `LISTING_TTL_HOURS` — for the 3f / Phase 4 discovery code, no task uses adapters yet); `tasks/ingest_tasks.py` (one task per manifest entry, chord → summary report; stale re-extraction; `python -m opensansad.tasks.ingest_tasks manifest|stale`); persist split into `ingest_entry` / `reextract` / `summarize` shared by CLI and workers; getBills merge conflicts logged. Verified end to end with `make worker` on the dev DB (15 unchanged, 0 errors)
 
 ## 12. Decisions Log
 
@@ -241,7 +240,7 @@ Exit criteria: full stack up; act chosen and recorded; principal + all amending 
 - Cache design: raw files at `data/raw/{source}/{url_hash}/{timestamp}_{sha12}.{ext}` + `meta.json`; identical bytes dedupe to the existing version; cache does not create `documents` rows (adapters/tasks do)
 - Per-domain rate limit + 403 blocks live in **Redis** (shared across Celery workers); 403 → whole domain blocked `DOMAIN_BLOCK_HOURS` (default 6), no retries
 - Redirects followed by hand (max 5 hops): every hop gets its own domain's robots / crawl-delay / 403-block checks; content stored under the requested URL with `final_url` recorded
-- robots.txt is re-fetched every `ROBOTS_TTL_DAYS` (7) — the one deliberate exception to "never re-fetch"; RFC 9309 semantics (4xx = allow all, 5xx = disallow)
+- robots.txt is re-fetched every `ROBOTS_TTL_DAYS` (7) — an exception to "never re-fetch" (the other: listing pages with `max_age`, 3e-ii); RFC 9309 semantics (4xx = allow all, 5xx = disallow)
 - e-Gazette TLS: Let's Encrypt YR1 + Root YR (cross-signed by ISRG Root X1) bundled in `ingest/certs/`, added to certifi roots; verification always on
 - User-Agent must contain a real `contact:`; the cache refuses to start with the placeholder. Real contact lives only in `.env` (gitignored)
 - Rule 1 enforced by `tests/test_network_boundary.py` (AST scan: only cache.py may import HTTP clients)
@@ -300,3 +299,9 @@ Exit criteria: full stack up; act chosen and recorded; principal + all amending 
 - Manifest `corrects = "N/YYYY"` for corrigenda, checked against the masthead's target like `number` (a masthead target with no `corrects` in the manifest is refused)
 - persist report lists rows needing a hand decision — `not in manifest`, `superseded` (not the latest bytes at its URL), `identical bytes` at several URLs — and never deletes anything. Any exception in one entry (corrupt PDF, OCR crash, I/O) is rolled back and reported for that entry only
 - Byte-identical copies (e-Gazette 225832 = PRS copy of Act 3 of 2021) keep one row per URL (provenance). Step 4 parses **one copy per sha256, preferring e-Gazette**, so clauses are not duplicated
+- Per-URL lock (3e-ii) is per raw-store entry (source + url hash = one `meta.json`), taken inside `Cache`, not in tasks, so every caller is covered. Redis `SET NX PX` + token, compare-and-delete release (an expired lock taken over by another worker is never released by its old holder). Fixed expiry `URL_LOCK_SECONDS` (900 s, > worst-case single fetch), no renewal; waiting gives up after `URL_LOCK_WAIT_SECONDS`. Lock order page → robots only (no deadlock)
+- Listing refresh: `Cache.get(max_age=…)` re-fetches a copy last confirmed longer ago (identical bytes only bump `last_seen`); a failed refresh **raises**, never serves the stale copy silently. Adapters default to `listing_max_age=None` (never refresh); `fetch(..., listing=True)` marks listing/API calls (sansad, elibrary search + item files, PRS bill-tracker pages). Document PDFs are never refreshed
+- Celery: **no Celery-level retries** (the cache already retries with backoff; more would multiply requests to rate-limited sites). Resume = re-run the manifest (idempotent); `task_acks_late` re-delivers a dead worker's task. Acts are created once before the fan-out (parallel entries would race on the unique key). Soft time limit 30 min per entry, hard limit +5 min; broker `visibility_timeout` 2 h (> hard limit, so a running task is never re-delivered). A per-entry Redis lock (`ingest:<url hash>`) serializes tasks for one entry (re-delivery, double enqueue). Only workers build a `Cache` (lazily); the enqueuing process never does. Stale rows outside the manifest are reported, not re-extracted (their settings are unknown)
+- getBills duplicate-row disagreements: status (routine API lag, rule: furthest wins) logged at INFO; any other field at WARNING, first row's value kept
+- "Superseded" in the persist report = not the raw store's latest version of its URL (read from the store, not from the run's results, which a re-extraction run may fill with older versions)
+- Known limitation (3e-ii): two concurrent `force=True` fetches of one URL both hit the network, one after the other (the lock serializes them; force means fetch regardless)

@@ -14,6 +14,7 @@ Lok Sabha debates are on elibrary.sansad.in (see eparlib.py).
 """
 
 import json
+import logging
 import re
 from dataclasses import dataclass, field, replace
 from datetime import date, datetime
@@ -22,6 +23,8 @@ from urllib.parse import quote
 from opensansad.db.models import DocType, Source
 from opensansad.ingest.cache import Cache
 from opensansad.ingest.sources.base import DocRef, LayoutChanged, SourceAdapter, absolute
+
+log = logging.getLogger(__name__)
 
 BASE_URL = "https://sansad.in"
 
@@ -152,8 +155,22 @@ def _bill(record: dict, found_on: str) -> SansadBill:
 
 
 def _merge(a: SansadBill, b: SansadBill) -> SansadBill:
-    """Two rows for one bill: keep every known value and the furthest status."""
+    """Two rows for one bill: keep every known value and the furthest status.
+
+    Fields where both rows have different values are logged and the first row's value is
+    kept. A lagging status is routine (one row still "Passed" after assent) and has a rule,
+    so it is logged at INFO; any other disagreement at WARNING.
+    """
     status = max((a.status, b.status), key=lambda s: _STATUS_RANK.get(s, -1))
+    conflicts = [f for f in a.__dataclass_fields__ if f != "docs"
+                 and getattr(a, f) is not None and getattr(b, f) is not None
+                 and getattr(a, f) != getattr(b, f)]
+    for level, fields in ((logging.INFO, [f for f in conflicts if f == "status"]),
+                          (logging.WARNING, [f for f in conflicts if f != "status"])):
+        if fields:
+            log.log(level, "getBills rows for bill %s/%s (%s) disagree on %s: %s",
+                    a.number, a.year, a.house, ", ".join(fields),
+                    "; ".join(f"{f}={getattr(a, f)!r} vs {getattr(b, f)!r}" for f in fields))
     merged = {f: getattr(a, f) if getattr(a, f) is not None else getattr(b, f)
               for f in a.__dataclass_fields__}
     seen = {d.url for d in a.docs}
@@ -284,7 +301,7 @@ class SansadAdapter(SourceAdapter):
     source = Source.SANSAD
 
     def _get(self, cache: Cache, url: str) -> bytes:
-        return self.fetch(cache, url).path.read_bytes()
+        return self.fetch(cache, url, listing=True).path.read_bytes()
 
     def bills(self, cache: Cache, bill_name: str, *, size: int = 50) -> list[SansadBill]:
         """All bills matching a name, following pages until the API's total is reached."""

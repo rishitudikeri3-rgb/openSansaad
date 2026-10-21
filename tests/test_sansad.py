@@ -165,3 +165,13 @@ def test_bills_follows_pages_through_cache(tmp_path) -> None:
     found = sansad.SansadAdapter().bills(cache, "Arbitration", size=5)
     assert len(calls) == 1 + 3  # robots + pages 1..3 (13 rows, 5 per page)
     assert len(found) == 11  # duplicates merged across pages too
+
+
+def test_conflicting_duplicate_rows_are_logged(caplog) -> None:
+    data = json.loads(BILLS)
+    first = data["records"][0]
+    data["records"].append(first | {"ministryName": "Some Other Ministry"})
+    with caplog.at_level("WARNING", logger="opensansad.ingest.sources.sansad"):
+        sansad.parse_bills("u", json.dumps(data).encode())
+    (message,) = [r.getMessage() for r in caplog.records]  # status lags are INFO only
+    assert "disagree on ministry" in message and "Some Other Ministry" in message

@@ -3,6 +3,7 @@
 Model names, API keys and service URLs live here and nowhere else.
 """
 
+from datetime import timedelta
 from functools import lru_cache
 from pathlib import Path
 
@@ -41,7 +42,10 @@ class Settings(BaseSettings):
     domain_block_hours: float = 6.0  # pause a whole domain after a 403
     domain_failure_threshold: int = 4  # consecutive connection failures before pausing
     domain_failure_block_hours: float = 1.0
-    robots_ttl_days: float = 7.0  # robots.txt is the one thing re-fetched without force=True
+    robots_ttl_days: float = 7.0  # robots.txt is re-fetched without force=True (as are listings)
+    listing_ttl_hours: float = 24.0  # listing / API pages (bill lists, LOB) older than this
+    url_lock_seconds: float = 900.0  # per-URL fetch lock expiry: > the longest single fetch
+    url_lock_wait_seconds: float = 900.0  # give up waiting for another worker's fetch
     data_dir: Path = Path("data")
 
     @field_validator("data_dir")
@@ -49,6 +53,10 @@ class Settings(BaseSettings):
     def _anchor_data_dir(cls, v: Path) -> Path:
         """Relative paths resolve against the repo root, never the current directory."""
         return v if v.is_absolute() else PROJECT_ROOT / v
+
+    @property
+    def listing_max_age(self) -> timedelta:
+        return timedelta(hours=self.listing_ttl_hours)
 
     @property
     def raw_dir(self) -> Path:

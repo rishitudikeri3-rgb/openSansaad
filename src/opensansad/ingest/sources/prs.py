@@ -120,5 +120,5 @@ class PrsAdapter(SourceAdapter):
     def discover(self, cache: Cache, title_or_url: str) -> PrsBill:
         """Fetch a bill-tracker page (by URL, or by the bill's exact title) and parse it."""
         url = title_or_url if title_or_url.startswith("http") else bill_url(title_or_url)
-        doc = self.fetch(cache, url)
+        doc = self.fetch(cache, url, listing=True)
         return self.parse_bill(url, doc.path.read_bytes())

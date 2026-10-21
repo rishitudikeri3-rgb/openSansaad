@@ -1,7 +1,9 @@
 """The ONLY network entry point in OpenSansad.
 
 Every outbound HTTP request goes through Cache.get(). It:
-- returns the stored copy if one exists (never re-fetches unless force=True),
+- returns the stored copy if one exists (never re-fetches unless force=True, or the copy
+  is older than max_age: used for listing pages, never for documents),
+- holds a per-entry lock while fetching, so two workers never fetch / write one URL,
 - respects robots.txt (rules and Crawl-delay), re-checking it every robots_ttl_days,
 - spaces requests per domain via a shared DomainGate,
 - retries timeouts / 429 / 5xx with exponential backoff and Retry-After,
@@ -29,6 +31,7 @@ import httpx
 from sqlalchemy.orm import Session, sessionmaker
 
 from opensansad.db.models import Acquisition, DocFormat, FetchLog
+from opensansad.ingest.locks import EntryLock, MemoryLock
 from opensansad.ingest.ratelimit import DomainGate
 from opensansad.ingest.store import (
     RawStore,
@@ -36,6 +39,7 @@ from opensansad.ingest.store import (
     looks_like_error_page,
     normalize_url,
     sniff_format,
+    url_hash,
 )
 
 ROBOTS_SOURCE = "_robots"
@@ -136,6 +140,7 @@ class Cache:
         failure_threshold: int = 4,
         failure_block_seconds: float = 3600,
         robots_ttl: timedelta = timedelta(days=7),
+        lock: EntryLock | None = None,
         transport: httpx.BaseTransport | None = None,
         sleep: Callable[[float], None] = time.sleep,
         now: Callable[[], datetime] = lambda: datetime.now(UTC),
@@ -152,6 +157,7 @@ class Cache:
         self._failure_threshold = failure_threshold
         self._failure_block_seconds = failure_block_seconds
         self._robots_ttl = robots_ttl
+        self._lock = lock or MemoryLock()
         self._sleep = sleep
         self._now = now
         # root -> (parser, when it was last confirmed against the server)
@@ -173,12 +179,14 @@ class Cache:
 
         from opensansad.config import get_settings
         from opensansad.db.session import get_sessionmaker
+        from opensansad.ingest.locks import RedisLock
         from opensansad.ingest.ratelimit import RedisGate
 
         s = get_settings()
+        redis = Redis.from_url(s.redis_url)
         return cls(
             RawStore(s.raw_dir),
-            RedisGate(Redis.from_url(s.redis_url)),
+            RedisGate(redis),
             SqlFetchRecorder(get_sessionmaker()),
             user_agent=s.user_agent,
             default_delay=s.request_delay_seconds,
@@ -188,6 +196,7 @@ class Cache:
             failure_threshold=s.domain_failure_threshold,
             failure_block_seconds=s.domain_failure_block_hours * 3600,
             robots_ttl=timedelta(days=s.robots_ttl_days),
+            lock=RedisLock(redis, ttl=s.url_lock_seconds, wait=s.url_lock_wait_seconds),
         )
 
     def close(self) -> None:
@@ -201,11 +210,22 @@ class Cache:
 
     # ---- public API -------------------------------------------------------
 
-    def get(self, url: str, *, source: str, force: bool = False) -> StoredDoc:
+    def get(self, url: str, *, source: str, force: bool = False,
+            max_age: timedelta | None = None) -> StoredDoc:
+        """The stored copy, fetching it if there is none (or force, or older than max_age).
+
+        max_age is for listing pages that change (bill lists, Lists of Business): a copy
+        last confirmed longer ago is re-fetched, and a failed refresh raises rather than
+        serving the stale copy. Documents are fetched once and never refreshed.
+        """
         url = normalize_url(url)
-        if not force and (cached := self.store.latest(url, source)):
+        if not force and (cached := self._fresh(url, source, max_age)):
             return cached
-        return self._fetch(url, source)
+        with self._lock.hold(self._lock_key(url, source)):
+            # Another worker may have fetched it while we waited for the lock.
+            if not force and (cached := self._fresh(url, source, max_age)):
+                return cached
+            return self._fetch(url, source)
 
     def import_local(self, url: str, path: str | Path, *, source: str) -> StoredDoc:
         """Record a file downloaded by hand in a browser, with the URL it came from."""
@@ -216,9 +236,21 @@ class Cache:
             raise NotADocument(f"{path} looks like an error / access-denied page, not a document")
         if sniff_format(head) is DocFormat.OTHER:
             raise NotADocument(f"{path} is neither PDF nor HTML")
-        return self.store.import_file(normalize_url(url), source, path)
+        url = normalize_url(url)
+        with self._lock.hold(self._lock_key(url, source)):
+            return self.store.import_file(url, source, path)
 
     # ---- internals --------------------------------------------------------
+
+    def _fresh(self, url: str, source: str, max_age: timedelta | None) -> StoredDoc | None:
+        cached = self.store.latest(url, source)
+        if cached and max_age is not None and self._now() - cached.last_confirmed > max_age:
+            return None
+        return cached
+
+    @staticmethod
+    def _lock_key(url: str, source: str) -> str:
+        return f"{source}:{url_hash(url)}"  # one raw-store entry, one meta.json
 
     def _domain(self, url: str) -> str:
         return urlsplit(url).netloc
@@ -331,15 +363,13 @@ class Cache:
             return hit[0]
 
         robots_url = f"{root}/robots.txt"
-        doc = self.store.latest(robots_url, ROBOTS_SOURCE)
-        if doc is None or self._now() - doc.last_confirmed > self._robots_ttl:
-            try:
-                doc = self._fetch(robots_url, ROBOTS_SOURCE, is_robots=True)
-            except HttpError as e:
-                if e.status_code == 403:
-                    raise RobotsForbidden(f"{parts.netloc} returned 403 for robots.txt") from e
-                # 5xx after retries: RFC 9309 says assume complete disallow.
-                raise RobotsDisallowed(f"robots.txt unavailable ({e.status_code})") from e
+        doc = self._fresh(robots_url, ROBOTS_SOURCE, self._robots_ttl)
+        if doc is None:
+            # Lock order is always page -> robots (robots never takes a page lock): no deadlock.
+            with self._lock.hold(self._lock_key(robots_url, ROBOTS_SOURCE)):
+                doc = self._fresh(robots_url, ROBOTS_SOURCE, self._robots_ttl)
+                if doc is None:
+                    doc = self._fetch_robots(robots_url, parts.netloc)
 
         parser = RobotFileParser()
         if doc.status_code is not None and 400 <= doc.status_code < 500:
@@ -348,3 +378,12 @@ class Cache:
             parser.parse(doc.path.read_text(errors="replace").splitlines())
         self._robots[root] = (parser, doc.last_confirmed)
         return parser
+
+    def _fetch_robots(self, robots_url: str, netloc: str) -> StoredDoc:
+        try:
+            return self._fetch(robots_url, ROBOTS_SOURCE, is_robots=True)
+        except HttpError as e:
+            if e.status_code == 403:
+                raise RobotsForbidden(f"{netloc} returned 403 for robots.txt") from e
+            # 5xx after retries: RFC 9309 says assume complete disallow.
+            raise RobotsDisallowed(f"robots.txt unavailable ({e.status_code})") from e
