@@ -31,7 +31,7 @@ number = "9/2015"
 url = "https://prsindia.org/files/bills_acts/bills_parliament/2015/Arbitration_and_Conciliation_bill,_2015_1.pdf"
 source = "prs"
 doc_type = "bill"
-title = "The Arbitration and Conciliation (Amendment) Bill, 2015"
+title = "The Arbitration and Conciliation (Amendment) Bill, 2015 (as introduced, PRS copy)"
 act = "26/1996"
 
 [[document]]
@@ -51,15 +51,72 @@ title = "Lok Sabha debate, 16 Dec 2015: Statutory Resolution disapproving Ordina
 act = "26/1996"
 note = "elibrary item 123456789/336356 (16th LS, session VI)."
 
+[[document]]
+url = "https://sansad.in/getFile/BillsTexts/LSBillTexts/Asintroduced/252_2015_LS_Eng.pdf?source=legislation"
+source = "sansad"
+doc_type = "bill"
+title = "The Arbitration and Conciliation (Amendment) Bill, 2015 (as introduced)"
+act = "26/1996"
+note = "LS Bill No. 252 of 2015, introduced 3 Dec 2015."
+
+[[document]]
+url = "https://sansad.in/getFile/BillsTexts/LSBillTexts/PassedLoksabha/252C_2015_LS_Eng.pdf?source=legislation"
+source = "sansad"
+doc_type = "bill"
+title = "The Arbitration and Conciliation (Amendment) Bill, 2015 (as passed by Lok Sabha)"
+act = "26/1996"
+note = "Passed LS 17 Dec 2015."
+
+[[document]]
+url = "https://sansad.in/getFile/BillsTexts/LSBillTexts/PassedBothHouses/Arbitration-3%20of%2016.pdf?source=legislation"
+source = "sansad"
+doc_type = "bill"
+title = "The Arbitration and Conciliation (Amendment) Bill, 2015 (as passed by both Houses)"
+act = "26/1996"
+note = "Passed RS 23 Dec 2015."
+
+[[document]]
+url = "https://sansad.in/getFile/BillsPDFFiles/Notification/2015-252-gaz.pdf?source=loksabhadocs"
+source = "sansad"
+doc_type = "amending"
+title = "The Arbitration and Conciliation (Amendment) Act, 2015"
+act = "26/1996"
+number = "3/2016"
+note = "Gazette copy hosted by sansad.in. Titled 2015, numbered Act 3 of 2016."
+
 # ---- 2018 Bill (lapsed) ----------------------------------------------------------------
 
 [[document]]
 url = "https://prsindia.org/files/bills_acts/bills_parliament/2018/The%20Arbitration%20and%20Conciliation%20(Amendment)%20Bill,%202018.pdf"
 source = "prs"
 doc_type = "bill"
-title = "The Arbitration and Conciliation (Amendment) Bill, 2018"
+title = "The Arbitration and Conciliation (Amendment) Bill, 2018 (\"to be introduced\" print, PRS copy)"
 act = "26/1996"
-note = "Lapsed on dissolution of the 16th Lok Sabha."
+note = "PRS copy: the \"TO BE INTRODUCED\" print; text otherwise identical to the sansad.in \"As INTRODUCED\" copy (only the first line differs). Lapsed on dissolution of the 16th Lok Sabha."
+
+[[document]]
+url = "https://sansad.in/getFile/BillsTexts/LSBillTexts/Asintroduced/100_2018_LS_Eng.pdf?source=legislation"
+source = "sansad"
+doc_type = "bill"
+title = "The Arbitration and Conciliation (Amendment) Bill, 2018 (as introduced)"
+act = "26/1996"
+note = "LS Bill No. 100 of 2018, introduced 18 Jul 2018."
+
+[[document]]
+url = "https://sansad.in/getFile/BillsTexts/LSBillTexts/PassedLoksabha/100-C_2018_Eng.pdf?source=legislation"
+source = "sansad"
+doc_type = "bill"
+title = "The Arbitration and Conciliation (Amendment) Bill, 2018 (as passed by Lok Sabha)"
+act = "26/1996"
+note = "Passed LS 10 Aug 2018; lapsed with the 16th Lok Sabha."
+
+[[document]]
+url = "https://sansad.in/getFile/BillsTexts/LSBillTexts/Errata/Corr_100.doc?source=legislation"
+source = "sansad"
+doc_type = "bill"
+title = "Errata to the The Arbitration and Conciliation (Amendment) Bill, 2018"
+act = "26/1996"
+note = "Word .doc: cached as format other, no text extracted (3f decision)."
 
 # ---- 2019 Amendment: Act 33 of 2019 -----------------------------------------------------
 
@@ -67,7 +124,7 @@ note = "Lapsed on dissolution of the 16th Lok Sabha."
 url = "https://prsindia.org/files/bills_acts/bills_parliament/2019/THE%20ARBITRATION%20AND%20CONCILIATION%20(AMENDMENT)%20BILL,%202019.pdf"
 source = "prs"
 doc_type = "bill"
-title = "The Arbitration and Conciliation (Amendment) Bill, 2019"
+title = "The Arbitration and Conciliation (Amendment) Bill, 2019 (as introduced in Rajya Sabha, PRS copy)"
 act = "26/1996"
 
 [[document]]
@@ -85,6 +142,30 @@ source = "egazette"
 doc_type = "notification"
 title = "S.O. 3154(E), 30 Aug 2019: commencement of ss. 1, 4-9, 11-13 and 15 of Act 33 of 2019"
 act = "26/1996"
+
+[[document]]
+url = "https://sansad.in/getFile/BillsTexts/RSBillTexts/Asintroduced/Arbitration-Rs%20intro-E-15719.pdf?source=legislation"
+source = "sansad"
+doc_type = "bill"
+title = "The Arbitration and Conciliation (Amendment) Bill, 2019 (as introduced in Rajya Sabha)"
+act = "26/1996"
+note = "RS Bill No. XXI of 2019, introduced 15 Jul 2019."
+
+[[document]]
+url = "https://sansad.in/getFile/BillsTexts/RSBillTexts/PassedRajyaSabha/Arbitration-RSP-E-18719.pdf?source=legislation"
+source = "sansad"
+doc_type = "bill"
+title = "The Arbitration and Conciliation (Amendment) Bill, 2019 (as passed by Rajya Sabha)"
+act = "26/1996"
+note = "Passed RS 18 Jul 2019."
+
+[[document]]
+url = "https://sansad.in/getFile/BillsTexts/RSBillTexts/PassedBothHouses/XXI-F_2019_RS_Eng.pdf?source=legislation"
+source = "sansad"
+doc_type = "bill"
+title = "The Arbitration and Conciliation (Amendment) Bill, 2019 (as passed by both Houses)"
+act = "26/1996"
+note = "Passed LS 1 Aug 2019."
 
 # ---- 2021 Amendment: Ordinance 14 of 2020 -> Act 3 of 2021 ----------------------------
 
@@ -109,7 +190,7 @@ note = "Corrects the s.3 marginal heading (\"Subsitution\" -> \"Substitution\").
 url = "https://prsindia.org/files/bills_acts/bills_parliament/2021/Arbitration%20and%20Conciliation%20(Amendment)%20Bill,%202021.pdf"
 source = "prs"
 doc_type = "bill"
-title = "The Arbitration and Conciliation (Amendment) Bill, 2021"
+title = "The Arbitration and Conciliation (Amendment) Bill, 2021 (as introduced, PRS copy)"
 act = "26/1996"
 
 [[document]]
@@ -129,9 +210,52 @@ title = "The Arbitration and Conciliation (Amendment) Act, 2021"
 act = "26/1996"
 number = "3/2021"
 
+[[document]]
+url = "https://sansad.in/getFile/BillsTexts/LSBillTexts/Asintroduced/16_2021_LS_Eng.pdf?source=legislation"
+source = "sansad"
+doc_type = "bill"
+title = "The Arbitration and Conciliation (Amendment) Bill, 2021 (as introduced)"
+act = "26/1996"
+note = "LS Bill No. 16 of 2021, introduced 4 Feb 2021."
+
+[[document]]
+url = "https://sansad.in/getFile/BillsTexts/LSBillTexts/PassedLoksabha/16-C_2021_LS_Eng.pdf?source=legislation"
+source = "sansad"
+doc_type = "bill"
+title = "The Arbitration and Conciliation (Amendment) Bill, 2021 (as passed by Lok Sabha)"
+act = "26/1996"
+note = "Passed LS 12 Feb 2021."
+
+[[document]]
+url = "https://sansad.in/getFile/BillsTexts/LSBillTexts/PassedBothHouses/Arbitration-3%20of%202021.pdf?source=legislation"
+source = "sansad"
+doc_type = "bill"
+title = "The Arbitration and Conciliation (Amendment) Bill, 2021 (as passed by both Houses)"
+act = "26/1996"
+note = "Passed RS 10 Mar 2021."
+
+[[document]]
+url = "https://sansad.in/getFile/BillsPDFFiles/Notification/2021-16-gaz.pdf?source=loksabhadocs"
+source = "sansad"
+doc_type = "amending"
+title = "The Arbitration and Conciliation (Amendment) Act, 2021"
+act = "26/1996"
+number = "3/2021"
+note = "Gazette copy hosted by sansad.in."
+
 # ---- Delegated amendments ---------------------------------------------------------------
 
 [[document]]
 url = "https://www.legislative.gov.in/static/uploads/2025/07/4a626088198adecc1bec4a662dd8f76d.pdf"
 manual = true
 act = "26/1996"
+
+# ---- Proposals never enacted --------------------------------------------------------------
+
+[[document]]
+url = "https://sansad.in/getFile/BillsTexts/LSBillTexts/Asintroduced/243%20of%202022%20(EV)%20(As%20Introduced)84202373630PM.pdf?source=legislation"
+source = "sansad"
+doc_type = "bill"
+title = "The Arbitration and Conciliation (Amendment) Bill, 2022 (amendment of section 20) (as introduced)"
+act = "26/1996"
+note = "Private Member's Bill (LS No. 243 of 2022), lapsed 4 Aug 2023: what a member proposed, attributed to the member, not the government."
