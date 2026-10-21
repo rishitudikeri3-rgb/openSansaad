@@ -111,6 +111,23 @@ Accepted gap: no pre-2009 amending debates. Phase 3 OCR is exercised on the 1996
    | Bill 16 of 2021 (LS, as introduced) | PRS | ✅ 7 pp, born-digital |
    | Original 1996 Act; 2015 & 2020 Ordinances; s.11A Fourth Schedule notification | e-Gazette | ⏳ search is an ASP.NET POST form with session IDs in URLs: not GET-able. Browser search needed; browser search (2026-10-21, Ministry of Law, Aug 1996) **lists** the 1996 Gazettes (e.g. Act 26 of 1996 likely Extra Ordinary Part II-Sec 1, 19-Aug-1996, entry 48447; commencement notification under s.1(3) appointing 22 Aug 1996, entry 48743, Part II-Sec 3(i), 22-Aug-1996), but every entry shows Gazette ID "NOT available" and the files do not open or download |
 
+   **e-Gazette direct fetch (2026-10-21):** `https://egazette.gov.in/WriteReadData/{year}/{id}.pdf`, with `{id}` the last part of the masthead Gazette ID (`CG-DL-E-11032021-225832` → `2021/225832.pdf`), is a plain GET (200, `application/pdf`). It returned bytes **identical** (sha256 `00cfc054…`) to PRS's copy of Act 3 of 2021, so PRS's Act PDFs are the e-Gazette originals. Pattern verified for a 2021 ID only; older IDs to be checked as they come up.
+
+   **e-Gazette fetches by ID (2026-10-21, from the user's browser search rows):**
+
+   | Document | Search row | URL `WriteReadData/…` | Result |
+   |---|---|---|---|
+   | Arbitration and Conciliation (Amendment) **Ordinance No. 9 of 2015**, 23 Oct 2015 | Gazette ID "NOT available", internal no. 166406 | `2015/166406.pdf` | ✅ 24 pp, **scanned** (OCR conf 0.86–0.94). The internal number works as the file id when no Gazette ID is shown |
+   | **Ordinance No. 14 of 2020**, 4 Nov 2020 | `CG-DL-E-04112020-222941` | `2020/222941.pdf` | ✅ 2 pp, born-digital |
+   | **Corrigendum** to Ordinance 14 of 2020, 5 Nov 2020: s.3 marginal heading "Subsitution" → "Substitution" | `CG-DL-E-05112020-222961` | `2020/222961.pdf` | ✅ 1 p; masthead is text but the **body is an embedded image** (needs OCR) |
+   | **S.O. 3154(E)**, 30 Aug 2019 (Dept of Legal Affairs, under s.1(2) of Act 33 of 2019) | Gazette ID "NOT available", internal no. 211902 | `2019/211902.pdf` | ✅ 2 pp, born-digital. Brings into force **ss. 1, 4–9, 11–13 and 15** of the 2019 Act from 30 Aug 2019. **Not commenced by it: ss. 2, 3, 10, 14** (per the Bill: s.2 definitions incl. "arbitral institution", s.11 appointments by arbitral institutions, Part IA Arbitration Council, Eighth Schedule; verify numbering against the Act) |
+   | Act 26 of 1996 (internal no. 48447, published 2013) | Gazette ID "NOT available" | `1996/48447.pdf`, `2013/48447.pdf` | ❌ 404 on both. 1996 Gazettes really are unavailable |
+
+   | s.11A Fourth Schedule notification (final, after draft laid Jul 2017) | Browser search Jul 2017–Dec 2018: results ignored department/keyword filters and stopped at Jul 2017 (first page only) | — | ⏳ **Not located.** Low priority: the explanatory note (imported) states the change, reason and effective date; retry month by month from Aug 2017 with Dept of Legal Affairs only |
+   → Confirms **enacted ≠ in force** from a primary source: the genealogy must carry commencement per provision, from commencement notifications.
+   → Genealogy edge case: **corrigenda** correct the published text without changing the law.
+   → Extraction gap: a page whose masthead is text but whose body is an image escapes the OCR trigger (enough native chars, image coverage only 0.19). Also: digit-only fragments ("31", "3154", "(1)") are left behind when legacy-font Hindi lines are dropped.
+
    Bills carry an **annexure of extracts from the principal Act** (pre-amendment text of every provision they touch). This gives primary text of the affected 1996 provisions even without the original Act, and an independent check on reconstructed intermediate versions.
 3. **Judgments as genealogy events.** `s87` shows that courts change the operative law. The data model needs an event type for judicial strike-down. This is a schema decision for step 3.
 4. **Commencement vs enactment.** Provisions enacted but not notified need a status on clauses and operations.
