@@ -17,17 +17,42 @@ from urllib.parse import urlsplit, urlunsplit
 from opensansad.db.models import Acquisition, DocFormat
 
 _DEFAULT_PORTS = {"http": 80, "https": 443}
+# RFC 3986: characters allowed unencoded in a path / query (unreserved + sub-delims + ":@").
+_UNRESERVED = set("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~")
+_PATH_SAFE = _UNRESERVED | set("!$&'()*+,;=:@/")
+_QUERY_SAFE = _PATH_SAFE | set("?")
+_PCT = re.compile(r"%([0-9A-Fa-f]{2})")
 _EXT = {DocFormat.PDF: "pdf", DocFormat.HTML: "html", DocFormat.OTHER: "bin"}
 
 
+def _normalize_component(text: str, safe: set[str]) -> str:
+    """RFC 3986 §6.2.2: encode what must be encoded, decode %XX only for unreserved
+    characters, uppercase hex. Reserved characters keep their encoded / literal form,
+    since '%2C' and ',' may legitimately differ to a server."""
+    out, i = [], 0
+    while i < len(text):
+        if (m := _PCT.match(text, i)) is not None:
+            ch = chr(int(m.group(1), 16))
+            out.append(ch if ch in _UNRESERVED else m.group(0).upper())
+            i += 3
+            continue
+        ch = text[i]
+        out.append(ch if ch in safe else "".join(f"%{b:02X}" for b in ch.encode("utf-8")))
+        i += 1
+    return "".join(out)
+
+
 def normalize_url(url: str) -> str:
-    """Canonical form used for hashing: lowercase scheme/host, no default port, no fragment."""
+    """Canonical form used for hashing: lowercase scheme/host, no default port, no fragment,
+    canonical percent-encoding ('a b.pdf' and 'a%20b.pdf' are one document)."""
     parts = urlsplit(url.strip())
     scheme = parts.scheme.lower()
     host = (parts.hostname or "").lower()
     if parts.port and parts.port != _DEFAULT_PORTS.get(scheme):
         host = f"{host}:{parts.port}"
-    return urlunsplit((scheme, host, parts.path or "/", parts.query, ""))
+    path = _normalize_component(parts.path or "/", _PATH_SAFE)
+    query = _normalize_component(parts.query, _QUERY_SAFE)
+    return urlunsplit((scheme, host, path, query, ""))
 
 
 def url_hash(url: str) -> str:

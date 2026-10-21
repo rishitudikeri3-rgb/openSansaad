@@ -52,6 +52,10 @@ class DomainBlocked(FetchError):
     pass
 
 
+class RobotsForbidden(DomainBlocked):
+    """robots.txt itself answered 403: the site refuses us outright."""
+
+
 class RobotsDisallowed(FetchError):
     pass
 
@@ -218,17 +222,28 @@ class Cache:
         recorded as `final_url`. robots.txt requests skip the robots check (RFC 9309).
         """
         current = url
+        via: list[str] = []  # domains that redirected us here, on this request
         for _ in range(MAX_REDIRECTS + 1):
             delay = self._default_delay
-            if not is_robots:
-                robots = self._robots_for(current)
-                if not robots.can_fetch(self._ua_token, current):
-                    self._recorder.record(current, None, "disallowed by robots.txt")
-                    raise RobotsDisallowed(current)
-                delay = max(delay, float(robots.crawl_delay(self._ua_token) or 0))
-            result = self._request(url, current, source, delay, store_errors=is_robots)
+            try:
+                if not is_robots:
+                    robots = self._robots_for(current)
+                    if not robots.can_fetch(self._ua_token, current):
+                        self._recorder.record(current, None, "disallowed by robots.txt")
+                        raise RobotsDisallowed(current)
+                    delay = max(delay, float(robots.crawl_delay(self._ua_token) or 0))
+                result = self._request(url, current, source, delay, store_errors=is_robots)
+            except (HttpError, RobotsForbidden) as e:
+                # A 403 behind a redirect (legislative.gov.in -> www.legislative.gov.in) comes
+                # from the same operator: block the domains that sent us there as well.
+                if isinstance(e, RobotsForbidden) or e.status_code == 403:
+                    for domain in via:
+                        self._gate.block(domain, self._block_seconds)
+                raise
             if isinstance(result, StoredDoc):
                 return result
+            if (domain := self._domain(current)) not in via:
+                via.append(domain)
             current = result
         self._recorder.record(url, None, f"more than {MAX_REDIRECTS} redirects")
         raise FetchError(f"{url}: more than {MAX_REDIRECTS} redirects")
@@ -314,7 +329,7 @@ class Cache:
                 doc = self._fetch(robots_url, ROBOTS_SOURCE, is_robots=True)
             except HttpError as e:
                 if e.status_code == 403:
-                    raise DomainBlocked(f"{parts.netloc} returned 403 for robots.txt") from e
+                    raise RobotsForbidden(f"{parts.netloc} returned 403 for robots.txt") from e
                 # 5xx after retries: RFC 9309 says assume complete disallow.
                 raise RobotsDisallowed(f"robots.txt unavailable ({e.status_code})") from e
 

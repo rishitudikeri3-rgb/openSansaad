@@ -281,7 +281,8 @@ def test_ssl_context_keeps_verification_on() -> None:
 
 
 class Web:
-    """Fake multi-host web. routes: full URL -> response; robots: host -> text or status."""
+    """Fake multi-host web. routes: full URL -> response (wins, even for robots.txt);
+    robots: host -> text or status."""
 
     def __init__(self, robots: dict[str, str | int], routes: dict[str, httpx.Response]) -> None:
         self.robots = robots
@@ -291,6 +292,8 @@ class Web:
     def handler(self, request: httpx.Request) -> httpx.Response:
         url = str(request.url)
         self.calls.append(url)
+        if url in self.routes:
+            return self.routes[url]
         if request.url.path == "/robots.txt":
             r = self.robots.get(request.url.host, 404)
             return httpx.Response(r) if isinstance(r, int) else httpx.Response(200, text=r)
@@ -359,6 +362,48 @@ def test_cross_domain_redirect_uses_target_crawl_delay(tmp_path, clock, recorder
     cache.get("https://fast.test/b", source="prs")
 
     assert clock.sleeps == [10.0]  # second hit on slow.test waits its crawl-delay
+
+
+def test_403_behind_redirect_blocks_redirecting_domain_too(tmp_path, clock, recorder) -> None:
+    """legislative.gov.in -> www.legislative.gov.in, whose robots.txt answers 403."""
+    web = Web({"www.leg.test": 403}, {"https://leg.test/robots.txt": redirect(
+        "https://www.leg.test/robots.txt")})
+    gate = MemoryGate(clock=clock, sleep=clock.sleep)
+    cache = Cache(RawStore(tmp_path), gate, recorder, user_agent=UA,
+                  transport=httpx.MockTransport(web.handler), sleep=clock.sleep)
+
+    with pytest.raises(DomainBlocked):
+        cache.get("https://leg.test/", source="other")
+    assert gate.blocked_for("www.leg.test") > 0
+    assert gate.blocked_for("leg.test") > 0
+
+    sent = len(web.calls)
+    with pytest.raises(DomainBlocked):
+        cache.get("https://leg.test/sites/default/files/A1996-26.pdf", source="other")
+    assert len(web.calls) == sent  # nothing more sent to either host
+
+
+def test_page_403_behind_redirect_blocks_chain(tmp_path, clock, recorder) -> None:
+    web = Web({}, {"https://a.test/doc": redirect("https://b.test/doc"),
+                   "https://b.test/doc": httpx.Response(403)})
+    gate = MemoryGate(clock=clock, sleep=clock.sleep)
+    cache = Cache(RawStore(tmp_path), gate, recorder, user_agent=UA,
+                  transport=httpx.MockTransport(web.handler), sleep=clock.sleep)
+
+    with pytest.raises(HttpError):
+        cache.get("https://a.test/doc", source="other")
+    assert gate.blocked_for("a.test") > 0 and gate.blocked_for("b.test") > 0
+
+
+def test_redirect_to_404_does_not_block(tmp_path, clock, recorder) -> None:
+    web = Web({}, {"https://a.test/doc": redirect("https://b.test/gone")})
+    gate = MemoryGate(clock=clock, sleep=clock.sleep)
+    cache = Cache(RawStore(tmp_path), gate, recorder, user_agent=UA,
+                  transport=httpx.MockTransport(web.handler), sleep=clock.sleep)
+
+    with pytest.raises(HttpError):
+        cache.get("https://a.test/doc", source="other")
+    assert gate.blocked_for("a.test") == 0 and gate.blocked_for("b.test") == 0
 
 
 def test_redirect_loop_gives_up(tmp_path, clock, recorder) -> None:

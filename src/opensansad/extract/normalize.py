@@ -5,7 +5,8 @@ boundary or a structural dash is left alone. In particular:
 - no NFKC (it would turn the footnote marker in "29A¹" into "29A1"),
 - typographic quotes are kept as-is (open/close tells the parser where nested
   quotations in amending acts begin and end),
-- hyphens at line ends are kept ("sub-\\nsection" -> "sub-section", never "subsection").
+- a hyphen at a line end is resolved against the document's own vocabulary, and kept
+  when in doubt after legal prefixes ("sub-\\nsection" -> "sub-section", never "subsection").
 """
 
 import math
@@ -40,7 +41,7 @@ def is_marker_text(text: str) -> bool:
     return bool(_MARKER_TEXT.match(text))
 
 
-def normalize_text(text: str) -> str:
+def normalize_text(text: str, vocab: frozenset[str] = frozenset()) -> str:
     text = unicodedata.normalize("NFC", text)
     text = text.translate(_LIGATURES).translate(_QUOTE_VARIANTS).translate(_SPACES)
     text = text.replace("­", "")  # soft hyphen: invisible, never meaningful
@@ -48,15 +49,43 @@ def normalize_text(text: str) -> str:
     text = _DASH_RUN.sub("—", text)
     text = _HORIZONTAL_BAR.sub("—", text)
     text = re.sub(r":[ ]+—", ":—", text)  # "namely: ––" and "namely:—" are the same thing
-    text = join_hyphenated_lines(text)
+    text = join_hyphenated_lines(text, vocab)
     lines = [re.sub(r" {2,}", " ", line).strip() for line in text.split("\n")]
     return re.sub(r"\n{3,}", "\n\n", "\n".join(lines)).strip()
 
 
-def join_hyphenated_lines(text: str) -> str:
-    """'sub-\\nsection' -> 'sub-section'. The hyphen is kept: in legal text it is almost
-    always real, and a stray hyphen is far less harmful than a merged clause reference."""
-    return re.sub(r"(?<=[A-Za-z])-[ ]*\n[ ]*(?=[a-z])", "-", text)
+# Marks a line-end hyphen inside text already joined onto one line (wrapped margin notes).
+LINE_BREAK_HYPHEN = "-\u2063"
+_HYPHEN_BREAK = re.compile(r"([A-Za-z]+)(?:-[ ]*\n[ ]*|-\u2063)([a-z]+)")
+# Prefixes that form real hyphenated compounds in statutes. Keeping the hyphen after these
+# protects clause references ("sub-\nsection"); a merged "subsection" would never match.
+_KEEP_PREFIXES = {"sub", "non", "co", "inter", "intra", "pre", "post", "self", "quasi", "ex",
+                  "vice", "counter", "cross", "multi", "semi", "anti", "full", "part"}
+_WORD = re.compile(r"[A-Za-z]+(?:-[A-Za-z]+)*")
+
+
+def document_vocab(texts: list[str]) -> frozenset[str]:
+    """Lower-cased words (hyphenated ones whole) seen anywhere in a document."""
+    return frozenset(w.lower() for t in texts for w in _WORD.findall(t))
+
+
+def join_hyphenated_lines(text: str, vocab: frozenset[str] = frozenset()) -> str:
+    """Join a word broken across lines, deciding whether its hyphen is real.
+
+    The document is its own dictionary: 'subject-\\nmatter' keeps its hyphen when
+    'subject-matter' occurs elsewhere, 'arbi-\\ntration' loses it when 'arbitration' does.
+    Undecided cases keep the hyphen only after a known prefix (_KEEP_PREFIXES).
+    """
+    def join(m: re.Match) -> str:
+        left, right = m.group(1), m.group(2)
+        if f"{left}-{right}".lower() in vocab:
+            return f"{left}-{right}"
+        if f"{left}{right}".lower() in vocab:
+            return left + right
+        return f"{left}-{right}" if left.lower() in _KEEP_PREFIXES else left + right
+
+    text = _HYPHEN_BREAK.sub(join, text)
+    return text.replace(LINE_BREAK_HYPHEN, "-")  # unresolved marks (e.g. "(a)-(b)")
 
 
 # ---- running headers / footers -------------------------------------------------

@@ -17,6 +17,20 @@ def test_normalize_url() -> None:
     assert normalize_url("HTTPS://PRSIndia.org:443/billtrack#top") == "https://prsindia.org/billtrack"
     assert normalize_url("http://example.org:8080") == "http://example.org:8080/"
     assert normalize_url("https://x.org/a?b=1&a=2") == "https://x.org/a?b=1&a=2"  # query kept as-is
+
+
+def test_normalize_url_percent_encoding() -> None:
+    raw = "https://prsindia.org/files/2021/Arbitration and Conciliation (Amendment) Act, 2021.pdf"
+    enc = "https://prsindia.org/files/2021/Arbitration%20and%20Conciliation%20(Amendment)%20Act,%202021.pdf"
+    assert normalize_url(raw) == normalize_url(enc) == enc
+    # unreserved %7e decoded; reserved %2c only uppercased
+    assert normalize_url("https://x.org/%7euser/%2c") == "https://x.org/~user/%2C"
+    assert normalize_url("https://x.org/a%2Fb") == "https://x.org/a%2Fb"  # reserved stays encoded
+    assert normalize_url("https://x.org/a%28b%29") != normalize_url("https://x.org/a(b)")
+    assert normalize_url("https://x.org/हिंदी.pdf") == "https://x.org/%E0%A4%B9%E0%A4%BF%E0%A4%82%E0%A4%A6%E0%A5%80.pdf"
+    assert normalize_url("https://x.org/s?q=a b&x=%41") == "https://x.org/s?q=a%20b&x=A"
+    for url in [raw, enc, "https://x.org/%7euser/%2c"]:
+        assert normalize_url(normalize_url(url)) == normalize_url(url)  # idempotent
     assert url_hash("https://X.org/a#frag") == url_hash("https://x.org/a")
 
 

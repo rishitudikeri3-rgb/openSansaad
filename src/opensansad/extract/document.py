@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from typing import Literal
 
-EXTRACTOR_VERSION = "1"
+EXTRACTOR_VERSION = "2"
 
 Method = Literal["native", "ocr", "html"]
 

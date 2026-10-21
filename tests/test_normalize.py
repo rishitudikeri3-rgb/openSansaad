@@ -1,4 +1,5 @@
 from opensansad.extract.normalize import (
+    document_vocab,
     join_hyphenated_lines,
     looks_legacy_hindi,
     normalize_text,
@@ -6,6 +7,7 @@ from opensansad.extract.normalize import (
     strip_running_lines,
     wordlike_ratio,
 )
+from opensansad.extract.pdf import margin_note
 
 LEGAL = (
     "In section 11 of the principal Act, after sub-section (3), the following sub-section "
@@ -98,3 +100,29 @@ def test_legacy_line_detection_no_false_positives() -> None:
                  "Smt. Nirmala Sitharaman", "PART II — Section 1", "26 of 1996.",
                  "REGISTERED NO. DL—(N)04/0007/2003—19", "section 29A and 43-I", "MGIP", LEGAL]:
         assert not looks_legacy_hindi(line), line
+
+
+def test_line_end_hyphen_resolved_by_document_vocab() -> None:
+    vocab = document_vocab(["the subject-matter of the dispute", "any arbitration"])
+    assert join_hyphenated_lines("the subject-\nmatter", vocab) == "the subject-matter"
+    assert join_hyphenated_lines("the arbi-\ntration", vocab) == "the arbitration"
+
+
+def test_line_end_hyphen_fallback_keeps_only_legal_prefixes() -> None:
+    assert join_hyphenated_lines("in sub-\nclause (a)") == "in sub-clause (a)"
+    assert join_hyphenated_lines("the non-\nobstante clause") == "the non-obstante clause"
+    assert join_hyphenated_lines("such interfer-\nence") == "such interference"
+
+
+def test_broken_word_does_not_confirm_itself() -> None:
+    vocab = document_vocab(["the subject-\nmatter"])  # only ever seen broken
+    assert "subject-matter" not in vocab
+
+
+def test_wrapped_margin_note_word_break() -> None:
+    note = margin_note(["Short title and commence-", "ment."])
+    assert normalize_text(note) == "[[margin: Short title and commencement.]]"
+    assert normalize_text(margin_note(["Amendment of sub-", "section (2)."])) == (
+        "[[margin: Amendment of sub-section (2).]]"
+    )
+    assert "⁣" not in normalize_text(margin_note(["clause (a)-", "(b)."]))

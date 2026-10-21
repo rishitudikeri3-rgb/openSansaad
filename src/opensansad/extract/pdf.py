@@ -7,6 +7,8 @@ import pymupdf
 
 from opensansad.extract.document import Extraction, Page
 from opensansad.extract.normalize import (
+    LINE_BREAK_HYPHEN,
+    document_vocab,
     footnote_marker,
     is_marker_text,
     looks_legacy_hindi,
@@ -36,8 +38,15 @@ def _span_text(span: dict) -> str:
 _MARGIN_PREFIX = "[[margin: "
 
 
-def margin_note(text: str) -> str:
-    return f"{_MARGIN_PREFIX}{' '.join(text.split())}]]"
+def margin_note(lines: list[str]) -> str:
+    """One [[margin: ...]] line; a hyphen ending a wrapped line is marked for normalize."""
+    text = ""
+    for line in (" ".join(ln.split()) for ln in lines):
+        if text.endswith("-"):
+            text = text[:-1] + LINE_BREAK_HYPHEN + line
+        else:
+            text = f"{text} {line}" if text else line
+    return f"{_MARGIN_PREFIX}{text}]]"
 
 
 def _line_script(line: str) -> str:
@@ -102,8 +111,8 @@ def _native_lines(page: pymupdf.Page) -> list[str]:
     for s, g, members in groups:
         if s == "body":
             continue
-        note = " ".join(text for _, text in members)
-        if note.strip().isdigit():
+        texts = [text for _, text in members]
+        if " ".join(texts).strip().isdigit():
             continue  # margin line number
         # Anchor to the body LINE nearest the note's top, not the enclosing block: PyMuPDF
         # can merge two sections into one block, which would hoist the second note.
@@ -112,7 +121,7 @@ def _native_lines(page: pymupdf.Page) -> list[str]:
             key = (*anchor[:3], 0, g.x0)
         else:
             key = (g.y0, g.x0, 0, 0, g.x0)
-        keyed.append((key, margin_note(note)))
+        keyed.append((key, margin_note(texts)))
     return [t for _, t in sorted(keyed, key=lambda kt: kt[0])]
 
 
@@ -162,11 +171,12 @@ def extract_pdf(path: Path, *, ocr: OcrFn | None = default_ocr) -> Extraction:
 
     en_pages = strip_running_lines([en for en, _ in raw_pages])
     hi_pages = strip_running_lines([hi for _, hi in raw_pages])
+    vocab = document_vocab(["\n".join(en) for en in en_pages])
     pages = [
         Page(
             number=i + 1,
             method=m["method"],
-            en=normalize_text("\n".join(en)),
+            en=normalize_text("\n".join(en), vocab),
             hi=normalize_text("\n".join(hi)),
             ocr_confidence=m["conf"],
             wordlike_ratio=round(m["ratio"], 3),
