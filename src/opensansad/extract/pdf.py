@@ -23,19 +23,48 @@ MIN_IMAGE_COVERAGE = 0.5
 MIN_REGION_AREA = 0.1  # an image this large (share of page) with no text over it gets OCR'd
 MIN_WORDLIKE = 0.6  # below this the text layer is treated as garbage (legacy-font Hindi etc.)
 _SUPERSCRIPT_FLAG = 1  # PyMuPDF span flag bit
+MAX_MARKER_SIZE = 0.85  # footnote superscripts are at most this share of the body text size
+MAX_JOIN_GAP = 1.5  # same-row fragments closer than this many text sizes may be joined
 
 # (page, clip) -> (text, confidence 0..1); clip=None means the whole page.
 OcrFn = Callable[[pymupdf.Page, pymupdf.Rect | None], tuple[str, float]]
 Line = tuple[float, str]  # (y position on the page, text)
 
 
-def _span_text(span: dict) -> str:
+def _span_text(span: dict, body_size: float) -> str:
     text = span["text"]
     # Raised small digits are footnote markers (India Code's "¹[...]" amendment notes).
-    # Other superscripts (e.g. the "th" in "9th") stay ordinary text.
-    if span["flags"] & _SUPERSCRIPT_FLAG and is_marker_text(text.strip()):
+    # Other superscripts (e.g. the "th" in "9th") stay ordinary text. PyMuPDF's superscript
+    # flag alone is not enough: it is set on any span sitting above the line's baseline, and
+    # HTML-printed debate PDFs jitter every word by ~1.5pt, which flagged "2015" and "25".
+    # A real footnote reference is also set smaller than the body text.
+    if (span["flags"] & _SUPERSCRIPT_FLAG and is_marker_text(text.strip())
+            and span["size"] <= MAX_MARKER_SIZE * body_size):
         return footnote_marker(text.strip())
     return text
+
+
+def _body_size(blocks: list[dict]) -> float:
+    sizes = sorted(s["size"] for b in blocks if b.get("type") == 0
+                   for ln in b["lines"] for s in ln["spans"] if s["text"].strip())
+    return sizes[len(sizes) // 2] if sizes else 0.0
+
+
+def _same_row_continuation(prev: tuple[pymupdf.Rect, str, float], r: pymupdf.Rect,
+                           text: str) -> bool:
+    """A line fragment that continues the previous one on the same visual row.
+
+    HTML-printed PDFs (Lok Sabha debates on elibrary.sansad.in) put each word on its own
+    jittered baseline, so PyMuPDF reports one 'line' per word. Such fragments overlap the
+    previous one vertically, follow it closely and start with the space that separated
+    them in the source text. Table cells on one row (Fourth Schedule fee table) do not
+    start with a space, so columns are never joined.
+    """
+    pr, _, size = prev
+    overlap = min(r.y1, pr.y1) - max(r.y0, pr.y0)
+    gap = r.x0 - pr.x1
+    return (overlap > 0.5 * min(r.height, pr.height) and -1 <= gap <= MAX_JOIN_GAP * size
+            and text[:1].isspace())
 
 
 _MARGIN_PREFIX = "[[margin: "
@@ -71,14 +100,25 @@ def _native_lines(page: pymupdf.Page) -> list[Line]:
     # Classify LINES, not blocks: PyMuPDF can merge a left-margin note and a right-margin
     # note at the same height into one page-wide block.
     width = page.rect.width
+    blocks = page.get_text("dict")["blocks"]
+    body_size = _body_size(blocks)
     lines = []  # (block index, rect, text)
-    for bi, block in enumerate(page.get_text("dict")["blocks"]):
+    for bi, block in enumerate(blocks):
         if block.get("type") != 0:  # 0 = text, 1 = image
             continue
+        prev = None  # (rect, text, size) of the previous line in this block
         for line in block["lines"]:
-            text = "".join(_span_text(s) for s in line["spans"])
-            if text.strip():
-                lines.append((bi, pymupdf.Rect(line["bbox"]), text))
+            text = "".join(_span_text(s, body_size) for s in line["spans"])
+            if not text.strip():
+                continue
+            r = pymupdf.Rect(line["bbox"])
+            if prev and lines and lines[-1][0] == bi and _same_row_continuation(prev, r, text):
+                merged = pymupdf.Rect(lines[-1][1]) | r
+                lines[-1] = (bi, merged, lines[-1][2] + text)
+            else:
+                lines.append((bi, r, text))
+            size = max((s["size"] for s in line["spans"] if s["text"].strip()), default=0.0)
+            prev = (pymupdf.Rect(lines[-1][1]), lines[-1][2], size)
 
     wide = [r for _, r, _ in lines if r.width > 0.4 * width]
     if not wide:

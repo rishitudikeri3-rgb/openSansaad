@@ -362,3 +362,42 @@ def test_letterless_lines_follow_the_previous_lines_script() -> None:
     assert hi == ["(1)", "का.आ.", "3154", "(अ).—केन्द्रीय सरकार"]  # leading "(1)": first script
     assert en == ["S.O. 3154(E).—In exercise of", "(1)", "of section 1"]
     assert _split_scripts(["12", "(3)"]) == (["12", "(3)"], [])  # no letters anywhere: English
+
+
+# ---- HTML-printed debate PDFs (elibrary.sansad.in) ------------------------------------
+
+DEBATE = FIX / "eparlib_debate_2015-12-16_p1.pdf"
+
+
+def test_debate_words_on_jittered_baselines_join_into_lines() -> None:
+    en = extract_pdf(DEBATE, ocr=no_ocr).pages[0].en
+    assert ("HON. DEPUTY SPEAKER: Now, the House will take up Item No.24 and 25\n" in en)
+    assert "Ordinance, 2015 (No. 9 of 2015) and Arbitration and Conciliation (Amendment)" in en
+    assert "[^" not in en  # jitter-raised "2015" / "25" are not footnote markers
+    assert max(len(ln.split()) for ln in en.split("\n")) > 15  # not one word per line
+
+
+def test_raised_full_size_digits_are_not_markers(tmp_path: Path) -> None:
+    doc = pymupdf.open()
+    page = doc.new_page()
+    page.insert_text((72, 140), "Ordinance,", fontsize=10)
+    page.insert_text((120, 138.8), " 2015", fontsize=9.6)  # MuPDF flags this superscript
+    path = tmp_path / "jitter.pdf"
+    doc.save(path)
+    assert extract_pdf(path, ocr=no_ocr).pages[0].en == "Ordinance, 2015"
+
+
+def test_small_raised_digits_are_markers() -> None:
+    from opensansad.extract.pdf import _span_text
+
+    sup = {"text": "1", "flags": 1, "size": 6.0}
+    assert _span_text(sup, body_size=10.0) == "[^1]"
+    assert _span_text(sup | {"size": 9.6}, body_size=10.0) == "1"  # near body size: text
+    assert _span_text(sup | {"flags": 0}, body_size=10.0) == "1"  # not raised: text
+    assert _span_text(sup | {"text": "th"}, body_size=10.0) == "th"  # not a marker shape
+
+
+def test_table_cells_on_one_row_are_not_joined() -> None:
+    """Fourth Schedule fee table: columns 10.6pt apart on one row stay separate lines."""
+    lines = extract_pdf(BILL, ocr=no_ocr).pages[16].en.split("\n")
+    assert "Rs. 12,37,500 plus 0.75 per cent. of the" in lines

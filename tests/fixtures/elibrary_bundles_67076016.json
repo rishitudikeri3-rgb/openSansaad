@@ -1,0 +1,301 @@
+{
+  "_embedded" : {
+    "bundles" : [ {
+      "uuid" : "a0539e5e-b80a-4579-9f92-10e07fed0c49",
+      "name" : "ORIGINAL",
+      "handle" : null,
+      "metadata" : {
+        "dc.title" : [ {
+          "value" : "ORIGINAL",
+          "language" : null,
+          "authority" : null,
+          "confidence" : -1,
+          "place" : 0
+        } ]
+      },
+      "type" : "bundle",
+      "_links" : {
+        "item" : {
+          "href" : "https://elibrary.sansad.in/server/api/core/bundles/a0539e5e-b80a-4579-9f92-10e07fed0c49/item"
+        },
+        "bitstreams" : {
+          "href" : "https://elibrary.sansad.in/server/api/core/bundles/a0539e5e-b80a-4579-9f92-10e07fed0c49/bitstreams"
+        },
+        "primaryBitstream" : {
+          "href" : "https://elibrary.sansad.in/server/api/core/bundles/a0539e5e-b80a-4579-9f92-10e07fed0c49/primaryBitstream"
+        },
+        "self" : {
+          "href" : "https://elibrary.sansad.in/server/api/core/bundles/a0539e5e-b80a-4579-9f92-10e07fed0c49"
+        }
+      },
+      "_embedded" : {
+        "bitstreams" : {
+          "_embedded" : {
+            "bitstreams" : [ {
+              "id" : "c7efc397-699e-4af7-8482-3b27e93ded2f",
+              "uuid" : "c7efc397-699e-4af7-8482-3b27e93ded2f",
+              "name" : "6005.pdf",
+              "handle" : null,
+              "metadata" : {
+                "dc.title" : [ {
+                  "value" : "6005.pdf",
+                  "language" : null,
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ]
+              },
+              "bundleName" : "ORIGINAL",
+              "sizeBytes" : 2641486,
+              "checkSum" : {
+                "checkSumAlgorithm" : "MD5",
+                "value" : "b8991a4c79b66c60596892163d7d5cba"
+              },
+              "sequenceId" : 1,
+              "type" : "bitstream",
+              "_links" : {
+                "content" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/bitstreams/c7efc397-699e-4af7-8482-3b27e93ded2f/content"
+                },
+                "view" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/bitstreams/c7efc397-699e-4af7-8482-3b27e93ded2f/view"
+                },
+                "bundle" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/bitstreams/c7efc397-699e-4af7-8482-3b27e93ded2f/bundle"
+                },
+                "format" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/bitstreams/c7efc397-699e-4af7-8482-3b27e93ded2f/format"
+                },
+                "thumbnail" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/bitstreams/c7efc397-699e-4af7-8482-3b27e93ded2f/thumbnail"
+                },
+                "self" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/bitstreams/c7efc397-699e-4af7-8482-3b27e93ded2f"
+                }
+              }
+            } ]
+          },
+          "page" : {
+            "number" : 0,
+            "size" : 20,
+            "totalPages" : 1,
+            "totalElements" : 1
+          },
+          "_links" : {
+            "self" : {
+              "href" : "https://elibrary.sansad.in/server/api/core/bundles/a0539e5e-b80a-4579-9f92-10e07fed0c49/bitstreams"
+            }
+          }
+        }
+      }
+    }, {
+      "uuid" : "3ced707a-64f0-44e0-b896-bd0e5a96d580",
+      "name" : "TEXT",
+      "handle" : null,
+      "metadata" : {
+        "dc.title" : [ {
+          "value" : "TEXT",
+          "language" : null,
+          "authority" : null,
+          "confidence" : -1,
+          "place" : 0
+        } ]
+      },
+      "type" : "bundle",
+      "_links" : {
+        "item" : {
+          "href" : "https://elibrary.sansad.in/server/api/core/bundles/3ced707a-64f0-44e0-b896-bd0e5a96d580/item"
+        },
+        "bitstreams" : {
+          "href" : "https://elibrary.sansad.in/server/api/core/bundles/3ced707a-64f0-44e0-b896-bd0e5a96d580/bitstreams"
+        },
+        "primaryBitstream" : {
+          "href" : "https://elibrary.sansad.in/server/api/core/bundles/3ced707a-64f0-44e0-b896-bd0e5a96d580/primaryBitstream"
+        },
+        "self" : {
+          "href" : "https://elibrary.sansad.in/server/api/core/bundles/3ced707a-64f0-44e0-b896-bd0e5a96d580"
+        }
+      },
+      "_embedded" : {
+        "bitstreams" : {
+          "_embedded" : {
+            "bitstreams" : [ {
+              "id" : "3502f701-05b3-4f1e-86ec-2d7336b8d386",
+              "uuid" : "3502f701-05b3-4f1e-86ec-2d7336b8d386",
+              "name" : "6005.pdf.txt",
+              "handle" : null,
+              "metadata" : {
+                "dc.description" : [ {
+                  "value" : "Extracted text",
+                  "language" : null,
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.title" : [ {
+                  "value" : "6005.pdf.txt",
+                  "language" : null,
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ]
+              },
+              "bundleName" : "TEXT",
+              "sizeBytes" : 23014,
+              "checkSum" : {
+                "checkSumAlgorithm" : "MD5",
+                "value" : "4cde96152ab0f9d142c5efc2a0dda192"
+              },
+              "sequenceId" : 2,
+              "type" : "bitstream",
+              "_links" : {
+                "content" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/bitstreams/3502f701-05b3-4f1e-86ec-2d7336b8d386/content"
+                },
+                "view" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/bitstreams/3502f701-05b3-4f1e-86ec-2d7336b8d386/view"
+                },
+                "bundle" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/bitstreams/3502f701-05b3-4f1e-86ec-2d7336b8d386/bundle"
+                },
+                "format" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/bitstreams/3502f701-05b3-4f1e-86ec-2d7336b8d386/format"
+                },
+                "thumbnail" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/bitstreams/3502f701-05b3-4f1e-86ec-2d7336b8d386/thumbnail"
+                },
+                "self" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/bitstreams/3502f701-05b3-4f1e-86ec-2d7336b8d386"
+                }
+              }
+            } ]
+          },
+          "page" : {
+            "number" : 0,
+            "size" : 20,
+            "totalPages" : 1,
+            "totalElements" : 1
+          },
+          "_links" : {
+            "self" : {
+              "href" : "https://elibrary.sansad.in/server/api/core/bundles/3ced707a-64f0-44e0-b896-bd0e5a96d580/bitstreams"
+            }
+          }
+        }
+      }
+    }, {
+      "uuid" : "b36f62f0-4056-45b8-91e0-77b43af577c2",
+      "name" : "THUMBNAIL",
+      "handle" : null,
+      "metadata" : {
+        "dc.title" : [ {
+          "value" : "THUMBNAIL",
+          "language" : null,
+          "authority" : null,
+          "confidence" : -1,
+          "place" : 0
+        } ]
+      },
+      "type" : "bundle",
+      "_links" : {
+        "item" : {
+          "href" : "https://elibrary.sansad.in/server/api/core/bundles/b36f62f0-4056-45b8-91e0-77b43af577c2/item"
+        },
+        "bitstreams" : {
+          "href" : "https://elibrary.sansad.in/server/api/core/bundles/b36f62f0-4056-45b8-91e0-77b43af577c2/bitstreams"
+        },
+        "primaryBitstream" : {
+          "href" : "https://elibrary.sansad.in/server/api/core/bundles/b36f62f0-4056-45b8-91e0-77b43af577c2/primaryBitstream"
+        },
+        "self" : {
+          "href" : "https://elibrary.sansad.in/server/api/core/bundles/b36f62f0-4056-45b8-91e0-77b43af577c2"
+        }
+      },
+      "_embedded" : {
+        "bitstreams" : {
+          "_embedded" : {
+            "bitstreams" : [ {
+              "id" : "66e99bb0-3f3c-4595-81e6-ae53331444b5",
+              "uuid" : "66e99bb0-3f3c-4595-81e6-ae53331444b5",
+              "name" : "6005.pdf.jpg",
+              "handle" : null,
+              "metadata" : {
+                "dc.description" : [ {
+                  "value" : "Generated Thumbnail",
+                  "language" : null,
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.source" : [ {
+                  "value" : "Written by FormatFilter org.dspace.app.mediafilter.PDFBoxThumbnail on 2025-04-01T10:22:13Z (GMT).",
+                  "language" : null,
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.title" : [ {
+                  "value" : "6005.pdf.jpg",
+                  "language" : null,
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ]
+              },
+              "bundleName" : "THUMBNAIL",
+              "sizeBytes" : 18929,
+              "checkSum" : {
+                "checkSumAlgorithm" : "MD5",
+                "value" : "15de0c3060b0d29037b79fde277beb78"
+              },
+              "sequenceId" : 3,
+              "type" : "bitstream",
+              "_links" : {
+                "content" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/bitstreams/66e99bb0-3f3c-4595-81e6-ae53331444b5/content"
+                },
+                "view" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/bitstreams/66e99bb0-3f3c-4595-81e6-ae53331444b5/view"
+                },
+                "bundle" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/bitstreams/66e99bb0-3f3c-4595-81e6-ae53331444b5/bundle"
+                },
+                "format" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/bitstreams/66e99bb0-3f3c-4595-81e6-ae53331444b5/format"
+                },
+                "thumbnail" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/bitstreams/66e99bb0-3f3c-4595-81e6-ae53331444b5/thumbnail"
+                },
+                "self" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/bitstreams/66e99bb0-3f3c-4595-81e6-ae53331444b5"
+                }
+              }
+            } ]
+          },
+          "page" : {
+            "number" : 0,
+            "size" : 20,
+            "totalPages" : 1,
+            "totalElements" : 1
+          },
+          "_links" : {
+            "self" : {
+              "href" : "https://elibrary.sansad.in/server/api/core/bundles/b36f62f0-4056-45b8-91e0-77b43af577c2/bitstreams"
+            }
+          }
+        }
+      }
+    } ]
+  },
+  "page" : {
+    "number" : 0,
+    "size" : 20,
+    "totalPages" : 1,
+    "totalElements" : 3
+  },
+  "_links" : {
+    "self" : {
+      "href" : "https://elibrary.sansad.in/server/api/core/items/67076016-fcc0-400e-93d5-9bbbb8e87cba/bundles?embed=bitstreams"
+    }
+  }
+}

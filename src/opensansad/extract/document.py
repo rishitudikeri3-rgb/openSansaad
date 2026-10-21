@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from typing import Literal
 
-EXTRACTOR_VERSION = "3"
+EXTRACTOR_VERSION = "4"
 
 Method = Literal["native", "ocr", "mixed", "html"]  # mixed: native + OCR of image regions
 

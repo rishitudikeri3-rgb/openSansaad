@@ -31,7 +31,7 @@ class DocRef:
     source: Source
     doc_type: DocType | None  # None: link seen but not classified (kept, never guessed)
     title: str
-    lang: str = "en"  # "en" | "hi"
+    lang: str = "en"  # "en" | "hi" | "mixed" (Rajya Sabha floor version: as spoken)
     found_on: str | None = None  # page the link came from (provenance)
 
 

@@ -1,0 +1,2564 @@
+{
+  "id" : null,
+  "scope" : "03c67f26-e547-4c6f-914d-e4b443281a8c",
+  "query" : "\"Arbitration and Conciliation (Amendment) Bill\"",
+  "appliedFilters" : null,
+  "sort" : null,
+  "configuration" : null,
+  "type" : "discover",
+  "_links" : {
+    "self" : {
+      "href" : "https://elibrary.sansad.in/server/api/discover/search/objects?query=%252522Arbitration%252520and%252520Conciliation%252520%252528Amendment%252529%252520Bill%252522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c"
+    }
+  },
+  "_embedded" : {
+    "searchResult" : {
+      "_embedded" : {
+        "objects" : [ {
+          "hitHighlights" : null,
+          "type" : "discover",
+          "_links" : {
+            "indexableObject" : {
+              "href" : "https://elibrary.sansad.in/server/api/core/items/2b4f5108-9ad9-4df1-90b8-c8659dbb9852"
+            }
+          },
+          "_embedded" : {
+            "indexableObject" : {
+              "id" : "2b4f5108-9ad9-4df1-90b8-c8659dbb9852",
+              "uuid" : "2b4f5108-9ad9-4df1-90b8-c8659dbb9852",
+              "name" : "Sh. Arjun Ram Meghwal made a statement regarding Government Business during   the week commencing Monday, the 8th February 2021.",
+              "handle" : "123456789/377313",
+              "metadata" : {
+                "dc.contributor.members" : [ {
+                  "value" : "Arjun Ram Meghwal",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.date.accessioned" : [ {
+                  "value" : "2025-01-29T15:12:46Z",
+                  "language" : null,
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.date.available" : [ {
+                  "value" : "2025-01-29T15:12:46Z",
+                  "language" : null,
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.date.issued" : [ {
+                  "value" : "2021-02-05",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.identifier.keyword" : [ {
+                  "value" : "Business of the House",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.identifier.loksabhanumber" : [ {
+                  "value" : "17",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.identifier.sessionnumber" : [ {
+                  "value" : "V",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.identifier.uri" : [ {
+                  "value" : "https://elibrary.sansad.in/handle/123456789/377313",
+                  "language" : null,
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.language.iso" : [ {
+                  "value" : "Original",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.title" : [ {
+                  "value" : "Sh. Arjun Ram Meghwal made a statement regarding Government Business during   the week commencing Monday, the 8th February 2021.",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.type" : [ {
+                  "value" : "Part 2(Other than Questions And Answers)",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.type.debate" : [ {
+                  "value" : "STATEMENT BY MINISTER",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "keyword_count" : [ {
+                  "value" : "1",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ]
+              },
+              "inArchive" : true,
+              "discoverable" : true,
+              "withdrawn" : false,
+              "lastModified" : "2025-04-02T11:51:58.157+00:00",
+              "entityType" : null,
+              "type" : "item",
+              "_links" : {
+                "accessStatus" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/2b4f5108-9ad9-4df1-90b8-c8659dbb9852/accessStatus"
+                },
+                "bundles" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/2b4f5108-9ad9-4df1-90b8-c8659dbb9852/bundles"
+                },
+                "mappedCollections" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/2b4f5108-9ad9-4df1-90b8-c8659dbb9852/mappedCollections"
+                },
+                "owningCollection" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/2b4f5108-9ad9-4df1-90b8-c8659dbb9852/owningCollection"
+                },
+                "relationships" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/2b4f5108-9ad9-4df1-90b8-c8659dbb9852/relationships"
+                },
+                "version" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/2b4f5108-9ad9-4df1-90b8-c8659dbb9852/version"
+                },
+                "templateItemOf" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/2b4f5108-9ad9-4df1-90b8-c8659dbb9852/templateItemOf"
+                },
+                "thumbnail" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/2b4f5108-9ad9-4df1-90b8-c8659dbb9852/thumbnail"
+                },
+                "self" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/2b4f5108-9ad9-4df1-90b8-c8659dbb9852"
+                }
+              }
+            }
+          }
+        }, {
+          "hitHighlights" : null,
+          "type" : "discover",
+          "_links" : {
+            "indexableObject" : {
+              "href" : "https://elibrary.sansad.in/server/api/core/items/2301a87a-0272-4809-a4e6-495ad505b75d"
+            }
+          },
+          "_embedded" : {
+            "indexableObject" : {
+              "id" : "2301a87a-0272-4809-a4e6-495ad505b75d",
+              "uuid" : "2301a87a-0272-4809-a4e6-495ad505b75d",
+              "name" : "Need to construct underpass at railway crossing at Shalimar  station in Howrah Parliamentary Constituency.",
+              "handle" : "123456789/373498",
+              "metadata" : {
+                "dc.contributor.members" : [ {
+                  "value" : "Prasun Banerjee",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.date.accessioned" : [ {
+                  "value" : "2025-01-29T14:36:27Z",
+                  "language" : null,
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.date.available" : [ {
+                  "value" : "2025-01-29T14:36:27Z",
+                  "language" : null,
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.date.issued" : [ {
+                  "value" : "2018-08-10",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.identifier.loksabhanumber" : [ {
+                  "value" : "16",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.identifier.uri" : [ {
+                  "value" : "https://elibrary.sansad.in/handle/123456789/373498",
+                  "language" : null,
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.title" : [ {
+                  "value" : "Need to construct underpass at railway crossing at Shalimar  station in Howrah Parliamentary Constituency.",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.type" : [ {
+                  "value" : "Part 2(Other than Questions And Answers)",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.type.debate" : [ {
+                  "value" : "SPECIAL MENTION",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "keyword_count" : [ {
+                  "value" : "1",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ]
+              },
+              "inArchive" : true,
+              "discoverable" : true,
+              "withdrawn" : false,
+              "lastModified" : "2025-04-01T17:07:18.790+00:00",
+              "entityType" : null,
+              "type" : "item",
+              "_links" : {
+                "accessStatus" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/2301a87a-0272-4809-a4e6-495ad505b75d/accessStatus"
+                },
+                "bundles" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/2301a87a-0272-4809-a4e6-495ad505b75d/bundles"
+                },
+                "mappedCollections" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/2301a87a-0272-4809-a4e6-495ad505b75d/mappedCollections"
+                },
+                "owningCollection" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/2301a87a-0272-4809-a4e6-495ad505b75d/owningCollection"
+                },
+                "relationships" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/2301a87a-0272-4809-a4e6-495ad505b75d/relationships"
+                },
+                "version" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/2301a87a-0272-4809-a4e6-495ad505b75d/version"
+                },
+                "templateItemOf" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/2301a87a-0272-4809-a4e6-495ad505b75d/templateItemOf"
+                },
+                "thumbnail" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/2301a87a-0272-4809-a4e6-495ad505b75d/thumbnail"
+                },
+                "self" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/2301a87a-0272-4809-a4e6-495ad505b75d"
+                }
+              }
+            }
+          }
+        }, {
+          "hitHighlights" : null,
+          "type" : "discover",
+          "_links" : {
+            "indexableObject" : {
+              "href" : "https://elibrary.sansad.in/server/api/core/items/0342c75b-8b7b-4c34-aeb7-80c5f2ce94d7"
+            }
+          },
+          "_embedded" : {
+            "indexableObject" : {
+              "id" : "0342c75b-8b7b-4c34-aeb7-80c5f2ce94d7",
+              "uuid" : "0342c75b-8b7b-4c34-aeb7-80c5f2ce94d7",
+              "name" : "Statement regarding government business  during remaining part of the first session of 17th Lok sabha and submission made by members",
+              "handle" : "123456789/383220",
+              "metadata" : {
+                "dc.contributor.members" : [ {
+                  "value" : "Arjun Ram Meghwal",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                }, {
+                  "value" : "Chandra Prakash Joshi",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 1
+                }, {
+                  "value" : "Chhedi Paswan",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 2
+                }, {
+                  "value" : "Hanuman Beniwal",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 3
+                }, {
+                  "value" : "Hibi Eden",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 4
+                }, {
+                  "value" : "Janardan Singh Sigriwal",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 5
+                }, {
+                  "value" : "N. K. Premachandran",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 6
+                }, {
+                  "value" : "Chandu Barne Shrirang",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 7
+                }, {
+                  "value" : "Sumedhanand Saraswati",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 8
+                }, {
+                  "value" : "Vishnu Dayal Ram",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 9
+                } ],
+                "dc.date.accessioned" : [ {
+                  "value" : "2025-01-29T16:04:20Z",
+                  "language" : null,
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.date.available" : [ {
+                  "value" : "2025-01-29T16:04:20Z",
+                  "language" : null,
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.date.issued" : [ {
+                  "value" : "2019-07-19",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.identifier.loksabhanumber" : [ {
+                  "value" : "17",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.identifier.sessionnumber" : [ {
+                  "value" : "I",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.identifier.uri" : [ {
+                  "value" : "https://elibrary.sansad.in/handle/123456789/383220",
+                  "language" : null,
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.language.iso" : [ {
+                  "value" : "Original",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.title" : [ {
+                  "value" : "Statement regarding government business  during remaining part of the first session of 17th Lok sabha and submission made by members",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.type" : [ {
+                  "value" : "Part 2(Other than Questions And Answers)",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.type.debate" : [ {
+                  "value" : "BUSINESS OF HOUSE",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "keyword_count" : [ {
+                  "value" : "1",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ]
+              },
+              "inArchive" : true,
+              "discoverable" : true,
+              "withdrawn" : false,
+              "lastModified" : "2025-04-02T13:29:50.376+00:00",
+              "entityType" : null,
+              "type" : "item",
+              "_links" : {
+                "accessStatus" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/0342c75b-8b7b-4c34-aeb7-80c5f2ce94d7/accessStatus"
+                },
+                "bundles" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/0342c75b-8b7b-4c34-aeb7-80c5f2ce94d7/bundles"
+                },
+                "mappedCollections" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/0342c75b-8b7b-4c34-aeb7-80c5f2ce94d7/mappedCollections"
+                },
+                "owningCollection" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/0342c75b-8b7b-4c34-aeb7-80c5f2ce94d7/owningCollection"
+                },
+                "relationships" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/0342c75b-8b7b-4c34-aeb7-80c5f2ce94d7/relationships"
+                },
+                "version" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/0342c75b-8b7b-4c34-aeb7-80c5f2ce94d7/version"
+                },
+                "templateItemOf" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/0342c75b-8b7b-4c34-aeb7-80c5f2ce94d7/templateItemOf"
+                },
+                "thumbnail" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/0342c75b-8b7b-4c34-aeb7-80c5f2ce94d7/thumbnail"
+                },
+                "self" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/0342c75b-8b7b-4c34-aeb7-80c5f2ce94d7"
+                }
+              }
+            }
+          }
+        }, {
+          "hitHighlights" : null,
+          "type" : "discover",
+          "_links" : {
+            "indexableObject" : {
+              "href" : "https://elibrary.sansad.in/server/api/core/items/205c7cc2-1c7c-4417-8ee5-238c47ba0695"
+            }
+          },
+          "_embedded" : {
+            "indexableObject" : {
+              "id" : "205c7cc2-1c7c-4417-8ee5-238c47ba0695",
+              "uuid" : "205c7cc2-1c7c-4417-8ee5-238c47ba0695",
+              "name" : "The Minister of State of the Ministry of Skill Development and Entrepreneurship and Minister of State in the Ministry of Parliamentary Affairs made a statement regarding Government Business during the the week commencing Monday, the 14th of December, 2015.",
+              "handle" : "123456789/450980",
+              "metadata" : {
+                "dc.contributor.members" : [ {
+                  "value" : "Rajiv Pratap Rudy",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.date.accessioned" : [ {
+                  "value" : "2025-01-30T03:45:09Z",
+                  "language" : null,
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.date.available" : [ {
+                  "value" : "2025-01-30T03:45:09Z",
+                  "language" : null,
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.date.issued" : [ {
+                  "value" : "2015-12-11",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.identifier.loksabhanumber" : [ {
+                  "value" : "16",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.identifier.sessionnumber" : [ {
+                  "value" : "VI",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.identifier.uri" : [ {
+                  "value" : "https://elibrary.sansad.in/handle/123456789/450980",
+                  "language" : null,
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.title" : [ {
+                  "value" : "The Minister of State of the Ministry of Skill Development and Entrepreneurship and Minister of State in the Ministry of Parliamentary Affairs made a statement regarding Government Business during the the week commencing Monday, the 14th of December, 2015.",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.type" : [ {
+                  "value" : "Part 2(Other than Questions And Answers)",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.type.debate" : [ {
+                  "value" : "STATEMENT BY MINISTER",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "keyword_count" : [ {
+                  "value" : "1",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ]
+              },
+              "inArchive" : true,
+              "discoverable" : true,
+              "withdrawn" : false,
+              "lastModified" : "2025-04-02T15:02:05.543+00:00",
+              "entityType" : null,
+              "type" : "item",
+              "_links" : {
+                "accessStatus" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/205c7cc2-1c7c-4417-8ee5-238c47ba0695/accessStatus"
+                },
+                "bundles" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/205c7cc2-1c7c-4417-8ee5-238c47ba0695/bundles"
+                },
+                "mappedCollections" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/205c7cc2-1c7c-4417-8ee5-238c47ba0695/mappedCollections"
+                },
+                "owningCollection" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/205c7cc2-1c7c-4417-8ee5-238c47ba0695/owningCollection"
+                },
+                "relationships" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/205c7cc2-1c7c-4417-8ee5-238c47ba0695/relationships"
+                },
+                "version" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/205c7cc2-1c7c-4417-8ee5-238c47ba0695/version"
+                },
+                "templateItemOf" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/205c7cc2-1c7c-4417-8ee5-238c47ba0695/templateItemOf"
+                },
+                "thumbnail" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/205c7cc2-1c7c-4417-8ee5-238c47ba0695/thumbnail"
+                },
+                "self" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/205c7cc2-1c7c-4417-8ee5-238c47ba0695"
+                }
+              }
+            }
+          }
+        }, {
+          "hitHighlights" : {
+            "dc.title" : [ "Introduction of   the <em>Arbitration</em> and <em>Conciliation</em> (<em>Amendment</em>) <em>Bill</em>, 2021." ]
+          },
+          "type" : "discover",
+          "_links" : {
+            "indexableObject" : {
+              "href" : "https://elibrary.sansad.in/server/api/core/items/0728a577-312e-4206-8b9d-702ed08212ab"
+            }
+          },
+          "_embedded" : {
+            "indexableObject" : {
+              "id" : "0728a577-312e-4206-8b9d-702ed08212ab",
+              "uuid" : "0728a577-312e-4206-8b9d-702ed08212ab",
+              "name" : "Introduction of   the Arbitration and Conciliation (Amendment) Bill, 2021.",
+              "handle" : "123456789/377365",
+              "metadata" : {
+                "dc.contributor.members" : [ {
+                  "value" : "Bhartruhari Mahtab",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                }, {
+                  "value" : "Ravi Shankar Prasad",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 1
+                } ],
+                "dc.date.accessioned" : [ {
+                  "value" : "2025-01-29T15:13:04Z",
+                  "language" : null,
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.date.available" : [ {
+                  "value" : "2025-01-29T15:13:04Z",
+                  "language" : null,
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.date.issued" : [ {
+                  "value" : "2021-02-04",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.identifier.keyword" : [ {
+                  "value" : "Arbitration Agreement",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                }, {
+                  "value" : "Arbitration Council of India",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 1
+                }, {
+                  "value" : "Corruption",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 2
+                } ],
+                "dc.identifier.loksabhanumber" : [ {
+                  "value" : "17",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.identifier.sessionnumber" : [ {
+                  "value" : "V",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.identifier.uri" : [ {
+                  "value" : "https://elibrary.sansad.in/handle/123456789/377365",
+                  "language" : null,
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.language.iso" : [ {
+                  "value" : "Original",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.title" : [ {
+                  "value" : "Introduction of   the Arbitration and Conciliation (Amendment) Bill, 2021.",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.type" : [ {
+                  "value" : "Part 2(Other than Questions And Answers)",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.type.debate" : [ {
+                  "value" : "GOVERNMENT BILLS",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "keyword_count" : [ {
+                  "value" : "1",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ]
+              },
+              "inArchive" : true,
+              "discoverable" : true,
+              "withdrawn" : false,
+              "lastModified" : "2025-04-01T12:58:00.575+00:00",
+              "entityType" : null,
+              "type" : "item",
+              "_links" : {
+                "accessStatus" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/0728a577-312e-4206-8b9d-702ed08212ab/accessStatus"
+                },
+                "bundles" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/0728a577-312e-4206-8b9d-702ed08212ab/bundles"
+                },
+                "mappedCollections" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/0728a577-312e-4206-8b9d-702ed08212ab/mappedCollections"
+                },
+                "owningCollection" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/0728a577-312e-4206-8b9d-702ed08212ab/owningCollection"
+                },
+                "relationships" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/0728a577-312e-4206-8b9d-702ed08212ab/relationships"
+                },
+                "version" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/0728a577-312e-4206-8b9d-702ed08212ab/version"
+                },
+                "templateItemOf" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/0728a577-312e-4206-8b9d-702ed08212ab/templateItemOf"
+                },
+                "thumbnail" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/0728a577-312e-4206-8b9d-702ed08212ab/thumbnail"
+                },
+                "self" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/0728a577-312e-4206-8b9d-702ed08212ab"
+                }
+              }
+            }
+          }
+        }, {
+          "hitHighlights" : null,
+          "type" : "discover",
+          "_links" : {
+            "indexableObject" : {
+              "href" : "https://elibrary.sansad.in/server/api/core/items/830535c4-3b6e-4b88-86b6-0143e65f7409"
+            }
+          },
+          "_embedded" : {
+            "indexableObject" : {
+              "id" : "830535c4-3b6e-4b88-86b6-0143e65f7409",
+              "uuid" : "830535c4-3b6e-4b88-86b6-0143e65f7409",
+              "name" : "The Minister of State in the Ministry of Parliamentary Affairs and Minister of State in the Ministry of Water Resources, River Development and Ganga Rejuvenation made a statement regarding Government Business during remaining part of the session and submissions made by Members.",
+              "handle" : "123456789/389630",
+              "metadata" : {
+                "dc.contributor.members" : [ {
+                  "value" : "Arjun Ram Meghwal",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                }, {
+                  "value" : "Ajay Misra (TENI)",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 1
+                }, {
+                  "value" : "Rajeev Shankarrao Satav",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 2
+                }, {
+                  "value" : "Kaushalendra Kumar",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 3
+                }, {
+                  "value" : "Bhartruhari Mahtab",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 4
+                }, {
+                  "value" : "Subhash Chandra Baheria",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 5
+                }, {
+                  "value" : "Jayshreeben Patel",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 6
+                }, {
+                  "value" : "Rajesh Ranjan (Pappu Yadav)",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 7
+                }, {
+                  "value" : "Vishnu Dayal Ram",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 8
+                }, {
+                  "value" : "Rama Devi",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 9
+                }, {
+                  "value" : "Adhir Ranjan Chowdhury",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 10
+                } ],
+                "dc.date.accessioned" : [ {
+                  "value" : "2025-01-29T17:01:05Z",
+                  "language" : null,
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.date.available" : [ {
+                  "value" : "2025-01-29T17:01:05Z",
+                  "language" : null,
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.date.issued" : [ {
+                  "value" : "2018-08-03",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.identifier.loksabhanumber" : [ {
+                  "value" : "16",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.identifier.sessionnumber" : [ {
+                  "value" : "XV",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.identifier.uri" : [ {
+                  "value" : "https://elibrary.sansad.in/handle/123456789/389630",
+                  "language" : null,
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.language.iso" : [ {
+                  "value" : "Original",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.title" : [ {
+                  "value" : "The Minister of State in the Ministry of Parliamentary Affairs and Minister of State in the Ministry of Water Resources, River Development and Ganga Rejuvenation made a statement regarding Government Business during remaining part of the session and submissions made by Members.",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.type" : [ {
+                  "value" : "Part 2(Other than Questions And Answers)",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.type.debate" : [ {
+                  "value" : "BUSINESS OF HOUSE",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "keyword_count" : [ {
+                  "value" : "1",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ]
+              },
+              "inArchive" : true,
+              "discoverable" : true,
+              "withdrawn" : false,
+              "lastModified" : "2025-04-02T14:57:52.164+00:00",
+              "entityType" : null,
+              "type" : "item",
+              "_links" : {
+                "accessStatus" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/830535c4-3b6e-4b88-86b6-0143e65f7409/accessStatus"
+                },
+                "bundles" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/830535c4-3b6e-4b88-86b6-0143e65f7409/bundles"
+                },
+                "mappedCollections" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/830535c4-3b6e-4b88-86b6-0143e65f7409/mappedCollections"
+                },
+                "owningCollection" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/830535c4-3b6e-4b88-86b6-0143e65f7409/owningCollection"
+                },
+                "relationships" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/830535c4-3b6e-4b88-86b6-0143e65f7409/relationships"
+                },
+                "version" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/830535c4-3b6e-4b88-86b6-0143e65f7409/version"
+                },
+                "templateItemOf" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/830535c4-3b6e-4b88-86b6-0143e65f7409/templateItemOf"
+                },
+                "thumbnail" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/830535c4-3b6e-4b88-86b6-0143e65f7409/thumbnail"
+                },
+                "self" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/830535c4-3b6e-4b88-86b6-0143e65f7409"
+                }
+              }
+            }
+          }
+        }, {
+          "hitHighlights" : null,
+          "type" : "discover",
+          "_links" : {
+            "indexableObject" : {
+              "href" : "https://elibrary.sansad.in/server/api/core/items/68fc420f-ea66-40e5-89d1-93574abe620b"
+            }
+          },
+          "_embedded" : {
+            "indexableObject" : {
+              "id" : "68fc420f-ea66-40e5-89d1-93574abe620b",
+              "uuid" : "68fc420f-ea66-40e5-89d1-93574abe620b",
+              "name" : "Secretary   General laid the Bills passed by the Houses of Parliament during the 5th   session of 17th Lok Sabha and assented to by the President.",
+              "handle" : "123456789/376391",
+              "metadata" : {
+                "dc.contributor.members" : [ {
+                  "value" : "Secretary-General",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.date.accessioned" : [ {
+                  "value" : "2025-01-29T15:01:50Z",
+                  "language" : null,
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.date.available" : [ {
+                  "value" : "2025-01-29T15:01:50Z",
+                  "language" : null,
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.date.issued" : [ {
+                  "value" : "2021-07-20",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.identifier.loksabhanumber" : [ {
+                  "value" : "17",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.identifier.sessionnumber" : [ {
+                  "value" : "VI",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.identifier.uri" : [ {
+                  "value" : "https://elibrary.sansad.in/handle/123456789/376391",
+                  "language" : null,
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.language.iso" : [ {
+                  "value" : "Original",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.title" : [ {
+                  "value" : "Secretary   General laid the Bills passed by the Houses of Parliament during the 5th   session of 17th Lok Sabha and assented to by the President.",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.type" : [ {
+                  "value" : "Part 2(Other than Questions And Answers)",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.type.debate" : [ {
+                  "value" : "ASSENT TO BILLS",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "keyword_count" : [ {
+                  "value" : "1",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ]
+              },
+              "inArchive" : true,
+              "discoverable" : true,
+              "withdrawn" : false,
+              "lastModified" : "2025-04-02T11:43:48.655+00:00",
+              "entityType" : null,
+              "type" : "item",
+              "_links" : {
+                "accessStatus" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/68fc420f-ea66-40e5-89d1-93574abe620b/accessStatus"
+                },
+                "bundles" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/68fc420f-ea66-40e5-89d1-93574abe620b/bundles"
+                },
+                "mappedCollections" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/68fc420f-ea66-40e5-89d1-93574abe620b/mappedCollections"
+                },
+                "owningCollection" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/68fc420f-ea66-40e5-89d1-93574abe620b/owningCollection"
+                },
+                "relationships" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/68fc420f-ea66-40e5-89d1-93574abe620b/relationships"
+                },
+                "version" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/68fc420f-ea66-40e5-89d1-93574abe620b/version"
+                },
+                "templateItemOf" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/68fc420f-ea66-40e5-89d1-93574abe620b/templateItemOf"
+                },
+                "thumbnail" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/68fc420f-ea66-40e5-89d1-93574abe620b/thumbnail"
+                },
+                "self" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/68fc420f-ea66-40e5-89d1-93574abe620b"
+                }
+              }
+            }
+          }
+        }, {
+          "hitHighlights" : {
+            "dc.title" : [ "Discussion on the motion for consideration of the Statutory Resolution regarding Disapproval of Arbitration and Conciliation (Amendment) Ordinance, 2015 (No. 9 of 2015) and <em>Arbitration</em> and <em>Conciliation</em> (<em>Amendment</em>) <em>Bill</em>, 2015 (Discussion not concluded)." ]
+          },
+          "type" : "discover",
+          "_links" : {
+            "indexableObject" : {
+              "href" : "https://elibrary.sansad.in/server/api/core/items/67076016-fcc0-400e-93d5-9bbbb8e87cba"
+            }
+          },
+          "_embedded" : {
+            "indexableObject" : {
+              "id" : "67076016-fcc0-400e-93d5-9bbbb8e87cba",
+              "uuid" : "67076016-fcc0-400e-93d5-9bbbb8e87cba",
+              "name" : "Discussion on the motion for consideration of the Statutory Resolution regarding Disapproval of Arbitration and Conciliation (Amendment) Ordinance, 2015 (No. 9 of 2015) and Arbitration and Conciliation (Amendment) Bill, 2015 (Discussion not concluded).",
+              "handle" : "123456789/336356",
+              "metadata" : {
+                "dc.contributor.members" : [ {
+                  "value" : "D.V. Sadananda Gowda",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                }, {
+                  "value" : "N. K. Premachandran",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 1
+                } ],
+                "dc.date.accessioned" : [ {
+                  "value" : "2025-01-29T07:11:49Z",
+                  "language" : null,
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.date.available" : [ {
+                  "value" : "2025-01-29T07:11:49Z",
+                  "language" : null,
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.date.issued" : [ {
+                  "value" : "2015-12-16",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.identifier.keyword" : [ {
+                  "value" : "Arbitration",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                }, {
+                  "value" : "Bilateral Agreements",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 1
+                }, {
+                  "value" : "Dispute Settlement",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 2
+                }, {
+                  "value" : "Investments",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 3
+                }, {
+                  "value" : "Judicial System",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 4
+                }, {
+                  "value" : "Law Commission",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 5
+                }, {
+                  "value" : "Pending Cases",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 6
+                } ],
+                "dc.identifier.loksabhanumber" : [ {
+                  "value" : "16",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.identifier.sessionnumber" : [ {
+                  "value" : "VI",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.identifier.uri" : [ {
+                  "value" : "https://elibrary.sansad.in/handle/123456789/336356",
+                  "language" : null,
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.title" : [ {
+                  "value" : "Discussion on the motion for consideration of the Statutory Resolution regarding Disapproval of Arbitration and Conciliation (Amendment) Ordinance, 2015 (No. 9 of 2015) and Arbitration and Conciliation (Amendment) Bill, 2015 (Discussion not concluded).",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.type" : [ {
+                  "value" : "Part 2(Other than Questions And Answers)",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.type.debate" : [ {
+                  "value" : "STATUTORY RESOLUTION AND GOVERNMENT BILL",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "keyword_count" : [ {
+                  "value" : "1",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ]
+              },
+              "inArchive" : true,
+              "discoverable" : true,
+              "withdrawn" : false,
+              "lastModified" : "2025-04-01T10:22:13.972+00:00",
+              "entityType" : null,
+              "type" : "item",
+              "_links" : {
+                "accessStatus" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/67076016-fcc0-400e-93d5-9bbbb8e87cba/accessStatus"
+                },
+                "bundles" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/67076016-fcc0-400e-93d5-9bbbb8e87cba/bundles"
+                },
+                "mappedCollections" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/67076016-fcc0-400e-93d5-9bbbb8e87cba/mappedCollections"
+                },
+                "owningCollection" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/67076016-fcc0-400e-93d5-9bbbb8e87cba/owningCollection"
+                },
+                "relationships" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/67076016-fcc0-400e-93d5-9bbbb8e87cba/relationships"
+                },
+                "version" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/67076016-fcc0-400e-93d5-9bbbb8e87cba/version"
+                },
+                "templateItemOf" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/67076016-fcc0-400e-93d5-9bbbb8e87cba/templateItemOf"
+                },
+                "thumbnail" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/67076016-fcc0-400e-93d5-9bbbb8e87cba/thumbnail"
+                },
+                "self" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/67076016-fcc0-400e-93d5-9bbbb8e87cba"
+                }
+              }
+            }
+          }
+        }, {
+          "hitHighlights" : {
+            "dc.title" : [ "Combined discussion on Statutory Resolution regarding Disapproval of the   Arbitration and Conciliation (Amendment) Ordinance, 2020 and <em>Arbitration</em> and <em>Conciliation</em>  (<em>Amendment</em>) <em>Bill</em>, 2021 (Statutory resolution negatived and bill passed)." ]
+          },
+          "type" : "discover",
+          "_links" : {
+            "indexableObject" : {
+              "href" : "https://elibrary.sansad.in/server/api/core/items/542d7ed7-5545-47b2-b0f0-e9e315c4eb67"
+            }
+          },
+          "_embedded" : {
+            "indexableObject" : {
+              "id" : "542d7ed7-5545-47b2-b0f0-e9e315c4eb67",
+              "uuid" : "542d7ed7-5545-47b2-b0f0-e9e315c4eb67",
+              "name" : "Combined discussion on Statutory Resolution regarding Disapproval of the   Arbitration and Conciliation (Amendment) Ordinance, 2020 and Arbitration and Conciliation  (Amendment) Bill, 2021 (Statutory resolution negatived and bill passed).",
+              "handle" : "123456789/377058",
+              "metadata" : {
+                "dc.contributor.members" : [ {
+                  "value" : "Adhir Ranjan Chowdhury",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                }, {
+                  "value" : "Alok Kumar Suman",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 1
+                }, {
+                  "value" : "Dhanush M. Kumar",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 2
+                }, {
+                  "value" : "Gopal Chinayya Shetty",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 3
+                }, {
+                  "value" : "Hasnain Masoodi",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 4
+                }, {
+                  "value" : "Jayadev Galla",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 5
+                }, {
+                  "value" : "Sri Krishna Devarayalu Lavu",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 6
+                }, {
+                  "value" : "N. K. Premachandran",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 7
+                }, {
+                  "value" : "Nama Nageswara Rao",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 8
+                }, {
+                  "value" : "Pinaki Misra",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 9
+                }, {
+                  "value" : "Ravi Shankar Prasad",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 10
+                }, {
+                  "value" : "Ritesh Pandey",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 11
+                }, {
+                  "value" : "S.R. Parthiban",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 12
+                }, {
+                  "value" : "Saugata Roy",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 13
+                }, {
+                  "value" : "Subhash Chandra Baheria",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 14
+                }, {
+                  "value" : "Supriya Sule",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 15
+                }, {
+                  "value" : "Suresh Kodikunnil",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 16
+                } ],
+                "dc.date.accessioned" : [ {
+                  "value" : "2025-01-29T15:09:19Z",
+                  "language" : null,
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.date.available" : [ {
+                  "value" : "2025-01-29T15:09:19Z",
+                  "language" : null,
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.date.issued" : [ {
+                  "value" : "2021-02-12",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.identifier.keyword" : [ {
+                  "value" : "Arbitration Agreement",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                }, {
+                  "value" : "Contracts",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 1
+                }, {
+                  "value" : "Courts",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 2
+                }, {
+                  "value" : "Dispute Settlement",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 3
+                } ],
+                "dc.identifier.loksabhanumber" : [ {
+                  "value" : "17",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.identifier.sessionnumber" : [ {
+                  "value" : "V",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.identifier.uri" : [ {
+                  "value" : "https://elibrary.sansad.in/handle/123456789/377058",
+                  "language" : null,
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.language.iso" : [ {
+                  "value" : "Original",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.title" : [ {
+                  "value" : "Combined discussion on Statutory Resolution regarding Disapproval of the   Arbitration and Conciliation (Amendment) Ordinance, 2020 and Arbitration and Conciliation  (Amendment) Bill, 2021 (Statutory resolution negatived and bill passed).",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.type" : [ {
+                  "value" : "Part 2(Other than Questions And Answers)",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.type.debate" : [ {
+                  "value" : "STATUTORY RESOLUTION AND GOVERNMENT BILL",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "keyword_count" : [ {
+                  "value" : "1",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ]
+              },
+              "inArchive" : true,
+              "discoverable" : true,
+              "withdrawn" : false,
+              "lastModified" : "2025-04-01T06:22:32.704+00:00",
+              "entityType" : null,
+              "type" : "item",
+              "_links" : {
+                "accessStatus" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/542d7ed7-5545-47b2-b0f0-e9e315c4eb67/accessStatus"
+                },
+                "bundles" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/542d7ed7-5545-47b2-b0f0-e9e315c4eb67/bundles"
+                },
+                "mappedCollections" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/542d7ed7-5545-47b2-b0f0-e9e315c4eb67/mappedCollections"
+                },
+                "owningCollection" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/542d7ed7-5545-47b2-b0f0-e9e315c4eb67/owningCollection"
+                },
+                "relationships" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/542d7ed7-5545-47b2-b0f0-e9e315c4eb67/relationships"
+                },
+                "version" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/542d7ed7-5545-47b2-b0f0-e9e315c4eb67/version"
+                },
+                "templateItemOf" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/542d7ed7-5545-47b2-b0f0-e9e315c4eb67/templateItemOf"
+                },
+                "thumbnail" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/542d7ed7-5545-47b2-b0f0-e9e315c4eb67/thumbnail"
+                },
+                "self" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/542d7ed7-5545-47b2-b0f0-e9e315c4eb67"
+                }
+              }
+            }
+          }
+        }, {
+          "hitHighlights" : null,
+          "type" : "discover",
+          "_links" : {
+            "indexableObject" : {
+              "href" : "https://elibrary.sansad.in/server/api/core/items/4820c8d9-1a64-4fb7-86d0-7d01be13d2ee"
+            }
+          },
+          "_embedded" : {
+            "indexableObject" : {
+              "id" : "4820c8d9-1a64-4fb7-86d0-7d01be13d2ee",
+              "uuid" : "4820c8d9-1a64-4fb7-86d0-7d01be13d2ee",
+              "name" : "Further discussion on the motion for consideration of the Commercial Courts, Commercial Division and Commercial Appellate Division of High Courts Bill, 2015 (Discussion Concluded and Bill Passed).",
+              "handle" : "123456789/449467",
+              "metadata" : {
+                "dc.contributor.members" : [ {
+                  "value" : "Kirti (JHA) Azad",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                }, {
+                  "value" : "Vinod Kumar Boianapalli",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 1
+                }, {
+                  "value" : "P.P. Chaudhary",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 2
+                }, {
+                  "value" : "Dushyant Chautala",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 3
+                }, {
+                  "value" : "Arpita Ghosh",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 4
+                }, {
+                  "value" : "Sher Singh Ghubaya",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 5
+                }, {
+                  "value" : "D.V. Sadananda Gowda",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 6
+                }, {
+                  "value" : "Arun Kumar",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 7
+                }, {
+                  "value" : "Santosh Kumar",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 8
+                }, {
+                  "value" : "Daddan Mishra",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 9
+                }, {
+                  "value" : "Ravindra Babu Pandula",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 10
+                }, {
+                  "value" : "N. K. Premachandran",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 11
+                }, {
+                  "value" : "M. B. Rajesh",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 12
+                }, {
+                  "value" : "Rajesh Ranjan (Pappu Yadav)",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 13
+                }, {
+                  "value" : "Vinayak Bhaurao Raut",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 14
+                }, {
+                  "value" : "Tathagata Satpathy",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 15
+                }, {
+                  "value" : "Balasubramaniam Senguttuvan",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 16
+                }, {
+                  "value" : "Vara Prasadarao Velagapalli",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 17
+                } ],
+                "dc.date.accessioned" : [ {
+                  "value" : "2025-01-30T03:37:03Z",
+                  "language" : null,
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.date.available" : [ {
+                  "value" : "2025-01-30T03:37:03Z",
+                  "language" : null,
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.date.issued" : [ {
+                  "value" : "2015-12-16",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.identifier.keyword" : [ {
+                  "value" : "Appointment",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                }, {
+                  "value" : "Civil Procedure Code",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 1
+                }, {
+                  "value" : "Commercial Court",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 2
+                }, {
+                  "value" : "Commercial Issues",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 3
+                }, {
+                  "value" : "Commercial Law",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 4
+                }, {
+                  "value" : "Foreign Direct Investment (FDI)",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 5
+                }, {
+                  "value" : "Foreign Investments",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 6
+                }, {
+                  "value" : "Fundamental Rights",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 7
+                }, {
+                  "value" : "High Courts",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 8
+                }, {
+                  "value" : "Indian Judicial Service",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 9
+                }, {
+                  "value" : "Infrastructure Facilities",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 10
+                }, {
+                  "value" : "Investments",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 11
+                }, {
+                  "value" : "Judicial Delay",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 12
+                }, {
+                  "value" : "Judicial Reforms",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 13
+                }, {
+                  "value" : "Judicial System",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 14
+                }, {
+                  "value" : "Legal Reforms",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 15
+                }, {
+                  "value" : "Pending Cases",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 16
+                }, {
+                  "value" : "Quality Education",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 17
+                }, {
+                  "value" : "Trade and Commerce",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 18
+                } ],
+                "dc.identifier.loksabhanumber" : [ {
+                  "value" : "16",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.identifier.sessionnumber" : [ {
+                  "value" : "VI",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.identifier.uri" : [ {
+                  "value" : "https://elibrary.sansad.in/handle/123456789/449467",
+                  "language" : null,
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.title" : [ {
+                  "value" : "Further discussion on the motion for consideration of the Commercial Courts, Commercial Division and Commercial Appellate Division of High Courts Bill, 2015 (Discussion Concluded and Bill Passed).",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.type" : [ {
+                  "value" : "Part 2(Other than Questions And Answers)",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "dc.type.debate" : [ {
+                  "value" : "GOVERNMENT BILLS",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ],
+                "keyword_count" : [ {
+                  "value" : "1",
+                  "language" : "",
+                  "authority" : null,
+                  "confidence" : -1,
+                  "place" : 0
+                } ]
+              },
+              "inArchive" : true,
+              "discoverable" : true,
+              "withdrawn" : false,
+              "lastModified" : "2025-04-01T11:55:00.734+00:00",
+              "entityType" : null,
+              "type" : "item",
+              "_links" : {
+                "accessStatus" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/4820c8d9-1a64-4fb7-86d0-7d01be13d2ee/accessStatus"
+                },
+                "bundles" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/4820c8d9-1a64-4fb7-86d0-7d01be13d2ee/bundles"
+                },
+                "mappedCollections" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/4820c8d9-1a64-4fb7-86d0-7d01be13d2ee/mappedCollections"
+                },
+                "owningCollection" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/4820c8d9-1a64-4fb7-86d0-7d01be13d2ee/owningCollection"
+                },
+                "relationships" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/4820c8d9-1a64-4fb7-86d0-7d01be13d2ee/relationships"
+                },
+                "version" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/4820c8d9-1a64-4fb7-86d0-7d01be13d2ee/version"
+                },
+                "templateItemOf" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/4820c8d9-1a64-4fb7-86d0-7d01be13d2ee/templateItemOf"
+                },
+                "thumbnail" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/4820c8d9-1a64-4fb7-86d0-7d01be13d2ee/thumbnail"
+                },
+                "self" : {
+                  "href" : "https://elibrary.sansad.in/server/api/core/items/4820c8d9-1a64-4fb7-86d0-7d01be13d2ee"
+                }
+              }
+            }
+          }
+        } ]
+      },
+      "page" : {
+        "number" : 0,
+        "size" : 10,
+        "totalPages" : 3,
+        "totalElements" : 29
+      },
+      "_links" : {
+        "next" : {
+          "href" : "https://elibrary.sansad.in/server/api/discover/search/objects?query=%2522Arbitration%2520and%2520Conciliation%2520%2528Amendment%2529%2520Bill%2522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&page=1&size=10"
+        },
+        "last" : {
+          "href" : "https://elibrary.sansad.in/server/api/discover/search/objects?query=%2522Arbitration%2520and%2520Conciliation%2520%2528Amendment%2529%2520Bill%2522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&page=2&size=10"
+        },
+        "self" : {
+          "href" : "https://elibrary.sansad.in/server/api/discover/search/objects?query=%2522Arbitration%2520and%2520Conciliation%2520%2528Amendment%2529%2520Bill%2522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&size=10"
+        }
+      }
+    },
+    "facets" : [ {
+      "name" : "category",
+      "facetType" : "text",
+      "facetLimit" : 5,
+      "page" : {
+        "number" : 0,
+        "size" : 5
+      },
+      "_links" : {
+        "self" : {
+          "href" : "https://elibrary.sansad.in/server/api/discover/facets/category?query=%2522Arbitration%2520and%2520Conciliation%2520%2528Amendment%2529%2520Bill%2522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&size=5"
+        }
+      },
+      "_embedded" : {
+        "values" : [ {
+          "label" : "Part 2(Other than Questions And Answers)",
+          "count" : 29,
+          "authorityKey" : null,
+          "type" : "discover",
+          "_links" : {
+            "search" : {
+              "href" : "https://elibrary.sansad.in/server/api/discover/search/objects?query=%252522Arbitration%252520and%252520Conciliation%252520%252528Amendment%252529%252520Bill%252522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&f.category=Part%202(Other%20than%20Questions%20And%20Answers),equals"
+            }
+          }
+        } ]
+      }
+    }, {
+      "name" : "collection",
+      "facetType" : "text",
+      "facetLimit" : 5,
+      "_links" : {
+        "self" : {
+          "href" : "https://elibrary.sansad.in/server/api/discover/facets/collection?query=%2522Arbitration%2520and%2520Conciliation%2520%2528Amendment%2529%2520Bill%2522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c"
+        }
+      },
+      "_embedded" : {
+        "values" : [ ]
+      }
+    }, {
+      "name" : "commitee",
+      "facetType" : "text",
+      "facetLimit" : 5,
+      "_links" : {
+        "self" : {
+          "href" : "https://elibrary.sansad.in/server/api/discover/facets/commitee?query=%2522Arbitration%2520and%2520Conciliation%2520%2528Amendment%2529%2520Bill%2522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c"
+        }
+      },
+      "_embedded" : {
+        "values" : [ ]
+      }
+    }, {
+      "name" : "loksabhanumber",
+      "facetType" : "text",
+      "facetLimit" : 5,
+      "page" : {
+        "number" : 0,
+        "size" : 5
+      },
+      "_links" : {
+        "self" : {
+          "href" : "https://elibrary.sansad.in/server/api/discover/facets/loksabhanumber?query=%2522Arbitration%2520and%2520Conciliation%2520%2528Amendment%2529%2520Bill%2522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&size=5"
+        }
+      },
+      "_embedded" : {
+        "values" : [ {
+          "label" : "17",
+          "count" : 14,
+          "authorityKey" : null,
+          "type" : "discover",
+          "_links" : {
+            "search" : {
+              "href" : "https://elibrary.sansad.in/server/api/discover/search/objects?query=%252522Arbitration%252520and%252520Conciliation%252520%252528Amendment%252529%252520Bill%252522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&f.loksabhanumber=17,equals"
+            }
+          }
+        }, {
+          "label" : "16",
+          "count" : 13,
+          "authorityKey" : null,
+          "type" : "discover",
+          "_links" : {
+            "search" : {
+              "href" : "https://elibrary.sansad.in/server/api/discover/search/objects?query=%252522Arbitration%252520and%252520Conciliation%252520%252528Amendment%252529%252520Bill%252522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&f.loksabhanumber=16,equals"
+            }
+          }
+        }, {
+          "label" : "14",
+          "count" : 2,
+          "authorityKey" : null,
+          "type" : "discover",
+          "_links" : {
+            "search" : {
+              "href" : "https://elibrary.sansad.in/server/api/discover/search/objects?query=%252522Arbitration%252520and%252520Conciliation%252520%252528Amendment%252529%252520Bill%252522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&f.loksabhanumber=14,equals"
+            }
+          }
+        } ]
+      }
+    }, {
+      "name" : "sessionnumber",
+      "facetType" : "text",
+      "facetLimit" : 5,
+      "page" : {
+        "number" : 0,
+        "size" : 5
+      },
+      "_links" : {
+        "next" : {
+          "href" : "https://elibrary.sansad.in/server/api/discover/facets/sessionnumber?query=%2522Arbitration%2520and%2520Conciliation%2520%2528Amendment%2529%2520Bill%2522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&page=1&size=5"
+        },
+        "self" : {
+          "href" : "https://elibrary.sansad.in/server/api/discover/facets/sessionnumber?query=%2522Arbitration%2520and%2520Conciliation%2520%2528Amendment%2529%2520Bill%2522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&size=5"
+        }
+      },
+      "_embedded" : {
+        "values" : [ {
+          "label" : "V",
+          "count" : 7,
+          "authorityKey" : null,
+          "type" : "discover",
+          "_links" : {
+            "search" : {
+              "href" : "https://elibrary.sansad.in/server/api/discover/search/objects?query=%252522Arbitration%252520and%252520Conciliation%252520%252528Amendment%252529%252520Bill%252522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&f.sessionnumber=V,equals"
+            }
+          }
+        }, {
+          "label" : "VI",
+          "count" : 7,
+          "authorityKey" : null,
+          "type" : "discover",
+          "_links" : {
+            "search" : {
+              "href" : "https://elibrary.sansad.in/server/api/discover/search/objects?query=%252522Arbitration%252520and%252520Conciliation%252520%252528Amendment%252529%252520Bill%252522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&f.sessionnumber=VI,equals"
+            }
+          }
+        }, {
+          "label" : "I",
+          "count" : 6,
+          "authorityKey" : null,
+          "type" : "discover",
+          "_links" : {
+            "search" : {
+              "href" : "https://elibrary.sansad.in/server/api/discover/search/objects?query=%252522Arbitration%252520and%252520Conciliation%252520%252528Amendment%252529%252520Bill%252522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&f.sessionnumber=I,equals"
+            }
+          }
+        }, {
+          "label" : "II",
+          "count" : 1,
+          "authorityKey" : null,
+          "type" : "discover",
+          "_links" : {
+            "search" : {
+              "href" : "https://elibrary.sansad.in/server/api/discover/search/objects?query=%252522Arbitration%252520and%252520Conciliation%252520%252528Amendment%252529%252520Bill%252522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&f.sessionnumber=II,equals"
+            }
+          }
+        }, {
+          "label" : "VII",
+          "count" : 1,
+          "authorityKey" : null,
+          "type" : "discover",
+          "_links" : {
+            "search" : {
+              "href" : "https://elibrary.sansad.in/server/api/discover/search/objects?query=%252522Arbitration%252520and%252520Conciliation%252520%252528Amendment%252529%252520Bill%252522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&f.sessionnumber=VII,equals"
+            }
+          }
+        } ]
+      }
+    }, {
+      "name" : "dateIssued",
+      "facetType" : "date",
+      "facetLimit" : 5,
+      "minValue" : "01-Apr-1955",
+      "maxValue" : "XX-2009",
+      "page" : {
+        "number" : 0,
+        "size" : 5
+      },
+      "_links" : {
+        "self" : {
+          "href" : "https://elibrary.sansad.in/server/api/discover/facets/dateIssued?query=%2522Arbitration%2520and%2520Conciliation%2520%2528Amendment%2529%2520Bill%2522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&size=5"
+        }
+      },
+      "_embedded" : {
+        "values" : [ {
+          "label" : "2000 - 2019",
+          "count" : 22,
+          "authorityKey" : null,
+          "type" : "discover",
+          "_links" : {
+            "search" : {
+              "href" : "https://elibrary.sansad.in/server/api/discover/search/objects?query=%252522Arbitration%252520and%252520Conciliation%252520%252528Amendment%252529%252520Bill%252522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&f.dateIssued=%5B2000%20TO%202019%5D,equals"
+            }
+          }
+        }, {
+          "label" : "2020 - 2026",
+          "count" : 7,
+          "authorityKey" : null,
+          "type" : "discover",
+          "_links" : {
+            "search" : {
+              "href" : "https://elibrary.sansad.in/server/api/discover/search/objects?query=%252522Arbitration%252520and%252520Conciliation%252520%252528Amendment%252529%252520Bill%252522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&f.dateIssued=%5B2020%20TO%202026%5D,equals"
+            }
+          }
+        } ]
+      }
+    }, {
+      "name" : "debateType",
+      "facetType" : "text",
+      "facetLimit" : 5,
+      "page" : {
+        "number" : 0,
+        "size" : 5
+      },
+      "_links" : {
+        "next" : {
+          "href" : "https://elibrary.sansad.in/server/api/discover/facets/debateType?query=%2522Arbitration%2520and%2520Conciliation%2520%2528Amendment%2529%2520Bill%2522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&page=1&size=5"
+        },
+        "self" : {
+          "href" : "https://elibrary.sansad.in/server/api/discover/facets/debateType?query=%2522Arbitration%2520and%2520Conciliation%2520%2528Amendment%2529%2520Bill%2522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&size=5"
+        }
+      },
+      "_embedded" : {
+        "values" : [ {
+          "label" : "GOVERNMENT BILLS",
+          "count" : 7,
+          "authorityKey" : null,
+          "type" : "discover",
+          "_links" : {
+            "search" : {
+              "href" : "https://elibrary.sansad.in/server/api/discover/search/objects?query=%252522Arbitration%252520and%252520Conciliation%252520%252528Amendment%252529%252520Bill%252522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&f.debateType=GOVERNMENT%20BILLS,equals"
+            }
+          }
+        }, {
+          "label" : "ASSENT TO BILLS",
+          "count" : 3,
+          "authorityKey" : null,
+          "type" : "discover",
+          "_links" : {
+            "search" : {
+              "href" : "https://elibrary.sansad.in/server/api/discover/search/objects?query=%252522Arbitration%252520and%252520Conciliation%252520%252528Amendment%252529%252520Bill%252522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&f.debateType=ASSENT%20TO%20BILLS,equals"
+            }
+          }
+        }, {
+          "label" : "BUSINESS OF HOUSE",
+          "count" : 3,
+          "authorityKey" : null,
+          "type" : "discover",
+          "_links" : {
+            "search" : {
+              "href" : "https://elibrary.sansad.in/server/api/discover/search/objects?query=%252522Arbitration%252520and%252520Conciliation%252520%252528Amendment%252529%252520Bill%252522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&f.debateType=BUSINESS%20OF%20HOUSE,equals"
+            }
+          }
+        }, {
+          "label" : "MESSAGES FROM RAJYA SABHA",
+          "count" : 3,
+          "authorityKey" : null,
+          "type" : "discover",
+          "_links" : {
+            "search" : {
+              "href" : "https://elibrary.sansad.in/server/api/discover/search/objects?query=%252522Arbitration%252520and%252520Conciliation%252520%252528Amendment%252529%252520Bill%252522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&f.debateType=MESSAGES%20FROM%20RAJYA%20SABHA,equals"
+            }
+          }
+        }, {
+          "label" : "STATEMENT BY MINISTER",
+          "count" : 3,
+          "authorityKey" : null,
+          "type" : "discover",
+          "_links" : {
+            "search" : {
+              "href" : "https://elibrary.sansad.in/server/api/discover/search/objects?query=%252522Arbitration%252520and%252520Conciliation%252520%252528Amendment%252529%252520Bill%252522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&f.debateType=STATEMENT%20BY%20MINISTER,equals"
+            }
+          }
+        } ]
+      }
+    }, {
+      "name" : "members",
+      "facetType" : "text",
+      "facetLimit" : 5,
+      "page" : {
+        "number" : 0,
+        "size" : 5
+      },
+      "_links" : {
+        "next" : {
+          "href" : "https://elibrary.sansad.in/server/api/discover/facets/members?query=%2522Arbitration%2520and%2520Conciliation%2520%2528Amendment%2529%2520Bill%2522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&page=1&size=5"
+        },
+        "self" : {
+          "href" : "https://elibrary.sansad.in/server/api/discover/facets/members?query=%2522Arbitration%2520and%2520Conciliation%2520%2528Amendment%2529%2520Bill%2522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&size=5"
+        }
+      },
+      "_embedded" : {
+        "values" : [ {
+          "label" : "N. K. Premachandran",
+          "count" : 7,
+          "authorityKey" : null,
+          "type" : "discover",
+          "_links" : {
+            "search" : {
+              "href" : "https://elibrary.sansad.in/server/api/discover/search/objects?query=%252522Arbitration%252520and%252520Conciliation%252520%252528Amendment%252529%252520Bill%252522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&f.members=N.%20K.%20Premachandran,equals"
+            }
+          }
+        }, {
+          "label" : "Arjun Ram Meghwal",
+          "count" : 5,
+          "authorityKey" : null,
+          "type" : "discover",
+          "_links" : {
+            "search" : {
+              "href" : "https://elibrary.sansad.in/server/api/discover/search/objects?query=%252522Arbitration%252520and%252520Conciliation%252520%252528Amendment%252529%252520Bill%252522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&f.members=Arjun%20Ram%20Meghwal,equals"
+            }
+          }
+        }, {
+          "label" : "P.P. Chaudhary",
+          "count" : 5,
+          "authorityKey" : null,
+          "type" : "discover",
+          "_links" : {
+            "search" : {
+              "href" : "https://elibrary.sansad.in/server/api/discover/search/objects?query=%252522Arbitration%252520and%252520Conciliation%252520%252528Amendment%252529%252520Bill%252522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&f.members=P.P.%20Chaudhary,equals"
+            }
+          }
+        }, {
+          "label" : "Ravi Shankar Prasad",
+          "count" : 5,
+          "authorityKey" : null,
+          "type" : "discover",
+          "_links" : {
+            "search" : {
+              "href" : "https://elibrary.sansad.in/server/api/discover/search/objects?query=%252522Arbitration%252520and%252520Conciliation%252520%252528Amendment%252529%252520Bill%252522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&f.members=Ravi%20Shankar%20Prasad,equals"
+            }
+          }
+        }, {
+          "label" : "Secretary-General",
+          "count" : 5,
+          "authorityKey" : null,
+          "type" : "discover",
+          "_links" : {
+            "search" : {
+              "href" : "https://elibrary.sansad.in/server/api/discover/search/objects?query=%252522Arbitration%252520and%252520Conciliation%252520%252528Amendment%252529%252520Bill%252522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&f.members=Secretary-General,equals"
+            }
+          }
+        } ]
+      }
+    }, {
+      "name" : "language",
+      "facetType" : "text",
+      "facetLimit" : 5,
+      "page" : {
+        "number" : 0,
+        "size" : 5
+      },
+      "_links" : {
+        "self" : {
+          "href" : "https://elibrary.sansad.in/server/api/discover/facets/language?query=%2522Arbitration%2520and%2520Conciliation%2520%2528Amendment%2529%2520Bill%2522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&size=5"
+        }
+      },
+      "_embedded" : {
+        "values" : [ {
+          "label" : "Original",
+          "count" : 15,
+          "authorityKey" : null,
+          "type" : "discover",
+          "_links" : {
+            "search" : {
+              "href" : "https://elibrary.sansad.in/server/api/discover/search/objects?query=%252522Arbitration%252520and%252520Conciliation%252520%252528Amendment%252529%252520Bill%252522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&f.language=Original,equals"
+            }
+          }
+        } ]
+      }
+    }, {
+      "name" : "ministry",
+      "facetType" : "text",
+      "facetLimit" : 5,
+      "_links" : {
+        "self" : {
+          "href" : "https://elibrary.sansad.in/server/api/discover/facets/ministry?query=%2522Arbitration%2520and%2520Conciliation%2520%2528Amendment%2529%2520Bill%2522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c"
+        }
+      },
+      "_embedded" : {
+        "values" : [ ]
+      }
+    }, {
+      "name" : "LtYear",
+      "facetType" : "text",
+      "facetLimit" : 5,
+      "_links" : {
+        "self" : {
+          "href" : "https://elibrary.sansad.in/server/api/discover/facets/LtYear?query=%2522Arbitration%2520and%2520Conciliation%2520%2528Amendment%2529%2520Bill%2522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c"
+        }
+      },
+      "_embedded" : {
+        "values" : [ ]
+      }
+    }, {
+      "name" : "ltnumber",
+      "facetType" : "text",
+      "facetLimit" : 5,
+      "_links" : {
+        "self" : {
+          "href" : "https://elibrary.sansad.in/server/api/discover/facets/ltnumber?query=%2522Arbitration%2520and%2520Conciliation%2520%2528Amendment%2529%2520Bill%2522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c"
+        }
+      },
+      "_embedded" : {
+        "values" : [ ]
+      }
+    }, {
+      "name" : "ministryfn",
+      "facetType" : "text",
+      "facetLimit" : 5,
+      "_links" : {
+        "self" : {
+          "href" : "https://elibrary.sansad.in/server/api/discover/facets/ministryfn?query=%2522Arbitration%2520and%2520Conciliation%2520%2528Amendment%2529%2520Bill%2522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c"
+        }
+      },
+      "_embedded" : {
+        "values" : [ ]
+      }
+    }, {
+      "name" : "chairman",
+      "facetType" : "text",
+      "facetLimit" : 5,
+      "_links" : {
+        "self" : {
+          "href" : "https://elibrary.sansad.in/server/api/discover/facets/chairman?query=%2522Arbitration%2520and%2520Conciliation%2520%2528Amendment%2529%2520Bill%2522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c"
+        }
+      },
+      "_embedded" : {
+        "values" : [ ]
+      }
+    }, {
+      "name" : "subject",
+      "facetType" : "text",
+      "facetLimit" : 5,
+      "_links" : {
+        "self" : {
+          "href" : "https://elibrary.sansad.in/server/api/discover/facets/subject?query=%2522Arbitration%2520and%2520Conciliation%2520%2528Amendment%2529%2520Bill%2522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c"
+        }
+      },
+      "_embedded" : {
+        "values" : [ ]
+      }
+    }, {
+      "name" : "titlemade",
+      "facetType" : "text",
+      "facetLimit" : 5,
+      "page" : {
+        "number" : 0,
+        "size" : 5
+      },
+      "_links" : {
+        "next" : {
+          "href" : "https://elibrary.sansad.in/server/api/discover/facets/titlemade?query=%2522Arbitration%2520and%2520Conciliation%2520%2528Amendment%2529%2520Bill%2522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&page=1&size=5"
+        },
+        "self" : {
+          "href" : "https://elibrary.sansad.in/server/api/discover/facets/titlemade?query=%2522Arbitration%2520and%2520Conciliation%2520%2528Amendment%2529%2520Bill%2522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&size=5"
+        }
+      },
+      "_embedded" : {
+        "values" : [ {
+          "label" : "Arbitration and Conciliation (Amendment) Bill, 2022 (Amendment of section 20)",
+          "count" : 1,
+          "authorityKey" : null,
+          "type" : "discover",
+          "_links" : {
+            "search" : {
+              "href" : "https://elibrary.sansad.in/server/api/discover/search/objects?query=%252522Arbitration%252520and%252520Conciliation%252520%252528Amendment%252529%252520Bill%252522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&f.titlemade=Arbitration%20and%20Conciliation%20(Amendment)%20Bill,%202022%20(Amendment%20of%20section%2020),equals"
+            }
+          }
+        }, {
+          "label" : "Combined discussion on Statutory Resolution regarding Disapproval of the   Arbitration and Conciliation (Amendment) Ordinance, 2020 and Arbitration and Conciliation  (Amendment) Bill, 2021 (Statutory resolution negatived and bill passed).",
+          "count" : 1,
+          "authorityKey" : null,
+          "type" : "discover",
+          "_links" : {
+            "search" : {
+              "href" : "https://elibrary.sansad.in/server/api/discover/search/objects?query=%252522Arbitration%252520and%252520Conciliation%252520%252528Amendment%252529%252520Bill%252522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&f.titlemade=Combined%20discussion%20on%20Statutory%20Resolution%20regarding%20Disapproval%20of%20the%20%20%20Arbitration%20and%20Conciliation%20(Amendment)%20Ordinance,%202020%20and%20Arbitration%20and%20Conciliation%20%20(Amendment)%20Bill,%202021%20(Statutory%20resolution%20negatived%20and%20bill%20passed).,equals"
+            }
+          }
+        }, {
+          "label" : "Discussion on the motion for consideration of the Arbitration  and Conciliation (Amendment) Bill, 2018 (Discussion Concluded and Bill Passed).",
+          "count" : 1,
+          "authorityKey" : null,
+          "type" : "discover",
+          "_links" : {
+            "search" : {
+              "href" : "https://elibrary.sansad.in/server/api/discover/search/objects?query=%252522Arbitration%252520and%252520Conciliation%252520%252528Amendment%252529%252520Bill%252522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&f.titlemade=Discussion%20on%20the%20motion%20for%20consideration%20of%20the%20Arbitration%20%C2%A0and%20Conciliation%20(Amendment)%20Bill,%202018%20(Discussion%20Concluded%20and%20Bill%20Passed).,equals"
+            }
+          }
+        }, {
+          "label" : "Discussion on the motion for consideration of the Statutory Resolution regarding Disapproval of Arbitration and Conciliation (Amendment) Ordinance, 2015 (No. 9 of 2015) and Arbitration and Conciliation (Amendment) Bill, 2015 (Discussion not concluded).",
+          "count" : 1,
+          "authorityKey" : null,
+          "type" : "discover",
+          "_links" : {
+            "search" : {
+              "href" : "https://elibrary.sansad.in/server/api/discover/search/objects?query=%252522Arbitration%252520and%252520Conciliation%252520%252528Amendment%252529%252520Bill%252522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&f.titlemade=Discussion%20on%20the%20motion%20for%20consideration%20of%20the%20Statutory%20Resolution%20regarding%20Disapproval%20of%20Arbitration%20and%20Conciliation%20(Amendment)%20Ordinance,%202015%20(No.%209%20of%202015)%20and%20Arbitration%20and%20Conciliation%20(Amendment)%20Bill,%202015%20(Discussion%20not%20concluded).,equals"
+            }
+          }
+        }, {
+          "label" : "Further discussion on statutory resolution regarding Disapproval of Arbitration and Conciliation (Amendment ) Ordinance and Arbitration and Conciliation (Amendment) Bill, 2015 .",
+          "count" : 1,
+          "authorityKey" : null,
+          "type" : "discover",
+          "_links" : {
+            "search" : {
+              "href" : "https://elibrary.sansad.in/server/api/discover/search/objects?query=%252522Arbitration%252520and%252520Conciliation%252520%252528Amendment%252529%252520Bill%252522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&f.titlemade=Further%20discussion%20on%20statutory%20resolution%20regarding%20Disapproval%20of%20Arbitration%20and%20Conciliation%20(Amendment%20)%20Ordinance%20and%20Arbitration%20and%20Conciliation%20(Amendment)%20Bill,%202015%20.,equals"
+            }
+          }
+        } ]
+      }
+    }, {
+      "name" : "accessionnumber",
+      "facetType" : "text",
+      "facetLimit" : 5,
+      "_links" : {
+        "self" : {
+          "href" : "https://elibrary.sansad.in/server/api/discover/facets/accessionnumber?query=%2522Arbitration%2520and%2520Conciliation%2520%2528Amendment%2529%2520Bill%2522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c"
+        }
+      },
+      "_embedded" : {
+        "values" : [ ]
+      }
+    }, {
+      "name" : "questiontype",
+      "facetType" : "text",
+      "facetLimit" : 10,
+      "_links" : {
+        "self" : {
+          "href" : "https://elibrary.sansad.in/server/api/discover/facets/questiontype?query=%2522Arbitration%2520and%2520Conciliation%2520%2528Amendment%2529%2520Bill%2522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c"
+        }
+      },
+      "_embedded" : {
+        "values" : [ ]
+      }
+    }, {
+      "name" : "dateIssuedDay",
+      "facetType" : "text",
+      "facetLimit" : 10,
+      "page" : {
+        "number" : 0,
+        "size" : 10
+      },
+      "_links" : {
+        "next" : {
+          "href" : "https://elibrary.sansad.in/server/api/discover/facets/dateIssuedDay?query=%2522Arbitration%2520and%2520Conciliation%2520%2528Amendment%2529%2520Bill%2522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&page=1&size=10"
+        },
+        "self" : {
+          "href" : "https://elibrary.sansad.in/server/api/discover/facets/dateIssuedDay?query=%2522Arbitration%2520and%2520Conciliation%2520%2528Amendment%2529%2520Bill%2522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&size=10"
+        }
+      },
+      "_embedded" : {
+        "values" : [ {
+          "label" : "2018-08-10",
+          "count" : 3,
+          "authorityKey" : null,
+          "type" : "discover",
+          "_links" : {
+            "search" : {
+              "href" : "https://elibrary.sansad.in/server/api/discover/search/objects?query=%252522Arbitration%252520and%252520Conciliation%252520%252528Amendment%252529%252520Bill%252522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&f.dateIssuedDay=2018-08-10,equals"
+            }
+          }
+        }, {
+          "label" : "2005-08-04",
+          "count" : 2,
+          "authorityKey" : null,
+          "type" : "discover",
+          "_links" : {
+            "search" : {
+              "href" : "https://elibrary.sansad.in/server/api/discover/search/objects?query=%252522Arbitration%252520and%252520Conciliation%252520%252528Amendment%252529%252520Bill%252522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&f.dateIssuedDay=2005-08-04,equals"
+            }
+          }
+        }, {
+          "label" : "2015-12-16",
+          "count" : 2,
+          "authorityKey" : null,
+          "type" : "discover",
+          "_links" : {
+            "search" : {
+              "href" : "https://elibrary.sansad.in/server/api/discover/search/objects?query=%252522Arbitration%252520and%252520Conciliation%252520%252528Amendment%252529%252520Bill%252522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&f.dateIssuedDay=2015-12-16,equals"
+            }
+          }
+        }, {
+          "label" : "2015-12-17",
+          "count" : 2,
+          "authorityKey" : null,
+          "type" : "discover",
+          "_links" : {
+            "search" : {
+              "href" : "https://elibrary.sansad.in/server/api/discover/search/objects?query=%252522Arbitration%252520and%252520Conciliation%252520%252528Amendment%252529%252520Bill%252522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&f.dateIssuedDay=2015-12-17,equals"
+            }
+          }
+        }, {
+          "label" : "2019-08-01",
+          "count" : 2,
+          "authorityKey" : null,
+          "type" : "discover",
+          "_links" : {
+            "search" : {
+              "href" : "https://elibrary.sansad.in/server/api/discover/search/objects?query=%252522Arbitration%252520and%252520Conciliation%252520%252528Amendment%252529%252520Bill%252522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&f.dateIssuedDay=2019-08-01,equals"
+            }
+          }
+        }, {
+          "label" : "2015-12-03",
+          "count" : 1,
+          "authorityKey" : null,
+          "type" : "discover",
+          "_links" : {
+            "search" : {
+              "href" : "https://elibrary.sansad.in/server/api/discover/search/objects?query=%252522Arbitration%252520and%252520Conciliation%252520%252528Amendment%252529%252520Bill%252522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&f.dateIssuedDay=2015-12-03,equals"
+            }
+          }
+        }, {
+          "label" : "2015-12-11",
+          "count" : 1,
+          "authorityKey" : null,
+          "type" : "discover",
+          "_links" : {
+            "search" : {
+              "href" : "https://elibrary.sansad.in/server/api/discover/search/objects?query=%252522Arbitration%252520and%252520Conciliation%252520%252528Amendment%252529%252520Bill%252522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&f.dateIssuedDay=2015-12-11,equals"
+            }
+          }
+        }, {
+          "label" : "2016-02-24",
+          "count" : 1,
+          "authorityKey" : null,
+          "type" : "discover",
+          "_links" : {
+            "search" : {
+              "href" : "https://elibrary.sansad.in/server/api/discover/search/objects?query=%252522Arbitration%252520and%252520Conciliation%252520%252528Amendment%252529%252520Bill%252522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&f.dateIssuedDay=2016-02-24,equals"
+            }
+          }
+        }, {
+          "label" : "2018-07-18",
+          "count" : 1,
+          "authorityKey" : null,
+          "type" : "discover",
+          "_links" : {
+            "search" : {
+              "href" : "https://elibrary.sansad.in/server/api/discover/search/objects?query=%252522Arbitration%252520and%252520Conciliation%252520%252528Amendment%252529%252520Bill%252522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&f.dateIssuedDay=2018-07-18,equals"
+            }
+          }
+        }, {
+          "label" : "2018-07-30",
+          "count" : 1,
+          "authorityKey" : null,
+          "type" : "discover",
+          "_links" : {
+            "search" : {
+              "href" : "https://elibrary.sansad.in/server/api/discover/search/objects?query=%252522Arbitration%252520and%252520Conciliation%252520%252528Amendment%252529%252520Bill%252522&scope=03c67f26-e547-4c6f-914d-e4b443281a8c&f.dateIssuedDay=2018-07-30,equals"
+            }
+          }
+        } ]
+      }
+    } ]
+  }
+}

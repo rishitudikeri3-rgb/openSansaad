@@ -70,8 +70,8 @@ Design principle: **deterministic code for mechanical work, agents only where ju
 |---|---|---|
 | India Code | indiacode.nic.in | Principal acts, list of amending acts, consolidated text, footnotes ("Ins. by…", "Subs. by…", "Omitted by…") |
 | e-Gazette of India | egazette.gov.in | Authoritative notified text of amending acts |
-| Parliament Digital Library | eparlib.sansad.in | Lok Sabha debates, Bulletins I & II, committee reports. Born-digital debate text from 15th Lok Sabha (~2009) onward; older material is scanned → OCR |
-| Digital Sansad | sansad.in | Session calendars, Lists of Business, Rajya Sabha material |
+| Parliament Digital Library | elibrary.sansad.in (DSpace 7; old eparlib.sansad.in unreachable) | Lok Sabha debates, Bulletins I & II, committee reports. Born-digital debate text from 15th Lok Sabha (~2009) onward; older material is scanned → OCR |
+| Digital Sansad | sansad.in (public JSON APIs) | Bills of both Houses with every stage's text (introduced / passed LS / passed both), session calendars, Lists of Business, Rajya Sabha debates (PDFs on cms.rajyasabha.nic.in) |
 | PRS Legislative Research | prsindia.org | Bill tracker metadata, 2006 onward |
 
 India Code footnotes give partial provenance for the *final* text only. They do not reconstruct intermediate versions, renumbering chains, omit-then-reinsert history, or intent. Use them as a noisy validation signal, not ground truth.
@@ -115,7 +115,7 @@ opensansad/
 │   │   ├── ratelimit.py        # Redis per-domain gate + blocks
 │   │   ├── manual.py           # hand-downloaded imports → data/manual_imports.jsonl
 │   │   ├── certs/              # bundled CA certs (e-Gazette)
-│   │   └── sources/            # base.py, prs.py, egazette.py (later: indiacode.py, eparlib.py, sansad.py)
+│   │   └── sources/            # base.py, prs.py, egazette.py, sansad.py, eparlib.py (later: indiacode.py)
 │   ├── extract/                # document.py, normalize.py, pdf.py, ocr.py, html.py, pipeline.py
 │   ├── parse/                  # clause_tree.py, amending_ops.py
 │   ├── db/                     # base.py, models.py, session.py, migrations/
@@ -208,10 +208,13 @@ Exit criteria: full stack up; act chosen and recorded; principal + all amending 
     - 3d-i — **done** (2026-10-21): `ingest/sources/base.py` (`DocRef`, `SourceAdapter`, `LayoutChanged`), `ingest/sources/prs.py` (bill-tracker page → title, ministry, status timeline, classified document links; `article` content selector). Also: cache blocks every domain in a redirect chain on a 403; RFC 3986 percent-encoding normalization of cache keys; line-end hyphens resolved against the document's own vocabulary (extractor v2)
     - 3d-ii — **done** (2026-10-21): `ingest/sources/egazette.py` — URL builders (`gazette_pdf_url(year, file_id)`, `url_for_gazette_id`), `parse_gazette` / `meta_from_extraction` (masthead → kind act/ordinance/notification/corrigendum, Gazette ID, part/section/sub-section, issue no. + date, ministry/department, title, number/year, assent date, S.O. number, dated, corrigendum target, `from_ocr` flag), `EgazetteAdapter` (`ref`, `describe`; no listing pages — `SourceAdapter.parse` now optional). Extractor v3: OCR of large text-less image regions inserted in place (page method `mixed`); letterless lines take the previous line's script
     - 3d-iii — **done** (2026-10-21): `ingest/manual.py` (`python -m opensansad.ingest.manual FILE --url … --source … --doc-type … --title … [--secondary] [--note …]`) imports via `Cache.import_local` and appends to the committed `data/manual_imports.jsonl`; `documents.authority` (primary/secondary, migration `9fa0d87b24fb`); `import_local` also refuses non-PDF/HTML. s.11A explanatory note backfilled. India Code adapter deferred (site unreachable, nothing to test against); annexure reading moved to step 4
+    - 3d-iv — **done** (2026-10-21): `ingest/sources/sansad.py` (getBills with duplicate-row merge and per-stage file links, Lists of Business by date, LS session calendar from page data, RS date-wise debates) and `ingest/sources/eparlib.py` (elibrary.sansad.in DSpace search + item files → original PDF as `debate`). sansad.in access verified with samples cached (Phase 1 exit item). Extractor v4: jittered same-row fragments joined; footnote markers need size ≤ 85% of body. Findings in `docs/recon.md` §5.6
   - 3e TODO (carried from 3c): `documents` gains `text_sha256` (from the sidecar) so DB spans can detect a re-extracted text file
   - 3e TODO (carried from 3d): re-extract when a sidecar's `extractor_version` is older than `EXTRACTOR_VERSION` (current v2 texts are stale)
   - 3e TODO (carried from 3d): Gazette metadata from `meta_from_extraction` on the extraction the task already made — not `EgazetteAdapter.describe()`, which extracts (and OCRs) again
   - 3e TODO (carried from 3b): per-URL Redis lock in fetch tasks so two workers never fetch/write the same URL concurrently (`meta.json` race); test with two concurrent tasks on one URL
+  - 3e TODO (carried from 3d-iv): refresh policy for listing/API URLs (sansad getBills, Lists of Business, sessions, elibrary search): TTL + `force`, since the cache never re-fetches by default — needed by the Phase 4 Session Monitor
+  - 3e TODO (carried from 3d-iv): when `parse_bills` merges duplicate rows of one bill, log fields whose values conflict (it currently keeps the furthest status silently)
 
 ## 12. Decisions Log
 
@@ -275,3 +278,14 @@ Exit criteria: full stack up; act chosen and recorded; principal + all amending 
 - "Scanned docs flagged" (Phase 1 exit) = `ocr_confidence IS NOT NULL` (any page OCR'd or mixed), not `is_scanned` (majority of pages): the corrigendum is `is_scanned=False` but its whole legal content is OCR
 - Manual import checks run before any bytes enter the raw store (hash first): a refused import leaves no orphan file. Bytes the cache already fetched for that URL are refused (no manual record needed)
 - Known extraction gap (3d-ii): image-region OCR thresholds (≥10% of page, <40 native chars over it) calibrated on one file; image bodies split into small tiles, or images under a real text layer, are missed. Re-check across the corpus in 3f
+- **eParlib = elibrary.sansad.in** (2026-10-21): the Digital Library moved; DSpace 7 REST API used as the site's own LS debates page does. Item TEXT bundles (server-side extraction) ignored: text comes from our extractor so spans are reproducible. `Source.EPARLIB` kept for it
+- sansad.in adapters call the public JSON APIs with exactly the query string the site sends (stable cache keys). The adapter keeps API values as given (e.g. a lagging `status`) and never infers act linkage from them (base.py rule)
+- Bill stages are distinct primary documents: as introduced, as passed by LS / RS, as passed by both Houses, errata. Differences between stages are genealogy evidence (changes during passage)
+- The 1995 Bill (as introduced, scanned) is a primary cross-check for the 1996 base text, not a substitute: the Act as passed may differ
+- RS debate PDFs are on `cms.rajyasabha.nic.in` (new domain, robots unchecked until first fetch in 3f). `DocRef.lang` gains `mixed` for the RS floor version (each member's own language)
+- Extractor v4 (2026-10-21): same-block line fragments that overlap vertically, are ≤ 1.5× text size apart and start with whitespace are one line (HTML-printed debate PDFs); table cells on one row do not start with a space and stay separate. Footnote markers require PyMuPDF's superscript flag **and** size ≤ 85% of the page's median span size (the flag alone fires on baseline jitter)
+- Known extraction gap (3d-iv): stray HTML fragment (`an>`) at the top of elibrary debate pages
+- Errata `.doc` files linked from sansad.in bills are not extractable (cached as format `other`); whether to convert or import them manually is decided in 3f
+- elibrary.sansad.in search results are noisy (a query matches unrelated discussions): which debate items belong to a bill is a manifest decision, made by matching item dates to the bill's stage dates, never by the adapter. `EparlibAdapter.search` returns `(items, total)` so a page-capped result is visibly partial
+- Extractor v4's footnote-marker rule (superscript flag + size ≤ 85% of the body median) was calibrated on PRS/e-Gazette/elibrary PDFs only; unverified on India Code PDFs — re-check if they become available
+- sansad getBills filter values are percent-encoded (titles contain `&`)
