@@ -225,3 +225,11 @@ def test_fragment_items_under_a_clause_are_siblings() -> None:
     assert [n.path for n in tree.nodes] == [
         "s34.ss2.cl(b).expl1", "s34.ss2.cl(b).expl1.sc(i)", "s34.ss2.cl(b).expl1.sc(ii)",
         "s34.ss2.cl(b).expl1.sc(iii)"]
+
+
+def test_printed_spacing_quirks() -> None:
+    # 2015 Act: "(f )" in s.31A(4), "11.The" in the Fifth Schedule
+    tree = ct.parse(ACT.replace("(f) \"court\"", "(f ) \"court\"").replace(
+        "2. Each State shall recognize.", "2.Each State shall recognize.") +
+        "THE THIRD SCHEDULE\n1. One.\n2.Two.\n")
+    assert "s2.ss1.cl(f)" in tree.by_path() and "sch3.para2" in tree.by_path()

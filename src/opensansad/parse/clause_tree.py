@@ -51,9 +51,9 @@ _SEE = re.compile(r"^\(See (.+)\)$")
 _ARTICLE_HEAD = re.compile(r"^ARTICLE ([IVX]+)$")
 _ARTICLE_INLINE = re.compile(r"^Article (\d+)\.\s*—\s*")
 _SECTION = re.compile(r"^(\d+[A-Z]*(?:-[A-Z]+)?)\.\s+")  # 29A, 43-I
-_PARAGRAPH = re.compile(r"^(\d+)\.\s+")
+_PARAGRAPH = re.compile(r"^(\d+)\.(?:\s+|(?=[A-Z]))")  # "11.The": space lost in print
 _SUB = re.compile(r"^\((\d+[A-Z]*)\)\s*")  # (2A)
-_ITEM = re.compile(r"^\(([a-z]+)\)\s*")
+_ITEM = re.compile(r"^\(([a-z]+) ?\)\s*")  # "(f )" as printed
 _PROVISO = re.compile(r"^Provided\b")
 _EXPLANATION = re.compile(r"^Explanation(?:\s+(\d+))?\.\s*—\s*")
 _EXPLAINS = re.compile(r"^(?:Without prejudice to the generality of|For the purposes? of) "
