@@ -1,10 +1,10 @@
 # Phase 1 ingestion: what the corpus holds and what it lacks
 
-Date: 2026-10-21 (end of step 3f). Act: the Arbitration and Conciliation Act, 1996 (Act 26 of 1996).
+Date: 2026-10-21 (end of step 3f); updated 2026-10-28 (step 4a). Act: the Arbitration and Conciliation Act, 1996 (Act 26 of 1996).
 
-Every document listed here is in `data/manifest.toml` (the corpus decisions), cached in the raw store, extracted by extractor v5, and stored as a `documents` row. Running `python -m opensansad.ingest.persist --offline` rebuilds the rows from the manifest and the cache, and a second run reports 57 rows unchanged.
+Every document listed here is in `data/manifest.toml` (the corpus decisions), cached in the raw store, extracted by extractor v5, and stored as a `documents` row. Running `python -m opensansad.ingest.persist --offline` rebuilds the rows from the manifest and the cache, and a second run reports 58 rows unchanged.
 
-## 1. Corpus (57 documents)
+## 1. Corpus (58 documents)
 
 | Type | Source | Count | Contents |
 |---|---|---|---|
@@ -15,7 +15,9 @@ Every document listed here is in `data/manifest.toml` (the corpus decisions), ca
 | debate | elibrary (LS), sansad.in (RS) | 21 | Lok Sabha: introductions, Ordinance explanatory statements and the passage debates for 2015, 2018, 2019 and 2021, plus the 1996 debates of 1 and 2 Aug and the 2023 introduction of the Private Member's Bill. Rajya Sabha: whole-day PDFs for 23 Dec 2015, 15 and 18 Jul 2019, 10 Mar 2021 and 22 Jul 1996. |
 | committee_report | Law Commission | 4 | Report 246 (2014, in two parts), the Supplementary to Report 246 on public policy (2015), and Report 176 (2001). |
 
-All 57 are primary. None is secondary yet; see §3.
+| principal (secondary) | WIPO Lex | 1 | Typed text of the Act (added in step 4a). A witness for checking the base-text transcription only, never cited. |
+
+57 are primary; the WIPO copy is the only secondary document.
 
 ## 2. Base text of the 1996 Act: now from a primary source
 
@@ -27,9 +29,13 @@ The 1996 Gazette files are not available on e-Gazette, and India Code is unreach
 
 So this Bill is the text passed by both Houses, which received assent on 16 Aug 1996. It is a primary base text for every provision.
 
-Caveat: both PDFs are scans with an embedded OCR text layer made by the library. That layer systematically loses a leading "1" ("9." for 19, "2." for 21, "996" for 1996) and misreads Roman numerals ("CHAPTER HI"). Our own Tesseract output has different errors. The base text therefore has to be hand-checked against the page images when the Phase 2 ground truth is built, and the step-4 parser must treat gaps in section numbering as errors to report, not as text.
+Both PDFs are scans with an embedded OCR text layer made by the library. That layer systematically loses a leading "1" ("9." for 19, "2." for 21, "996" for 1996) and misreads Roman numerals ("CHAPTER HI"), so it cannot be parsed. Step 4a replaced it with a **checked transcription**, `data/transcriptions/bill-xxx-c-1995.txt` (PDF pages 6–41: preamble, ss.1–86, three Schedules). How it was made and checked is in its `.toml` and `.notes.md`. In short:
 
-A secondary consolidated copy is now optional. It would serve as an OCR cross-check and a check of the current text, never as a cited source.
+- it was read against the page images line by line;
+- every line that no independent reading contains was re-examined (the two library layers, our cleaned-OCR drafts of both scans, the WIPO typed copy);
+- the numbering of every part, chapter, section, sub-section, clause and article was checked in sequence.
+
+It is `verified = "model"`: a human pass is still due before the Phase 2 ground truth. **s.36 is incomplete as printed** (a correction slip hides part of it), and is left as printed for a primary source to settle.
 
 ## 3. What is missing, and why
 

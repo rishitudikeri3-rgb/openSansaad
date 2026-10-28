@@ -1,0 +1,97 @@
+# Lines of bill-xxx-c-1995.txt that no witness contains, each re-read on the page image
+# (2026-10-28, verified = "model") and found right as transcribed. Almost all are lines where
+# every witness misreads a marker or number: "(1)" as "(J)", "(/)", "(7)"; "11." as "Il.";
+# "1." as "i."; Roman numerals. `check` skips these; one that no longer occurs is reported.
+
+# p11
+11. (1) A person of any nationality may be an arbitrator, unless otherwise agreed by
+# p12
+(b) Where the matter referred to in sub-sections (4), (5) (6), (7), (8), and (10) arise in any other
+12. (1) When a person is approached in connection with his possible appointment as
+13. (1) Subject to sub-section (4), the parties are free to agree on a procedure for
+# p13
+(6) Where an arbitral award is set aside on an application made under sub-section (5),
+15. (1) In addition to the circumstances referred to in section 13 or section 14, the
+# p14
+18. The parties shall be treated with equality and each party shall be given a full
+19. (1) The arbitral tribunal shall not be bound by the Code of Civil Procedure, 1908
+(3) Notwithstanding sub-section (1) or sub-section (2), the arbitral tribunal may, unless
+# p15
+(2) Failing any agreement referred to in sub-section (1), the arbitral tribunal shall
+to, the arbitral tribunal by one party shall be communicated to the other party, and any
+25. Unless otherwise agreed by the parties, where, without showing sufficient
+# p16
+26. (1) Unless otherwise agreed by the parties, the arbitral tribunal may—
+27. (1) The arbitral tribunal, or a party with the approval of the arbitral tribunal, may
+# p17
+(b) in international commercial arbitration,—
+(i) the arbitral tribunal shall decide the dispute in accordance with the rules of
+arbitral tribunal shall apply the rules of law it considers to be appropriate given
+30. (1) It is not incompatible with an arbitration agreement for an arbitral tribunal to
+# p18
+(2) For the purposes of sub-section (1), in arbitral proceedings with more than one
+# p19
+(b) the parties agree on the termination of the proceedings, or
+33. (1) Within thirty days from the receipt of the arbitral award, unless another
+sub-section (1), on its own initiative, within thirty days from the date of the arbitral
+# p20
+34. (1) Recourse to a Court against an arbitral award may be made only by an
+# p21
+37. (1) An appeal shall lie from the following orders (and from no others) to the
+# p22
+41. (1) Where it is provided by a term in a contract to which an insolvent is a party
+# p23
+43. (1) The Limitation Act, 1963, shall apply to arbitrations as it applies to
+or after the 11th day of October, 1960—
+46. Any foreign award which would be enforceable under this Chapter shall be treated
+# p24
+48. (1) Enforcement of a foreign award may be refused, at the request of the party
+against whom it is invoked, only if that party furnishes to the court proof that—
+# p25
+Explanation.—Without prejudice to the generality of clause (b), it is hereby declared,
+50. (1) An appeal shall lie from the order refusing to—
+52. Chapter II of this Part shall not apply in relation to foreign awards to which this
+# p26
+56. (1) The party applying for the enforcement of a foreign award shall, at the time
+(2) Where any document requiring to be produced under sub-section (1) is in a
+# p27
+59. (1) An appeal shall lie from the order refusing—
+(a) to refer the parties to arbitration under section 54; and
+(b) to enforce a foreign award under section 57,
+# p28
+61. (1) Save as otherwise provided by any law for the time being in force and unless
+62. (1) The party initiating conciliation shall send to the other party a written
+64. (1) Subject to sub-section (2),—
+# p29
+65. (1) The conciliator, upon his appointment, may request each party to submit to
+"conciliator" applies to a sole conciliator, two or three conciliators, as the case may be.
+69. (1) The conciliator may invite the parties to meet him or may communicate with
+# p30
+73. (1) When it appears to the conciliator that there exist elements of a settlement
+# p31
+78. (1) Upon termination of the conciliation proceedings, the conciliator shall fix the
+(2) For the purpose of sub-section (1), "costs" means reasonable costs relating to—
+79. (1) The conciliator may direct each party to deposit an equal amount as an
+81. The parties shall not rely on or introduce as evidence in arbitral or judicial
+# p32
+83. (1) If any difficulty arises in giving effect to the provisions of this Act, the
+84. (1) The Central Government may, by notification in the Official Gazette, make
+86. (1) The Arbitration and Conciliation (Third) Ordinance, 1996 is hereby repealed.
+# p33
+1. This Convention shall apply to the recognition and enforcement of arbitral awards
+1. Each Contracting State shall recognise an agreement in writing under which the
+imposed substantially more onerous conditions or higher fees or charges on the
+# p35
+1. This Convention shall be open until 31st December, 1958 for signature on behalf
+# p37
+(c) declarations and notifications under articles I, X and XI;
+contracts which are considered as commercial under its national law. Any Contracting
+# p38
+6. The present Protocol will come into force as soon as two ratifications have been
+8. The Contracting States may declare that their acceptance of the present Protocol
+Article 1.—(1) In the territories of any High Contracting Party to which the present
+# p39
+or pourvoi en cassation (in the countries where such forms of procedure exist) or if
+Article 2.—Even if the conditions laid down in Article 1 hereof are fulfilled,
+(c) that the award does not deal with the differences contemplated by or falling
+referred to in Article 1(a) and (c), and Article 2(b) and (c), entitling him to contest the

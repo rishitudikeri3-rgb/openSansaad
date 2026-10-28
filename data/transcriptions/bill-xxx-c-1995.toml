@@ -1,17 +1,27 @@
 # Checked transcription of Bill No. XXX-C of 1995 as passed by Rajya Sabha (22 Jul 1996),
 # passed by Lok Sabha without amendment on 2 Aug 1996: the base text of Act 26 of 1996.
+# The scan below is the cited source. Elibrary item 159905 (documents row 57,
+# raw_sha256 ec03182c9140…) is a second scan of the same print; its cleaned-OCR draft is
+# the starting text of pages 33-41 (method), never a source of readings the image lacks.
 doc_url = "https://elibrary.sansad.in/server/api/core/bitstreams/537914ef-c6f7-4b97-b280-acb60145d5d6/content"
 raw_sha256 = "4ae1f94c084e0f883476bec899c76cf48f54db5dded3e98ef11ea035e49ca5f2"
 pages = "6-41"
 method = """Pages 6-32 (preamble, ss.1-86): typed by hand from page images cleaned of show-through
-(grey <= 90 black, >= 150 white). Pages 33-41 (Schedules): cleaned-OCR draft of the second scan,
-token-voted against the first scan's draft, then corrected line by line against the images.
-Both: every line no witness contains re-read on the image (parse.transcription check)."""
+(grey <= 90 black, >= 150 white). Pages 33-41 (Schedules): cleaned-OCR draft of the second scan
+(item 159905), token-voted against the first scan's draft, then every line read against the
+images of item 79403. Both: every line no witness contains re-read on the image (the reviewed
+ones are in bill-xxx-c-1995.accepted.txt), and marker numbering checked in sequence."""
 verified = "model"
+# Paths relative to the repo root. data/text/ is gitignored: the library layers come back from
+# `python -m opensansad.ingest.persist --offline`, the drafts from
+# `python -m opensansad.parse.transcription draft RAW.pdf --pages 6-41`, the WIPO text from
+# its manifest row (secondary, never cited).
 witnesses = [
-    "library OCR layer of elibrary item 79403 (documents row 56)",
-    "library OCR layer of elibrary item 159905 (documents row 57)",
-    "cleaned-image Tesseract drafts of both scans (data/text/drafts, not committed)",
-    "WIPO Lex typed text, https://www.wipo.int/wipolex/en/text/207821 (secondary, never cited)",
+    "data/text/eparlib/8a7308942e093ad2b585420c/20261021T165533621763Z_4ae1f94c084e.en.txt",
+    "data/text/eparlib/bd402cb22381e7ae169d9752/20261021T165535103043Z_ec03182c9140.en.txt",
+    "data/text/drafts/bill-xxx-c-79403.txt",
+    "data/text/drafts/bill-xxx-c-159905.txt",
+    "data/text/other/03ed30929f6b5b216593aa80/20261028T133645523819Z_e8665748a908.en.txt",
 ]
-note = "Uncertain readings and printed oddities, incl. the incomplete s.36: bill-xxx-c-1995.notes.md"
+tools = "tesseract 5.5.0 (eng, --psm 4), pytesseract 0.3.13, PyMuPDF 2.0, 300 dpi"
+note = "Uncertain readings, printed oddities and editorial changes: bill-xxx-c-1995.notes.md"

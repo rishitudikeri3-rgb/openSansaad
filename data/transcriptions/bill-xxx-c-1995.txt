@@ -1232,7 +1232,7 @@ supply:—
 2. If the said award or agreement is not made in an official language of the country
 in which the award is relied upon, the party applying for recognition and enforcement
 of the award shall produce a translation of these documents into such language. The
-translation shall be certified by an official or’ Sworn translator or by a diplomatic or
+translation shall be certified by an official or sworn translator or by a diplomatic or
 consular agent.
 ARTICLE V
 1. Recognition and enforcement of the award may be refused, at the request of the
@@ -1256,7 +1256,7 @@ accordance with the agreement of the parties, or, failing such agreement, was no
 accordance with the law of the country where the arbitration took place; or
 (e) the award has not yet become binding on the parties, or has been set aside or
 suspended by a competent authority of the country in which, or under the law of
-which, that award was made. i
+which, that award was made.
 2. Recognition and enforcement of an arbitral award may also be refused if the
 competent authority in the country where recognition and enforcement is sought finds
 that—
@@ -1269,7 +1269,7 @@ If an application for the setting aside or suspension of the award has been made
 a competent authority referred to in article V(1)(e), the authority before which the award
 is sought to be relied upon may, if it considers it proper, adjourn the decision on the
 enforcement of the award and may also, on the application of the party claiming
-enforcement of the award, order the other party to give suitable. security.
+enforcement of the award, order the other party to give suitable security.
 [[page: 35]]
 ARTICLE VII
 1. The provisions of the present Convention shall not affect the validity of
@@ -1309,7 +1309,7 @@ concerned, whichever is the later.
 3. With respect to those territories to which this Convention is not extended at the
 time of signature, ratification or accession, each State concerned shall consider the
 possibility of taking the necessary steps in order to extend the application of this
-Convention to such territories, Subject, where necessary for constitutional reasons, to the
+Convention to such territories, subject, where necessary for constitutional reasons, to the
 consent of the Governments of such territories.
 [[page: 36]]
 ARTICLE XI
@@ -1349,7 +1349,7 @@ denunciation takes effect.
 ARTICLE XIV
 A Contracting State shall not be entitled to avail itself of the present Convention
 against other Contracting States except to the extent that it is itself bound to apply the
-Convention,
+Convention.
 [[page: 37]]
 ARTICLE XV
 The Secretary-General of the United Nations shall notify the States contemplated in
@@ -1385,7 +1385,7 @@ Nations in order that the other Contracting States may be so informed.
 be governed by the will of the parties and by the law of the country in whose territory
 the arbitration takes place.
 The Contracting States agree to facilitate all steps in the procedure which require to
-be taken in their Own territories, in accordance with the provisions of their law
+be taken in their own territories, in accordance with the provisions of their law
 governing arbitral procedure applicable to existing differences.
 [[page: 38]]
 3. Each Contracting State undertakes to ensure the execution by its authorities and
@@ -1494,7 +1494,7 @@ relied upon.
 Article 6.—The present Convention applies only to arbitral awards made after the
 coming into force of the Protocol on Arbitration Clauses opened at Geneva on
 September 24th, 1923.
-Article 7.—The present Convention, which will remain open to the Signature of all
+Article 7.—The present Convention, which will remain open to the signature of all
 the signatories of the Protocol of 1923 on Arbitration Clauses, shall be ratified.
 It may be ratified only on behalf of those Members of the League of Nations and
 Non-Member States on whose behalf the Protocol of 1923 shall have been ratified.
