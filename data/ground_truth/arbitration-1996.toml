@@ -1,0 +1,1014 @@
+# Ground truth: clause-level genealogy of the Arbitration and Conciliation Act, 1996
+# One [[op]] per operation of the three amending Acts (Ordinances excluded: the Acts re-enact them).
+# old -> new is the DESCENDS_FROM edge: an insert has no old, an omit no new; a words-level
+# change keeps the path (old = new). Paths are stable clause paths against 1996-enacted + earlier Acts.
+# decided = "rule-checked": the 4c rule output, each entry re-read against the instruction text;
+# decided = "hand": the rule left it unresolved, decided from the 1996 and amending texts (note says why).
+# checked = "model" (2026-10-28): read by the assistant, not yet by a human.
+act = "Arbitration and Conciliation Act, 1996"
+base_version = "1996-enacted"
+checked = "model"
+
+[[op]]
+instrument = "3/2016"
+provision = "s2.cl(I).cl(A)"
+ord = 0
+op_type = "substitute"
+unit = "clause"
+old = "s2.ss1.cl(e)"
+new = "s2.ss1.cl(e)"
+decided = "rule-checked"
+
+[[op]]
+instrument = "3/2016"
+provision = "s2.cl(I).cl(B)"
+ord = 1
+op_type = "omit"
+unit = "words"
+old = "s2.ss1.cl(f).sc(iii)"
+new = "s2.ss1.cl(f).sc(iii)"
+decided = "rule-checked"
+
+[[op]]
+instrument = "3/2016"
+provision = "s2.cl(II)"
+ord = 2
+op_type = "insert"
+unit = "proviso"
+new = "s2.ss2.p1"
+decided = "rule-checked"
+
+[[op]]
+instrument = "3/2016"
+provision = "s3"
+ord = 3
+op_type = "insert"
+unit = "words"
+new = "s7.ss4.cl(b)"
+decided = "rule-checked"
+
+[[op]]
+instrument = "3/2016"
+provision = "s4.cl(i)"
+ord = 4
+op_type = "substitute"
+unit = "subsection"
+old = "s8.ss1"
+new = "s8.ss1"
+decided = "rule-checked"
+
+[[op]]
+instrument = "3/2016"
+provision = "s4.cl(ii)"
+ord = 5
+op_type = "insert"
+unit = "proviso"
+new = "s8.ss2.p1"
+decided = "rule-checked"
+
+[[op]]
+instrument = "3/2016"
+provision = "s5"
+ord = 6
+op_type = "renumber"
+unit = "section"
+old = "s9"
+new = "s9.ss1"
+decided = "rule-checked"
+
+[[op]]
+instrument = "3/2016"
+provision = "s5"
+ord = 7
+op_type = "insert"
+unit = "subsection"
+new = "s9.ss2"
+decided = "rule-checked"
+
+[[op]]
+instrument = "3/2016"
+provision = "s5"
+ord = 8
+op_type = "insert"
+unit = "subsection"
+new = "s9.ss3"
+decided = "rule-checked"
+
+[[op]]
+instrument = "3/2016"
+provision = "s6.cl(i)"
+ord = 9
+op_type = "substitute"
+unit = "words"
+old = "s11.ss4"
+new = "s11.ss4"
+decided = "rule-checked"
+
+[[op]]
+instrument = "3/2016"
+provision = "s6.cl(i)"
+ord = 10
+op_type = "substitute"
+unit = "words"
+old = "s11.ss5"
+new = "s11.ss5"
+decided = "rule-checked"
+
+[[op]]
+instrument = "3/2016"
+provision = "s6.cl(i)"
+ord = 11
+op_type = "substitute"
+unit = "words"
+old = "s11.ss6"
+new = "s11.ss6"
+decided = "rule-checked"
+
+[[op]]
+instrument = "3/2016"
+provision = "s6.cl(ii)"
+ord = 12
+op_type = "insert"
+unit = "subsection"
+new = "s11.ss6A"
+decided = "rule-checked"
+
+[[op]]
+instrument = "3/2016"
+provision = "s6.cl(ii)"
+ord = 13
+op_type = "insert"
+unit = "subsection"
+new = "s11.ss6B"
+decided = "rule-checked"
+
+[[op]]
+instrument = "3/2016"
+provision = "s6.cl(iii)"
+ord = 14
+op_type = "substitute"
+unit = "words"
+old = "s11.ss7"
+new = "s11.ss7"
+decided = "rule-checked"
+
+[[op]]
+instrument = "3/2016"
+provision = "s6.cl(iv)"
+ord = 15
+op_type = "substitute"
+unit = "subsection"
+old = "s11.ss8"
+new = "s11.ss8"
+decided = "rule-checked"
+
+[[op]]
+instrument = "3/2016"
+provision = "s6.cl(v)"
+ord = 16
+op_type = "substitute"
+unit = "words"
+old = "s11.ss9"
+new = "s11.ss9"
+decided = "rule-checked"
+
+[[op]]
+instrument = "3/2016"
+provision = "s6.cl(vi)"
+ord = 17
+op_type = "substitute"
+unit = "subsection"
+old = "s11.ss10"
+new = "s11.ss10"
+decided = "rule-checked"
+
+[[op]]
+instrument = "3/2016"
+provision = "s6.cl(vii)"
+ord = 18
+op_type = "substitute"
+unit = "words"
+old = "s11.ss11"
+new = "s11.ss11"
+decided = "rule-checked"
+
+[[op]]
+instrument = "3/2016"
+provision = "s6.cl(viii)"
+ord = 19
+op_type = "substitute"
+unit = "subsection"
+old = "s11.ss12"
+new = "s11.ss12"
+decided = "rule-checked"
+
+[[op]]
+instrument = "3/2016"
+provision = "s6.cl(ix)"
+ord = 20
+op_type = "insert"
+unit = "subsection"
+new = "s11.ss13"
+decided = "rule-checked"
+
+[[op]]
+instrument = "3/2016"
+provision = "s6.cl(ix)"
+ord = 21
+op_type = "insert"
+unit = "subsection"
+new = "s11.ss14"
+decided = "rule-checked"
+
+[[op]]
+instrument = "3/2016"
+provision = "s7"
+ord = 22
+op_type = "insert"
+unit = "section"
+new = "s11A"
+decided = "rule-checked"
+
+[[op]]
+instrument = "3/2016"
+provision = "s8.cl(i)"
+ord = 23
+op_type = "substitute"
+unit = "subsection"
+old = "s12.ss1"
+new = "s12.ss1"
+decided = "rule-checked"
+
+[[op]]
+instrument = "3/2016"
+provision = "s8.cl(ii)"
+ord = 24
+op_type = "insert"
+unit = "subsection"
+new = "s12.ss5"
+decided = "rule-checked"
+
+[[op]]
+instrument = "3/2016"
+provision = "s9"
+ord = 25
+op_type = "substitute"
+unit = "words"
+old = "s14.ss1"
+new = "s14.ss1"
+decided = "rule-checked"
+
+[[op]]
+instrument = "3/2016"
+provision = "s10"
+ord = 26
+op_type = "substitute"
+unit = "section"
+old = "s17"
+new = "s17"
+decided = "rule-checked"
+
+[[op]]
+instrument = "3/2016"
+provision = "s11"
+ord = 27
+op_type = "insert"
+unit = "subsection"
+new = "s23.ss2A"
+decided = "rule-checked"
+
+[[op]]
+instrument = "3/2016"
+provision = "s12"
+ord = 28
+op_type = "insert"
+unit = "proviso"
+new = "s24.ss1.p2"
+decided = "rule-checked"
+
+[[op]]
+instrument = "3/2016"
+provision = "s13"
+ord = 29
+op_type = "insert"
+unit = "words"
+new = "s25.cl(b)"
+decided = "rule-checked"
+
+[[op]]
+instrument = "3/2016"
+provision = "s14"
+ord = 30
+op_type = "substitute"
+unit = "subsection"
+old = "s28.ss3"
+new = "s28.ss3"
+decided = "rule-checked"
+
+[[op]]
+instrument = "3/2016"
+provision = "s15"
+ord = 31
+op_type = "insert"
+unit = "section"
+new = "s29A"
+decided = "rule-checked"
+
+[[op]]
+instrument = "3/2016"
+provision = "s15"
+ord = 32
+op_type = "insert"
+unit = "section"
+new = "s29B"
+decided = "rule-checked"
+
+[[op]]
+instrument = "3/2016"
+provision = "s16.cl(i)"
+ord = 33
+op_type = "substitute"
+unit = "clause"
+old = "s31.ss7.cl(b)"
+new = "s31.ss7.cl(b)"
+decided = "rule-checked"
+
+[[op]]
+instrument = "3/2016"
+provision = "s16.cl(ii)"
+ord = 34
+op_type = "substitute"
+unit = "subsection"
+old = "s31.ss8"
+new = "s31.ss8"
+decided = "rule-checked"
+
+[[op]]
+instrument = "3/2016"
+provision = "s17"
+ord = 35
+op_type = "insert"
+unit = "section"
+new = "s31A"
+decided = "rule-checked"
+
+[[op]]
+instrument = "3/2016"
+provision = "s18.cl(I)"
+ord = 36
+op_type = "substitute"
+unit = "explanation"
+old = "s34.ss2.cl(b).expl1"
+new = "s34.ss2.cl(b).expl1"
+decided = "hand"
+note = "Explanation 1 keeps the old Explanation's grounds (fraud or corruption, ss.75/81) as its item (i) and adds (ii), (iii)"
+
+[[op]]
+instrument = "3/2016"
+provision = "s18.cl(I)"
+ord = 37
+op_type = "insert"
+unit = "explanation"
+new = "s34.ss2.cl(b).expl2"
+decided = "hand"
+note = "Explanation 2 (no review on the merits) has no 1996 counterpart"
+
+[[op]]
+instrument = "3/2016"
+provision = "s18.cl(II)"
+ord = 38
+op_type = "insert"
+unit = "subsection"
+new = "s34.ss2A"
+decided = "rule-checked"
+
+[[op]]
+instrument = "3/2016"
+provision = "s18.cl(III)"
+ord = 39
+op_type = "insert"
+unit = "subsection"
+new = "s34.ss5"
+decided = "rule-checked"
+
+[[op]]
+instrument = "3/2016"
+provision = "s18.cl(III)"
+ord = 40
+op_type = "insert"
+unit = "subsection"
+new = "s34.ss6"
+decided = "rule-checked"
+
+[[op]]
+instrument = "3/2016"
+provision = "s19"
+ord = 41
+op_type = "substitute"
+unit = "section"
+old = "s36"
+new = "s36"
+decided = "rule-checked"
+
+[[op]]
+instrument = "3/2016"
+provision = "s20"
+ord = 42
+op_type = "insert"
+unit = "clause"
+new = "s37.ss1.cl(a)"
+decided = "hand"
+note = "new clause (a) (refusal to refer under s.8) has no 1996 counterpart"
+
+[[op]]
+instrument = "3/2016"
+provision = "s20"
+ord = 43
+op_type = "substitute"
+unit = "clause"
+old = "s37.ss1.cl(a)"
+new = "s37.ss1.cl(b)"
+decided = "hand"
+note = "old (a) (measures under s.9) is new (b): same wording, label shifted"
+
+[[op]]
+instrument = "3/2016"
+provision = "s20"
+ord = 44
+op_type = "substitute"
+unit = "clause"
+old = "s37.ss1.cl(b)"
+new = "s37.ss1.cl(c)"
+decided = "hand"
+note = "old (b) (setting aside under s.34) is new (c): label shifted"
+
+[[op]]
+instrument = "3/2016"
+provision = "s21"
+ord = 45
+op_type = "substitute"
+unit = "explanation"
+old = "s47.expl1"
+new = "s47.expl1"
+decided = "rule-checked"
+
+[[op]]
+instrument = "3/2016"
+provision = "s22"
+ord = 46
+op_type = "substitute"
+unit = "explanation"
+old = "s48.ss2.expl1"
+new = "s48.ss2.expl1"
+decided = "hand"
+note = "as s.34: Explanation 1 keeps the old grounds as item (i)"
+
+[[op]]
+instrument = "3/2016"
+provision = "s22"
+ord = 47
+op_type = "insert"
+unit = "explanation"
+new = "s48.ss2.expl2"
+decided = "hand"
+note = "as s.34: Explanation 2 is new"
+
+[[op]]
+instrument = "3/2016"
+provision = "s23"
+ord = 48
+op_type = "substitute"
+unit = "explanation"
+old = "s56.expl1"
+new = "s56.expl1"
+decided = "rule-checked"
+
+[[op]]
+instrument = "3/2016"
+provision = "s24"
+ord = 49
+op_type = "substitute"
+unit = "explanation"
+old = "s57.ss1.expl1"
+new = "s57.ss1.expl1"
+decided = "hand"
+note = "as s.34: Explanation 1 keeps the old grounds as item (i)"
+
+[[op]]
+instrument = "3/2016"
+provision = "s24"
+ord = 50
+op_type = "insert"
+unit = "explanation"
+new = "s57.ss1.expl2"
+decided = "hand"
+note = "as s.34: Explanation 2 is new"
+
+[[op]]
+instrument = "3/2016"
+provision = "s25"
+ord = 51
+op_type = "insert"
+unit = "schedule"
+new = "sch4"
+decided = "rule-checked"
+
+[[op]]
+instrument = "3/2016"
+provision = "s25"
+ord = 52
+op_type = "insert"
+unit = "schedule"
+new = "sch5"
+decided = "rule-checked"
+
+[[op]]
+instrument = "3/2016"
+provision = "s25"
+ord = 53
+op_type = "insert"
+unit = "schedule"
+new = "sch6"
+decided = "rule-checked"
+
+[[op]]
+instrument = "3/2016"
+provision = "s25"
+ord = 54
+op_type = "insert"
+unit = "schedule"
+new = "sch7"
+decided = "rule-checked"
+
+[[op]]
+instrument = "33/2019"
+provision = "s2.cl(i).cl(A)"
+ord = 0
+op_type = "insert"
+unit = "clause"
+new = "s2.ss1.cl(ca)"
+decided = "rule-checked"
+
+[[op]]
+instrument = "33/2019"
+provision = "s2.cl(i).cl(B)"
+ord = 1
+op_type = "insert"
+unit = "clause"
+new = "s2.ss1.cl(i)"
+decided = "rule-checked"
+
+[[op]]
+instrument = "33/2019"
+provision = "s2.cl(i).cl(B)"
+ord = 2
+op_type = "insert"
+unit = "clause"
+new = "s2.ss1.cl(j)"
+decided = "rule-checked"
+
+[[op]]
+instrument = "33/2019"
+provision = "s2.cl(ii)"
+ord = 3
+op_type = "substitute"
+unit = "words"
+old = "s2.ss2.p1"
+new = "s2.ss2.p1"
+decided = "rule-checked"
+
+[[op]]
+instrument = "33/2019"
+provision = "s3.cl(i)"
+ord = 4
+op_type = "insert"
+unit = "subsection"
+new = "s11.ss3A"
+decided = "rule-checked"
+
+[[op]]
+instrument = "33/2019"
+provision = "s3.cl(ii)"
+ord = 5
+op_type = "substitute"
+unit = "portion"
+old = "s11.ss4"
+new = "s11.ss4"
+decided = "rule-checked"
+
+[[op]]
+instrument = "33/2019"
+provision = "s3.cl(iii)"
+ord = 6
+op_type = "substitute"
+unit = "portion"
+old = "s11.ss5"
+new = "s11.ss5"
+decided = "rule-checked"
+
+[[op]]
+instrument = "33/2019"
+provision = "s3.cl(iv)"
+ord = 7
+op_type = "substitute"
+unit = "portion"
+old = "s11.ss6"
+new = "s11.ss6"
+decided = "rule-checked"
+
+[[op]]
+instrument = "33/2019"
+provision = "s3.cl(v)"
+ord = 8
+op_type = "omit"
+unit = "subsection"
+old = "s11.ss6A"
+decided = "rule-checked"
+
+[[op]]
+instrument = "33/2019"
+provision = "s3.cl(v)"
+ord = 9
+op_type = "omit"
+unit = "subsection"
+old = "s11.ss7"
+decided = "rule-checked"
+
+[[op]]
+instrument = "33/2019"
+provision = "s3.cl(vi)"
+ord = 10
+op_type = "substitute"
+unit = "words"
+old = "s11.ss8"
+new = "s11.ss8"
+decided = "rule-checked"
+
+[[op]]
+instrument = "33/2019"
+provision = "s3.cl(vii)"
+ord = 11
+op_type = "substitute"
+unit = "words"
+old = "s11.ss9"
+new = "s11.ss9"
+decided = "rule-checked"
+
+[[op]]
+instrument = "33/2019"
+provision = "s3.cl(viii)"
+ord = 12
+op_type = "omit"
+unit = "subsection"
+old = "s11.ss10"
+decided = "rule-checked"
+
+[[op]]
+instrument = "33/2019"
+provision = "s3.cl(ix)"
+ord = 13
+op_type = "substitute"
+unit = "subsection"
+old = "s11.ss11"
+new = "s11.ss11"
+decided = "rule-checked"
+
+[[op]]
+instrument = "33/2019"
+provision = "s3.cl(ix)"
+ord = 14
+op_type = "substitute"
+unit = "subsection"
+old = "s11.ss12"
+new = "s11.ss12"
+decided = "rule-checked"
+
+[[op]]
+instrument = "33/2019"
+provision = "s3.cl(ix)"
+ord = 15
+op_type = "substitute"
+unit = "subsection"
+old = "s11.ss13"
+new = "s11.ss13"
+decided = "rule-checked"
+
+[[op]]
+instrument = "33/2019"
+provision = "s3.cl(ix)"
+ord = 16
+op_type = "substitute"
+unit = "subsection"
+old = "s11.ss14"
+new = "s11.ss14"
+decided = "rule-checked"
+
+[[op]]
+instrument = "33/2019"
+provision = "s4"
+ord = 17
+op_type = "omit"
+unit = "words"
+old = "s17.ss1"
+new = "s17.ss1"
+decided = "rule-checked"
+
+[[op]]
+instrument = "33/2019"
+provision = "s5"
+ord = 18
+op_type = "insert"
+unit = "subsection"
+new = "s23.ss4"
+decided = "rule-checked"
+
+[[op]]
+instrument = "33/2019"
+provision = "s6.cl(a)"
+ord = 19
+op_type = "substitute"
+unit = "subsection"
+old = "s29A.ss1"
+new = "s29A.ss1"
+decided = "rule-checked"
+
+[[op]]
+instrument = "33/2019"
+provision = "s6.cl(b)"
+ord = 20
+op_type = "insert"
+unit = "proviso"
+new = "s29A.ss4.p2"
+decided = "rule-checked"
+
+[[op]]
+instrument = "33/2019"
+provision = "s6.cl(b)"
+ord = 21
+op_type = "insert"
+unit = "proviso"
+new = "s29A.ss4.p3"
+decided = "rule-checked"
+
+[[op]]
+instrument = "33/2019"
+provision = "s7"
+ord = 22
+op_type = "substitute"
+unit = "words"
+old = "s34.ss2.cl(a)"
+new = "s34.ss2.cl(a)"
+decided = "rule-checked"
+
+[[op]]
+instrument = "33/2019"
+provision = "s8"
+ord = 23
+op_type = "substitute"
+unit = "words"
+old = "s37.ss1"
+new = "s37.ss1"
+decided = "rule-checked"
+
+[[op]]
+instrument = "33/2019"
+provision = "s9"
+ord = 24
+op_type = "insert"
+unit = "section"
+new = "s42A"
+decided = "rule-checked"
+
+[[op]]
+instrument = "33/2019"
+provision = "s9"
+ord = 25
+op_type = "insert"
+unit = "section"
+new = "s42B"
+decided = "rule-checked"
+
+[[op]]
+instrument = "33/2019"
+provision = "s10"
+ord = 26
+op_type = "insert"
+unit = "part"
+new = "pt1A"
+decided = "rule-checked"
+
+[[op]]
+instrument = "33/2019"
+provision = "s10"
+ord = 27
+op_type = "insert"
+unit = "section"
+new = "s43A"
+decided = "rule-checked"
+
+[[op]]
+instrument = "33/2019"
+provision = "s10"
+ord = 28
+op_type = "insert"
+unit = "section"
+new = "s43B"
+decided = "rule-checked"
+
+[[op]]
+instrument = "33/2019"
+provision = "s10"
+ord = 29
+op_type = "insert"
+unit = "section"
+new = "s43C"
+decided = "rule-checked"
+
+[[op]]
+instrument = "33/2019"
+provision = "s10"
+ord = 30
+op_type = "insert"
+unit = "section"
+new = "s43D"
+decided = "rule-checked"
+
+[[op]]
+instrument = "33/2019"
+provision = "s10"
+ord = 31
+op_type = "insert"
+unit = "section"
+new = "s43E"
+decided = "rule-checked"
+
+[[op]]
+instrument = "33/2019"
+provision = "s10"
+ord = 32
+op_type = "insert"
+unit = "section"
+new = "s43F"
+decided = "rule-checked"
+
+[[op]]
+instrument = "33/2019"
+provision = "s10"
+ord = 33
+op_type = "insert"
+unit = "section"
+new = "s43G"
+decided = "rule-checked"
+
+[[op]]
+instrument = "33/2019"
+provision = "s10"
+ord = 34
+op_type = "insert"
+unit = "section"
+new = "s43H"
+decided = "rule-checked"
+
+[[op]]
+instrument = "33/2019"
+provision = "s10"
+ord = 35
+op_type = "insert"
+unit = "section"
+new = "s43-I"
+decided = "rule-checked"
+
+[[op]]
+instrument = "33/2019"
+provision = "s10"
+ord = 36
+op_type = "insert"
+unit = "section"
+new = "s43J"
+decided = "rule-checked"
+
+[[op]]
+instrument = "33/2019"
+provision = "s10"
+ord = 37
+op_type = "insert"
+unit = "section"
+new = "s43K"
+decided = "rule-checked"
+
+[[op]]
+instrument = "33/2019"
+provision = "s10"
+ord = 38
+op_type = "insert"
+unit = "section"
+new = "s43L"
+decided = "rule-checked"
+
+[[op]]
+instrument = "33/2019"
+provision = "s10"
+ord = 39
+op_type = "insert"
+unit = "section"
+new = "s43M"
+decided = "rule-checked"
+
+[[op]]
+instrument = "33/2019"
+provision = "s11"
+ord = 40
+op_type = "substitute"
+unit = "words"
+old = "s45"
+new = "s45"
+decided = "rule-checked"
+
+[[op]]
+instrument = "33/2019"
+provision = "s12"
+ord = 41
+op_type = "substitute"
+unit = "words"
+old = "s50.ss1"
+new = "s50.ss1"
+decided = "rule-checked"
+
+[[op]]
+instrument = "33/2019"
+provision = "s13"
+ord = 42
+op_type = "insert"
+unit = "section"
+new = "s87"
+decided = "rule-checked"
+effective_from = "23rd October, 2015"
+
+[[op]]
+instrument = "33/2019"
+provision = "s14"
+ord = 43
+op_type = "insert"
+unit = "schedule"
+new = "sch8"
+decided = "rule-checked"
+
+[[op]]
+instrument = "33/2019"
+provision = "s15"
+ord = 44
+op_type = "other"
+decided = "hand"
+effective_from = "23rd October, 2015"
+scope = "other_instrument"
+note = "omits s.26 of Act 3 of 2016 (transitional provision), not a provision of the principal Act"
+
+[[op]]
+instrument = "33/2019"
+provision = "s16"
+ord = 45
+op_type = "substitute"
+unit = "words"
+old = "sch4"
+new = "sch4"
+decided = "rule-checked"
+
+[[op]]
+instrument = "3/2021"
+provision = "s2"
+ord = 0
+op_type = "insert"
+unit = "proviso"
+new = "s36.ss3.p2"
+decided = "rule-checked"
+effective_from = "23rd day of October, 2015"
+
+[[op]]
+instrument = "3/2021"
+provision = "s2"
+ord = 1
+op_type = "insert"
+unit = "explanation"
+new = "s36.ss3.p2.expl1"
+decided = "hand"
+effective_from = "23rd day of October, 2015"
+note = "the Explanation clarifies 'the above proviso' and is inside the quoted text: it belongs to the second proviso"
+
+[[op]]
+instrument = "3/2021"
+provision = "s3"
+ord = 2
+op_type = "substitute"
+unit = "section"
+old = "s43J"
+new = "s43J"
+decided = "rule-checked"
+
+[[op]]
+instrument = "3/2021"
+provision = "s4"
+ord = 3
+op_type = "omit"
+unit = "schedule"
+old = "sch8"
+decided = "rule-checked"
