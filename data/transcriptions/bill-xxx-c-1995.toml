@@ -1,0 +1,17 @@
+# Checked transcription of Bill No. XXX-C of 1995 as passed by Rajya Sabha (22 Jul 1996),
+# passed by Lok Sabha without amendment on 2 Aug 1996: the base text of Act 26 of 1996.
+doc_url = "https://elibrary.sansad.in/server/api/core/bitstreams/537914ef-c6f7-4b97-b280-acb60145d5d6/content"
+raw_sha256 = "4ae1f94c084e0f883476bec899c76cf48f54db5dded3e98ef11ea035e49ca5f2"
+pages = "6-41"
+method = """Pages 6-32 (preamble, ss.1-86): typed by hand from page images cleaned of show-through
+(grey <= 90 black, >= 150 white). Pages 33-41 (Schedules): cleaned-OCR draft of the second scan,
+token-voted against the first scan's draft, then corrected line by line against the images.
+Both: every line no witness contains re-read on the image (parse.transcription check)."""
+verified = "model"
+witnesses = [
+    "library OCR layer of elibrary item 79403 (documents row 56)",
+    "library OCR layer of elibrary item 159905 (documents row 57)",
+    "cleaned-image Tesseract drafts of both scans (data/text/drafts, not committed)",
+    "WIPO Lex typed text, https://www.wipo.int/wipolex/en/text/207821 (secondary, never cited)",
+]
+note = "Uncertain readings and printed oddities, incl. the incomplete s.36: bill-xxx-c-1995.notes.md"
