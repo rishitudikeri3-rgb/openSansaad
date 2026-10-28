@@ -21,7 +21,9 @@ transcription records the raw file's sha256 so it is tied to exact bytes.
 
 Format of a transcription: `[[page: N]]` (PDF page, 1-based) before each page's text;
 margin notes as `[[margin: ...]]` before the paragraph they head, as the extractor writes
-them; printed page numbers, running heads and margin line numbers left out.
+them; `[[flush]]` before text set full out after a list (it belongs to the provision that
+opened the list, not to the last item: "(b) ...,\n[[flush]]\nthat agreement shall ...");
+printed page numbers, running heads and margin line numbers left out.
 
     uv run python -m opensansad.parse.transcription draft FILE.pdf --pages 6-85
     uv run python -m opensansad.parse.transcription check NAME.txt [WITNESS.txt...]
@@ -40,6 +42,7 @@ from pathlib import Path
 
 PAGE = re.compile(r"^\[\[page: (\d+)\]\]$")
 MARGIN = re.compile(r"\[\[margin: [^\]]*\]\]")
+FLUSH = "[[flush]]"
 
 # Show-through: the far side of the sheet prints as mid grey, the text itself near black.
 INK, PAPER = 90, 150  # grey levels: at or below INK is text, at or above PAPER is blank
@@ -102,6 +105,7 @@ class Meta:
     witnesses: list[str] = field(default_factory=list)  # paths relative to the repo root
     tools: str = ""  # versions of the programs that made the drafts
     note: str = ""
+    version_label: str = ""  # the clause-tree version this text is (parse/clause_tree.py)
 
 
 def load_meta(path: Path) -> Meta:
@@ -115,7 +119,7 @@ def body_lines(text: str) -> list[tuple[int, int, str]]:
     for i, line in enumerate(text.splitlines(), 1):
         if m := PAGE.match(line):
             page = int(m.group(1))
-        elif line.strip() and not MARGIN.fullmatch(line.strip()):
+        elif line.strip() and line.strip() != FLUSH and not MARGIN.fullmatch(line.strip()):
             out.append((page, i, MARGIN.sub("", line).strip()))
     return out
 

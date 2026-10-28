@@ -1,6 +1,6 @@
-"""Phase 1 tables: acts, documents, fetch_log.
+"""Phase 1 tables: acts, documents, fetch_log, clauses.
 
-clauses and amendment_ops are added in step 4 alongside the parser.
+amendment_ops is added in step 4c alongside the amendment-op extractor.
 """
 
 from datetime import datetime
@@ -13,6 +13,7 @@ from sqlalchemy import (
     Enum,
     Float,
     ForeignKey,
+    Index,
     Integer,
     String,
     Text,
@@ -63,6 +64,23 @@ class Acquisition(StrEnum):
 class Authority(StrEnum):
     PRIMARY = "primary"  # issued by Parliament / Government / a court, or a faithful copy
     SECONDARY = "secondary"  # third-party compilation: usable as text, never cited for a claim
+
+
+class NodeType(StrEnum):
+    LONG_TITLE = "long_title"
+    PREAMBLE = "preamble"
+    ENACTING_FORMULA = "enacting_formula"
+    PART = "part"
+    CHAPTER = "chapter"
+    SECTION = "section"
+    SUBSECTION = "subsection"
+    CLAUSE = "clause"
+    SUBCLAUSE = "subclause"
+    PROVISO = "proviso"
+    EXPLANATION = "explanation"
+    SCHEDULE = "schedule"
+    ARTICLE = "article"  # of a treaty set out in a Schedule
+    PARAGRAPH = "paragraph"  # numbered paragraph of a Schedule ("1." or "(1)")
 
 
 def _enum(cls: type[StrEnum], name: str) -> Enum:
@@ -140,3 +158,42 @@ class FetchLog(Base):
     attempted_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now()
     )
+
+
+class Clause(Base):
+    """One node of an act's clause tree, in one version of the text.
+
+    `path` is the stable ID every stage uses (`s40A.ss3.cl(b).sc(ii).p1`, `s12.expl1`,
+    `sch2.art1.para3`); sections and schedules are top-level paths whatever Part or Chapter
+    holds them (`parent_path` records that). `text` is the node's own text, without its
+    children's; [span_start, span_end) covers the whole node, children included, in the file
+    `text_path` (relative to DATA_DIR), valid only while that file hashes to `text_sha256`.
+    """
+
+    __tablename__ = "clauses"
+    __table_args__ = (
+        UniqueConstraint("act_id", "version_label", "path"),
+        Index("ix_clauses_act_id_version_label", "act_id", "version_label"),
+    )
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    act_id: Mapped[int] = mapped_column(ForeignKey("acts.id"))
+    version_label: Mapped[str] = mapped_column(String(64))
+    path: Mapped[str] = mapped_column(String(255))
+    parent_path: Mapped[str | None] = mapped_column(String(255))
+    node_type: Mapped[NodeType] = mapped_column(_enum(NodeType, "node_type"))
+    number: Mapped[str | None] = mapped_column(String(16))
+    heading: Mapped[str | None] = mapped_column(Text)
+    text: Mapped[str] = mapped_column(Text)
+    footnote_refs: Mapped[list] = mapped_column(
+        JSON().with_variant(JSONB(), "postgresql"), default=list)
+    source_doc_id: Mapped[int] = mapped_column(ForeignKey("documents.id"), index=True)
+    ord: Mapped[int] = mapped_column(Integer)  # document order within the version
+    page_start: Mapped[int | None] = mapped_column(Integer)
+    page_end: Mapped[int | None] = mapped_column(Integer)
+    text_path: Mapped[str] = mapped_column(Text)
+    text_sha256: Mapped[str] = mapped_column(String(64))
+    span_start: Mapped[int] = mapped_column(Integer)
+    span_end: Mapped[int] = mapped_column(Integer)
+    # Parse decisions worth a second look (e.g. how a proviso was attached), margin citations.
+    meta: Mapped[dict | None] = mapped_column(JSON().with_variant(JSONB(), "postgresql"))

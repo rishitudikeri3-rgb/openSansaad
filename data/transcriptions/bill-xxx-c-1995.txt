@@ -96,6 +96,7 @@ including an institution, to determine that issue.
 (a) refers to the fact that the parties have agreed or that they may agree, or
 (b) in any other way refers to an agreement of the parties,
 [[page: 9]]
+[[flush]]
 that agreement shall include any arbitration rules referred to in that agreement.
 (9) Where this Part, other than clause (a) of section 25 or clause (a) of sub-section
 (2) of section 32, refers to a claim, it shall also apply to a counterclaim, and where it
@@ -117,6 +118,7 @@ of any judicial authority.
 4. A party who knows that—
 (a) any provision of this Part from which the parties may derogate, or
 (b) any requirement under the arbitration agreement,
+[[flush]]
 has not been complied with and yet proceeds with the arbitration without stating his
 objection to such non-compliance without undue delay or, if a time limit is provided for
 stating that objection, within that period of time, shall be deemed to have waived his
@@ -179,6 +181,7 @@ of obtaining full information or evidence;
 (d) interim injunction or the appointment of a receiver;
 (e) such other interim measure of protection as may appear to the Court
 to be just and convenient,
+[[flush]]
 and the Court shall have the same power for making orders as it has for the purpose of, and
 in relation to, any proceedings before it.
 CHAPTER III
@@ -202,6 +205,7 @@ appoint the third arbitrator who shall act as the presiding arbitrator.
 request to do so from the other party; or
 (b) the two appointed arbitrators fail to agree on the third arbitrator within thirty
 days from the date of their appointment,
+[[flush]]
 the appointment shall be made, upon request of a party, by the Chief Justice or any
 person or institution designated by him.
 (5) Failing any agreement referred to in sub-section (2), in an arbitration with a sole
@@ -215,6 +219,7 @@ him.
 expected of them under that procedure; or
 (c) a person, including an institution, fails to perform any function entrusted to
 him or it under that procedure,
+[[flush]]
 a party may request the Chief Justice or any person or institution designated by him to
 take the necessary measure, unless the agreement on the appointment procedure provides
 other means for securing the appointment.
@@ -418,6 +423,7 @@ with sub-section (1) of section 23, the arbitral tribunal shall continue the pro
 without treating that failure in itself as an admission of the allegations by the
 claimant;
 (c) a party fails to appear at an oral hearing or to produce documentary evidence,
+[[flush]]
 the arbitral tribunal may continue the proceedings and make the arbitral award on the
 evidence before it.
 [[margin: Expert appointed by arbitral tribunal.]]
@@ -826,6 +832,7 @@ Chapter, the award shall be deemed to be a decree of that Court.
 50. (1) An appeal shall lie from the order refusing to—
 (a) refer the parties to arbitration under section 45;
 (b) enforce a foreign award under section 48,
+[[flush]]
 to the court authorised by law to hear appeals from such order.
 (2) No second appeal shall lie from an order passed in appeal under this section, but
 nothing in this section shall affect or take away any right to appeal to the Supreme
@@ -853,6 +860,7 @@ the jurisdiction of some other of the Powers aforesaid, and
 (c) in one of such territories as the Central Government, being satisfied that
 reciprocal provisions have been made, may, by like notification, declare to be
 territories to which the said Convention applies,
+[[flush]]
 and for the purposes of this Chapter an award shall not be deemed to be final if any
 proceedings for the purpose of contesting the validity of the award are pending in the
 [[page: 26]]
@@ -938,6 +946,7 @@ Chapter, the award shall be deemed to be a decree of the Court.
 59. (1) An appeal shall lie from the order refusing—
 (a) to refer the parties to arbitration under section 54; and
 (b) to enforce a foreign award under section 57,
+[[flush]]
 to the court authorised by law to hear appeals from such order.
 (2) No second appeal shall lie from an order passed in appeal under this section, but
 nothing in this section shall affect or take away any right to appeal to the Supreme
@@ -1461,6 +1470,7 @@ that, being under a legal incapacity, he was not properly represented;
 (c) that the award does not deal with the differences contemplated by or falling
 within the terms of the submission to arbitration or that it contains decisions on
 matters beyond the scope of the submission to arbitration.
+[[flush]]
 If the award has not covered all the questions submitted to the arbitral tribunal, the
 competent authority of the country where recognition or enforcement of the award is
 sought can, if it thinks fit, postpone such recognition or enforcement or grant it subject
@@ -1482,6 +1492,7 @@ the sense defined in Article 1 (d), in the country in which it was made;
 (3) when necessary, documentary or other evidence to prove that the conditions
 laid down in Article 1, paragraph (1) and paragraph (2) (a) and (c), have been
 fulfilled.
+[[flush]]
 A translation of the award and of the other documents mentioned in this Article into
 the official language of the country where the award is sought to be relied upon may
 be demanded. Such translations must be certified correct by a diplomatic or consular

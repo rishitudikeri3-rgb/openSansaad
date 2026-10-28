@@ -122,9 +122,9 @@ opensansad/
 │   │   ├── certs/              # bundled CA certs (e-Gazette)
 │   │   └── sources/            # base.py, prs.py, egazette.py, sansad.py, eparlib.py (later: indiacode.py)
 │   ├── extract/                # document.py, normalize.py, pdf.py, ocr.py, html.py, pipeline.py
-│   ├── parse/                  # clause_tree.py, amending_ops.py
+│   ├── parse/                  # transcription.py, clause_tree.py, load.py (later: amending_ops.py)
 │   ├── db/                     # base.py, models.py, session.py, migrations/
-│   ├── graph/                  # neo4j client + genealogy graph ops
+│   ├── graph/                  # client.py, clauses.py (clause trees; later genealogy ops)
 │   ├── agents/                 # one module per agent (Phase 2+)
 │   ├── workflows/              # LangGraph graphs (Phase 2+)
 │   ├── eval/                   # metrics vs ground truth (Phase 2+)
@@ -158,9 +158,12 @@ documents(id, act_id, doc_type, source, title, url, sha256, fetched_at,
 fetch_log(id, url, status_code, error, attempted_at)
 
 clauses(id, act_id, version_label, path, parent_path, node_type, number,
-        heading, text, footnote_refs, source_doc_id)
-  node_type ∈ {chapter, section, subsection, clause, subclause,
-               proviso, explanation, schedule}
+        heading, text, footnote_refs, source_doc_id, ord, page_start, page_end,
+        text_path, text_sha256, span_start, span_end, meta)
+  node_type ∈ {long_title, preamble, enacting_formula, part, chapter, section,
+               subsection, clause, subclause, proviso, explanation, schedule,
+               article, paragraph}
+  unique(act_id, version_label, path); text = own text only; span covers the subtree
 
 amendment_ops(id, amending_doc_id, target_path, op_type, old_text, new_text,
               source_span, status, confidence)
@@ -168,7 +171,7 @@ amendment_ops(id, amending_doc_id, target_path, op_type, old_text, new_text,
   status  ∈ {resolved, unresolved}
 ```
 
-Neo4j: `(:Clause {path, version_label})` with `CHILD_OF` edges. Phase 2 adds `DESCENDS_FROM {op_type, confidence, source_doc_id}`.
+Neo4j: `(:Clause {act_id, version_label, path, node_type, number, heading, ord})` (unique on act_id + version_label + path) with `CHILD_OF` edges. Phase 2 adds `DESCENDS_FROM {op_type, confidence, source_doc_id}`.
 
 ---
 
@@ -225,6 +228,7 @@ Exit criteria: full stack up; act chosen and recorded; principal + all amending 
 
 - Phase 1, step 4 (parser) — split into 4a checked base-text transcription → 4b clause parser (`clauses`, Neo4j `CHILD_OF`) → 4c amendment-op extractor (resolved/unresolved ratio) → 4d Phase 1 exit
   - 4a — **done** (2026-10-28): `data/transcriptions/bill-xxx-c-1995.{txt,toml,notes.md}` (Bill XXX-C as passed, PDF pages 6–41: preamble, ss.1–86, three Schedules), `parse/transcription.py` (`draft`: cleaned-image Tesseract; `check`: lines no witness contains). All 86 sections and pages 6–41 present; WIPO typed copy (manifest row, secondary) used as a witness only. Follow-up (2026-10-28): every flagged line reviewed and listed in `bill-xxx-c-1995.accepted.txt` (`check` skips them, reports stale ones); `numbering()` checks parts/chapters/sections/sub-sections/clauses/articles in sequence (catches the short marker lines the witness check skips); Schedule pages 33–41 all read in full on the images (6 more fixes); `.toml` lists witness paths and draft tool versions, so `check NAME.txt` runs from it; notes state the as-printed rule and tabulate every editorial change. `check` exits 1 on any flag, stale accepted line or numbering break (currently 0 / 0 / 0)
+  - 4b — **done** (2026-10-28): `parse/clause_tree.py` (`show` / `load`), `parse/load.py` (Postgres, replaces one version in one transaction; graph written before commit), `graph/clauses.py` (`replace_tree`, refuses if genealogy edges touch the version unless `--force`); `clauses` table (migration `a2f5a9b20067`). Base text loaded as version `1996-enacted` of act 1, citing documents row 56: 553 nodes (86 sections, 191 sub-sections, 142 clauses, 26 sub-clauses, 12 provisos, 8 Explanations, 4 Parts, 12 Chapters, 3 Schedules, 27 articles, 39 paragraphs), 542 `CHILD_OF` edges, 0 parse warnings. Provisos / Explanations counted against the text (12 / 8). `[[flush]]` marker added to the transcription (11 list tails)
 
 ## 12. Decisions Log
 
@@ -341,3 +345,7 @@ Exit criteria: full stack up; act chosen and recorded; principal + all amending 
 - WIPO Lex text of the Act (`wipo.int/wipolex/en/text/207821`, manifest, `authority = secondary`): witness for transcription checks only, never cited
 - Transcription rule (4a): **as printed** — wording, spelling, capitalization and printed errors kept (sic, never corrected). Editorial changes only for format rules (page/line numbers dropped, 2+ dashes → `—`), specks that are not type, and visibly damaged punctuation where the sentence runs on (s.44(b), s.65); each one is listed in the notes' table
 - Reviewed witness flags live in `data/transcriptions/{name}.accepted.txt` (exact lines, `#` comments): a flag is closed only by re-reading the line on the image, never by editing the witness. The `.toml`'s `witnesses` are repo-relative paths (data/text is gitignored and rebuilt by persist / `draft`)
+- Clause paths (4b): `long_title`, `preamble`, `enacting_formula`; containers `pt1`, `pt1.ch2`; sections `s9`, `s9.ss1`, `.cl(a)`, `.sc(ii)`, provisos `.p1`, Explanations `.expl1` (numbered within their parent); Schedules `sch1`, `sch1.art5`, `sch1.art5.para1` (both "1." and "(1)" in a Schedule are paragraphs), `sch2.para1`. Sections and Schedules are top-level paths whatever Part / Chapter holds them (path survives a Chapter renumbering); `parent_path` and the graph's `CHILD_OF` record the container. "PRELIMINARY"-style group headings go to the next section's `meta.group_heading`
+- Parse rules (4b), deterministic, every judgment call recorded in `meta` and the report: a proviso attaches to the **deepest open provision** (4 in the base text attach to a clause / sub-clause: s34(2)(a)(iv), s48(1)(c), s57(2)(c), s64(2)(b)); an Explanation attaches to the open sub-section unless it begins "In this section" (then the section: s47, s56, s65); (i)/(v)/(x) are clauses after (h)/(u)/(w); an item continues the nearest open list of its kind, else opens a new list with a warning; a line after one ending in a cross-reference ("sub-section", "of", ") and") is never a marker; margin notes head the next section / sub-section / article, margin act citations go to `meta.margin_citations`; line-end hyphens join without a space. `load` refuses on any parse warning
+- Transcription marker `[[flush]]` (4b): the next line is set full out after a list and belongs to the provision that opened the list (s.4 "has not been complied with…"); its text is that node's own text after a line break. `transcription.check` ignores the marker
+- Clause versions: `version_label` comes from the transcription's `.toml` (`1996-enacted` for the base text). A load replaces every row and graph node of that (act, version); spans are **character** offsets into `text_path` (relative to DATA_DIR) and valid only while it hashes to `text_sha256`. The act and `source_doc_id` come from the documents row with the transcription's `raw_sha256`, never from the file name

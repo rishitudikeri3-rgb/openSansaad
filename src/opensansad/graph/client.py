@@ -4,7 +4,7 @@ from opensansad.config import get_settings
 
 
 class GraphClient:
-    """Thin wrapper around the Neo4j driver. Genealogy graph ops are added in later steps."""
+    """Thin wrapper around the Neo4j driver; graph operations live in `graph/clauses.py`."""
 
     def __init__(self, uri: str, user: str, password: str) -> None:
         self._driver: Driver = GraphDatabase.driver(uri, auth=(user, password))
@@ -13,6 +13,10 @@ class GraphClient:
     def from_settings(cls) -> "GraphClient":
         s = get_settings()
         return cls(s.neo4j_uri, s.neo4j_user, s.neo4j_password.get_secret_value())
+
+    @property
+    def driver(self) -> Driver:
+        return self._driver
 
     def ping(self) -> bool:
         self._driver.verify_connectivity()

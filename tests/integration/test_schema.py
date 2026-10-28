@@ -52,7 +52,7 @@ def engine(test_url: str, alembic_cfg: Config) -> Iterator[Engine]:
 
 
 def test_tables_created(engine: Engine) -> None:
-    assert {"acts", "documents", "fetch_log", "alembic_version"} <= set(
+    assert {"acts", "documents", "fetch_log", "clauses", "alembic_version"} <= set(
         inspect(engine).get_table_names()
     )
 

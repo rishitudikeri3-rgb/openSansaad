@@ -12,6 +12,8 @@ method = """Pages 6-32 (preamble, ss.1-86): typed by hand from page images clean
 images of item 79403. Both: every line no witness contains re-read on the image (the reviewed
 ones are in bill-xxx-c-1995.accepted.txt), and marker numbering checked in sequence."""
 verified = "model"
+# Clause-tree version (parse/clause_tree.py): the Act as enacted, before any amendment.
+version_label = "1996-enacted"
 # Paths relative to the repo root. data/text/ is gitignored: the library layers come back from
 # `python -m opensansad.ingest.persist --offline`, the drafts from
 # `python -m opensansad.parse.transcription draft RAW.pdf --pages 6-41`, the WIPO text from
