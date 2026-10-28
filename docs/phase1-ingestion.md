@@ -99,7 +99,7 @@ ops carried into the next instrument's known paths; Ordinances checked but not c
 | Act 33 of 2019 | 45 | 1 |
 | Act 3 of 2021 | 3 | 1 |
 | **Acts** | **94** | **11** (90% resolved) |
-| Ordinance 9 of 2015 (OCR) | 8 | 29 |
+| Ordinance 9 of 2015 (OCR) | 8 | 31 |
 | Ordinance 14 of 2020 | 1 | 2 |
 
 Acts by operation: insert 50/1, substitute 37/9, omit 6/1, renumber 1/0 (resolved/unresolved).

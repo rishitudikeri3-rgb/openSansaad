@@ -210,3 +210,18 @@ def test_fragment_numbers_after_existing_units() -> None:
     after = ct.parse_fragment("(i) one", [(0, "(i) one")], parent="s2.ss1",
                               parent_type="subsection", after=("clause", "h"))
     assert [n.path for n in after.nodes] == ["s2.ss1.cl(i)"]
+
+
+def test_fragment_items_under_a_clause_are_siblings() -> None:
+    # 2015 s.18: Explanation 1 quoted under s.34(2)(b) lists (i)–(iii); the fragment root has
+    # no number and must not count as an open clause before "(ii)"
+    lines = ["Explanation 1.—It is clarified that—", "(i) one; or", "(ii) two; or", "(iii) three."]
+    source, offsets, at = "", [], 0
+    for line in lines:
+        offsets.append((at, line))
+        source += line + "\n"
+        at += len(line) + 1
+    tree = ct.parse_fragment(source, offsets, parent="s34.ss2.cl(b)", parent_type="clause")
+    assert [n.path for n in tree.nodes] == [
+        "s34.ss2.cl(b).expl1", "s34.ss2.cl(b).expl1.sc(i)", "s34.ss2.cl(b).expl1.sc(ii)",
+        "s34.ss2.cl(b).expl1.sc(iii)"]

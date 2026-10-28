@@ -389,8 +389,8 @@ class _Parser:
         kind = "clause"
         if label in SUBCLAUSES:
             before = _LETTER_BEFORE_ROMAN.get(label)
-            open_letter = any(n.node_type == "clause" and n.number == before
-                              for n in self.stack)
+            open_letter = before is not None and any(
+                n.node_type == "clause" and n.number == before for n in self.stack)
             if not open_letter:
                 kind = "subclause"
         elif re.fullmatch(r"[ivx]+[a-h]", label):
