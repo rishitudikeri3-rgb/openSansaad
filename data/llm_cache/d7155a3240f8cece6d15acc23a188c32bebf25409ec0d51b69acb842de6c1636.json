@@ -1,0 +1,14 @@
+{
+ "model": "openai/gpt-oss-120b",
+ "messages": [
+  {
+   "role": "system",
+   "content": "You review the lineage of provisions of an Indian statute traced through its\namending Acts. Automatic checks found the conflicts below. For each, decide whether it shows a\nmapping that is likely WRONG (name the instruction group to revise) or is a FALSE ALARM (for\nexample: new matter may legitimately resemble old text; an omission may be intended).\nJudge on the texts given. Reply in JSON only:\n{\"verdicts\": [{\"conflict\": \"<id>\", \"false_alarm\": true|false, \"revise\": [\"<group>\", ...],\n  \"reason\": \"<one sentence>\"}]}\n\"revise\" must list only groups named in that conflict; empty if false_alarm."
+  },
+  {
+   "role": "user",
+   "content": "C1 [mispaired] groups ['3/2016|s20']: 3/2016: new s37.ss1.cl(b) is mapped from old s37.ss1.cl(b) (similarity 0.43) but reads like old s37.ss1.cl(a) (1.00)\nC2 [mispaired] groups ['3/2016|s20']: 3/2016: new s37.ss1.cl(c) is mapped from old s37.ss1.cl(a) (similarity 0.43) but reads like old s37.ss1.cl(b) (1.00)\n\nCurrent mappings of the groups involved:\n- [3/2016|s20] insert: old None -> new s37.ss1.cl(a) (agent)\n    new text: refusing to refer the parties to arbitration under section 8;\n- [3/2016|s20] substitute: old s37.ss1.cl(b) -> new s37.ss1.cl(b) (agent)\n    old text: setting aside or refusing to set aside an arbitral award under section 34.\n    new text: granting or refusing to grant any measure under section 9;\n- [3/2016|s20] renumber: old s37.ss1.cl(a) -> new s37.ss1.cl(c) (agent)\n    old text: granting or refusing to grant any measure under section 9;\n    new text: setting aside or refusing to set aside an arbitral award under section 34."
+  }
+ ],
+ "response": "{\"verdicts\":[{\"conflict\":\"C1\",\"false_alarm\":false,\"revise\":[\"3/2016|s20\"],\"reason\":\"The new clause b matches the text of old clause a, so the current substitute mapping is incorrect.\"},{\"conflict\":\"C2\",\"false_alarm\":false,\"revise\":[\"3/2016|s20\"],\"reason\":\"The new clause c mirrors the text of old clause b, indicating the renumber mapping is mispaired.\"}]}"
+}

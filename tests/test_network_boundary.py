@@ -29,3 +29,13 @@ def test_only_cache_imports_http_clients() -> None:
         if hits:
             offenders.append(f"{path.relative_to(SRC)}: {sorted(hits)}")
     assert not offenders, "network access outside cache.py:\n" + "\n".join(offenders)
+
+
+LLM_MODULES = {"openai", "langchain_openai", "anthropic", "groq"}
+
+
+def test_only_llm_module_imports_model_clients() -> None:
+    allowed = SRC / "agents" / "llm.py"
+    offenders = [f"{p.relative_to(SRC)}" for p in SRC.rglob("*.py") if p != allowed
+                 and {m.split(".")[0] for m in _imports(p)} & LLM_MODULES]
+    assert not offenders, "model clients outside agents/llm.py: " + ", ".join(offenders)

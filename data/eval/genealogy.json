@@ -1,0 +1,725 @@
+{
+ "rules": {
+  "all": {
+   "tp": 94,
+   "pred": 94,
+   "gold": 104,
+   "precision": 1.0,
+   "recall": 0.904,
+   "f1": 0.949
+  },
+  "hand": {
+   "tp": 1,
+   "pred": 1,
+   "gold": 11,
+   "precision": 1.0,
+   "recall": 0.091,
+   "f1": 0.167
+  },
+  "hand_groups_right": "1/6",
+  "out_of_scope_right": [
+   "33/2019|s15"
+  ],
+  "wrong_groups": [
+   "3/2016|s18.cl(I)",
+   "3/2016|s20",
+   "3/2016|s22",
+   "3/2016|s24",
+   "3/2021|s2"
+  ],
+  "edges": [
+   [
+    "3/2021",
+    "",
+    "s36.ss3.p2",
+    "insert",
+    "rule"
+   ]
+  ]
+ },
+ "label": {
+  "all": {
+   "tp": 100,
+   "pred": 105,
+   "gold": 104,
+   "precision": 0.952,
+   "recall": 0.962,
+   "f1": 0.957
+  },
+  "hand": {
+   "tp": 7,
+   "pred": 12,
+   "gold": 11,
+   "precision": 0.583,
+   "recall": 0.636,
+   "f1": 0.609
+  },
+  "hand_groups_right": "3/6",
+  "out_of_scope_right": [],
+  "wrong_groups": [
+   "3/2016|s20",
+   "3/2021|s2",
+   "33/2019|s15"
+  ],
+  "edges": [
+   [
+    "3/2016",
+    "",
+    "s34.ss2.cl(b).expl2",
+    "insert",
+    "label"
+   ],
+   [
+    "3/2016",
+    "",
+    "s37.ss1.cl(c)",
+    "insert",
+    "label"
+   ],
+   [
+    "3/2016",
+    "",
+    "s48.ss2.expl2",
+    "insert",
+    "label"
+   ],
+   [
+    "3/2016",
+    "",
+    "s57.ss1.expl2",
+    "insert",
+    "label"
+   ],
+   [
+    "3/2016",
+    "s34.ss2.cl(b).expl1",
+    "s34.ss2.cl(b).expl1",
+    "substitute",
+    "label"
+   ],
+   [
+    "3/2016",
+    "s37.ss1.cl(a)",
+    "s37.ss1.cl(a)",
+    "substitute",
+    "label"
+   ],
+   [
+    "3/2016",
+    "s37.ss1.cl(b)",
+    "s37.ss1.cl(b)",
+    "substitute",
+    "label"
+   ],
+   [
+    "3/2016",
+    "s48.ss2.expl1",
+    "s48.ss2.expl1",
+    "substitute",
+    "label"
+   ],
+   [
+    "3/2016",
+    "s57.ss1.expl1",
+    "s57.ss1.expl1",
+    "substitute",
+    "label"
+   ],
+   [
+    "3/2021",
+    "",
+    "s36.ss3.expl1",
+    "insert",
+    "label"
+   ],
+   [
+    "3/2021",
+    "",
+    "s36.ss3.p2",
+    "insert",
+    "label"
+   ],
+   [
+    "33/2019",
+    "s26",
+    "",
+    "omit",
+    "label"
+   ]
+  ]
+ },
+ "single": {
+  "all": {
+   "tp": 104,
+   "pred": 104,
+   "gold": 104,
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0
+  },
+  "hand": {
+   "tp": 11,
+   "pred": 11,
+   "gold": 11,
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0
+  },
+  "hand_groups_right": "6/6",
+  "out_of_scope_right": [
+   "33/2019|s15"
+  ],
+  "wrong_groups": [],
+  "rounds": 0,
+  "conflicts_per_round": [],
+  "conflicts": [],
+  "revisions": [],
+  "revision_score": {
+   "revisions": 0,
+   "changed": 0,
+   "wrong_to_right": 0,
+   "right_to_wrong": 0,
+   "wrong_to_wrong": 0,
+   "right_kept": 0
+  },
+  "errors": [],
+  "llm_requests": 6,
+  "trace": [
+   "genealogy 3/2016|s18.cl(I): [('s34.ss2.cl(b).expl1', 's34.ss2.cl(b).expl1'), ('', 's34.ss2.cl(b).expl2')]",
+   "genealogy 3/2016|s20: [('', 's37.ss1.cl(a)'), ('s37.ss1.cl(a)', 's37.ss1.cl(b)'), ('s37.ss1.cl(b)', 's37.ss1.cl(c)')]",
+   "genealogy 3/2016|s22: [('s48.ss2.expl1', 's48.ss2.expl1'), ('', 's48.ss2.expl2')]",
+   "genealogy 3/2016|s24: [('s57.ss1.expl1', 's57.ss1.expl1'), ('', 's57.ss1.expl2')]",
+   "genealogy 33/2019|s15: [] out of scope",
+   "genealogy 3/2021|s2: [('', 's36.ss3.p2'), ('', 's36.ss3.p2.expl1')]"
+  ],
+  "edges": [
+   [
+    "3/2016",
+    "",
+    "s34.ss2.cl(b).expl2",
+    "insert",
+    "agent"
+   ],
+   [
+    "3/2016",
+    "",
+    "s37.ss1.cl(a)",
+    "insert",
+    "agent"
+   ],
+   [
+    "3/2016",
+    "",
+    "s48.ss2.expl2",
+    "insert",
+    "agent"
+   ],
+   [
+    "3/2016",
+    "",
+    "s57.ss1.expl2",
+    "insert",
+    "agent"
+   ],
+   [
+    "3/2016",
+    "s34.ss2.cl(b).expl1",
+    "s34.ss2.cl(b).expl1",
+    "substitute",
+    "agent"
+   ],
+   [
+    "3/2016",
+    "s37.ss1.cl(a)",
+    "s37.ss1.cl(b)",
+    "renumber",
+    "agent"
+   ],
+   [
+    "3/2016",
+    "s37.ss1.cl(b)",
+    "s37.ss1.cl(c)",
+    "renumber",
+    "agent"
+   ],
+   [
+    "3/2016",
+    "s48.ss2.expl1",
+    "s48.ss2.expl1",
+    "substitute",
+    "agent"
+   ],
+   [
+    "3/2016",
+    "s57.ss1.expl1",
+    "s57.ss1.expl1",
+    "substitute",
+    "agent"
+   ],
+   [
+    "3/2021",
+    "",
+    "s36.ss3.p2",
+    "insert",
+    "agent"
+   ],
+   [
+    "3/2021",
+    "",
+    "s36.ss3.p2.expl1",
+    "insert",
+    "agent"
+   ]
+  ]
+ },
+ "agentic": {
+  "all": {
+   "tp": 104,
+   "pred": 104,
+   "gold": 104,
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0
+  },
+  "hand": {
+   "tp": 11,
+   "pred": 11,
+   "gold": 11,
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0
+  },
+  "hand_groups_right": "6/6",
+  "out_of_scope_right": [
+   "33/2019|s15"
+  ],
+  "wrong_groups": [],
+  "rounds": 0,
+  "conflicts_per_round": [
+   0
+  ],
+  "conflicts": [
+   []
+  ],
+  "revisions": [],
+  "revision_score": {
+   "revisions": 0,
+   "changed": 0,
+   "wrong_to_right": 0,
+   "right_to_wrong": 0,
+   "wrong_to_wrong": 0,
+   "right_kept": 0
+  },
+  "errors": [],
+  "llm_requests": 0,
+  "trace": [
+   "genealogy 3/2016|s18.cl(I): [('s34.ss2.cl(b).expl1', 's34.ss2.cl(b).expl1'), ('', 's34.ss2.cl(b).expl2')]",
+   "genealogy 3/2016|s20: [('', 's37.ss1.cl(a)'), ('s37.ss1.cl(a)', 's37.ss1.cl(b)'), ('s37.ss1.cl(b)', 's37.ss1.cl(c)')]",
+   "genealogy 3/2016|s22: [('s48.ss2.expl1', 's48.ss2.expl1'), ('', 's48.ss2.expl2')]",
+   "genealogy 3/2016|s24: [('s57.ss1.expl1', 's57.ss1.expl1'), ('', 's57.ss1.expl2')]",
+   "genealogy 33/2019|s15: [] out of scope",
+   "genealogy 3/2021|s2: [('', 's36.ss3.p2'), ('', 's36.ss3.p2.expl1')]"
+  ],
+  "edges": [
+   [
+    "3/2016",
+    "",
+    "s34.ss2.cl(b).expl2",
+    "insert",
+    "agent"
+   ],
+   [
+    "3/2016",
+    "",
+    "s37.ss1.cl(a)",
+    "insert",
+    "agent"
+   ],
+   [
+    "3/2016",
+    "",
+    "s48.ss2.expl2",
+    "insert",
+    "agent"
+   ],
+   [
+    "3/2016",
+    "",
+    "s57.ss1.expl2",
+    "insert",
+    "agent"
+   ],
+   [
+    "3/2016",
+    "s34.ss2.cl(b).expl1",
+    "s34.ss2.cl(b).expl1",
+    "substitute",
+    "agent"
+   ],
+   [
+    "3/2016",
+    "s37.ss1.cl(a)",
+    "s37.ss1.cl(b)",
+    "renumber",
+    "agent"
+   ],
+   [
+    "3/2016",
+    "s37.ss1.cl(b)",
+    "s37.ss1.cl(c)",
+    "renumber",
+    "agent"
+   ],
+   [
+    "3/2016",
+    "s48.ss2.expl1",
+    "s48.ss2.expl1",
+    "substitute",
+    "agent"
+   ],
+   [
+    "3/2016",
+    "s57.ss1.expl1",
+    "s57.ss1.expl1",
+    "substitute",
+    "agent"
+   ],
+   [
+    "3/2021",
+    "",
+    "s36.ss3.p2",
+    "insert",
+    "agent"
+   ],
+   [
+    "3/2021",
+    "",
+    "s36.ss3.p2.expl1",
+    "insert",
+    "agent"
+   ]
+  ]
+ },
+ "single-bulk": {
+  "all": {
+   "tp": 102,
+   "pred": 104,
+   "gold": 104,
+   "precision": 0.981,
+   "recall": 0.981,
+   "f1": 0.981
+  },
+  "hand": {
+   "tp": 9,
+   "pred": 11,
+   "gold": 11,
+   "precision": 0.818,
+   "recall": 0.818,
+   "f1": 0.818
+  },
+  "hand_groups_right": "5/6",
+  "out_of_scope_right": [
+   "33/2019|s15"
+  ],
+  "wrong_groups": [
+   "3/2016|s20"
+  ],
+  "rounds": 0,
+  "conflicts_per_round": [],
+  "conflicts": [],
+  "revisions": [],
+  "revision_score": {
+   "revisions": 0,
+   "changed": 0,
+   "wrong_to_right": 0,
+   "right_to_wrong": 0,
+   "wrong_to_wrong": 0,
+   "right_kept": 0
+  },
+  "errors": [],
+  "llm_requests": 6,
+  "trace": [
+   "genealogy 3/2016|s18.cl(I): [('s34.ss2.cl(b).expl1', 's34.ss2.cl(b).expl1'), ('', 's34.ss2.cl(b).expl2')]",
+   "genealogy 3/2016|s20: [('', 's37.ss1.cl(a)'), ('s37.ss1.cl(b)', 's37.ss1.cl(b)'), ('s37.ss1.cl(a)', 's37.ss1.cl(c)')]",
+   "genealogy 3/2016|s22: [('s48.ss2.expl1', 's48.ss2.expl1'), ('', 's48.ss2.expl2')]",
+   "genealogy 3/2016|s24: [('s57.ss1.expl1', 's57.ss1.expl1'), ('', 's57.ss1.expl2')]",
+   "genealogy 33/2019|s15: [] out of scope",
+   "genealogy 3/2021|s2: [('', 's36.ss3.p2'), ('', 's36.ss3.p2.expl1')]"
+  ],
+  "edges": [
+   [
+    "3/2016",
+    "",
+    "s34.ss2.cl(b).expl2",
+    "insert",
+    "agent"
+   ],
+   [
+    "3/2016",
+    "",
+    "s37.ss1.cl(a)",
+    "insert",
+    "agent"
+   ],
+   [
+    "3/2016",
+    "",
+    "s48.ss2.expl2",
+    "insert",
+    "agent"
+   ],
+   [
+    "3/2016",
+    "",
+    "s57.ss1.expl2",
+    "insert",
+    "agent"
+   ],
+   [
+    "3/2016",
+    "s34.ss2.cl(b).expl1",
+    "s34.ss2.cl(b).expl1",
+    "substitute",
+    "agent"
+   ],
+   [
+    "3/2016",
+    "s37.ss1.cl(a)",
+    "s37.ss1.cl(c)",
+    "renumber",
+    "agent"
+   ],
+   [
+    "3/2016",
+    "s37.ss1.cl(b)",
+    "s37.ss1.cl(b)",
+    "substitute",
+    "agent"
+   ],
+   [
+    "3/2016",
+    "s48.ss2.expl1",
+    "s48.ss2.expl1",
+    "substitute",
+    "agent"
+   ],
+   [
+    "3/2016",
+    "s57.ss1.expl1",
+    "s57.ss1.expl1",
+    "substitute",
+    "agent"
+   ],
+   [
+    "3/2021",
+    "",
+    "s36.ss3.p2",
+    "insert",
+    "agent"
+   ],
+   [
+    "3/2021",
+    "",
+    "s36.ss3.p2.expl1",
+    "insert",
+    "agent"
+   ]
+  ]
+ },
+ "agentic-bulk": {
+  "all": {
+   "tp": 104,
+   "pred": 104,
+   "gold": 104,
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0
+  },
+  "hand": {
+   "tp": 11,
+   "pred": 11,
+   "gold": 11,
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0
+  },
+  "hand_groups_right": "6/6",
+  "out_of_scope_right": [
+   "33/2019|s15"
+  ],
+  "wrong_groups": [],
+  "rounds": 1,
+  "conflicts_per_round": [
+   2,
+   0
+  ],
+  "conflicts": [
+   [
+    {
+     "id": "C1",
+     "check": "mispaired",
+     "groups": [
+      "3/2016|s20"
+     ],
+     "message": "3/2016: new s37.ss1.cl(b) is mapped from old s37.ss1.cl(b) (similarity 0.43) but reads like old s37.ss1.cl(a) (1.00)"
+    },
+    {
+     "id": "C2",
+     "check": "mispaired",
+     "groups": [
+      "3/2016|s20"
+     ],
+     "message": "3/2016: new s37.ss1.cl(c) is mapped from old s37.ss1.cl(a) (similarity 0.43) but reads like old s37.ss1.cl(b) (1.00)"
+    }
+   ],
+   []
+  ],
+  "revisions": [
+   {
+    "round": 1,
+    "group": "3/2016|s20",
+    "findings": [
+     "3/2016: new s37.ss1.cl(b) is mapped from old s37.ss1.cl(b) (similarity 0.43) but reads like old s37.ss1.cl(a) (1.00) \u2014 reviewer: The new clause b matches the text of old clause a, so the current substitute mapping is incorrect.",
+     "3/2016: new s37.ss1.cl(c) is mapped from old s37.ss1.cl(a) (similarity 0.43) but reads like old s37.ss1.cl(b) (1.00) \u2014 reviewer: The new clause c mirrors the text of old clause b, indicating the renumber mapping is mispaired."
+    ],
+    "before": [
+     [
+      "3/2016",
+      "",
+      "s37.ss1.cl(a)"
+     ],
+     [
+      "3/2016",
+      "s37.ss1.cl(a)",
+      "s37.ss1.cl(c)"
+     ],
+     [
+      "3/2016",
+      "s37.ss1.cl(b)",
+      "s37.ss1.cl(b)"
+     ]
+    ],
+    "after": [
+     [
+      "3/2016",
+      "",
+      "s37.ss1.cl(a)"
+     ],
+     [
+      "3/2016",
+      "s37.ss1.cl(a)",
+      "s37.ss1.cl(b)"
+     ],
+     [
+      "3/2016",
+      "s37.ss1.cl(b)",
+      "s37.ss1.cl(c)"
+     ]
+    ],
+    "changed": true,
+    "correct_before": false,
+    "correct_after": true
+   }
+  ],
+  "revision_score": {
+   "revisions": 1,
+   "changed": 1,
+   "wrong_to_right": 1,
+   "right_to_wrong": 0,
+   "wrong_to_wrong": 0,
+   "right_kept": 0
+  },
+  "errors": [],
+  "llm_requests": 2,
+  "trace": [
+   "genealogy 3/2016|s18.cl(I): [('s34.ss2.cl(b).expl1', 's34.ss2.cl(b).expl1'), ('', 's34.ss2.cl(b).expl2')]",
+   "genealogy 3/2016|s20: [('', 's37.ss1.cl(a)'), ('s37.ss1.cl(b)', 's37.ss1.cl(b)'), ('s37.ss1.cl(a)', 's37.ss1.cl(c)')]",
+   "genealogy 3/2016|s22: [('s48.ss2.expl1', 's48.ss2.expl1'), ('', 's48.ss2.expl2')]",
+   "genealogy 3/2016|s24: [('s57.ss1.expl1', 's57.ss1.expl1'), ('', 's57.ss1.expl2')]",
+   "genealogy 33/2019|s15: [] out of scope",
+   "genealogy 3/2021|s2: [('', 's36.ss3.p2'), ('', 's36.ss3.p2.expl1')]",
+   "contradiction C1 3/2016: new s37.ss1.cl(b) is mapped from old s37.ss1.cl(b) (similarity 0.43) but reads like old s37.ss1.cl(a) (1.00): revise ['3/2016|s20'] (The new clause b matches the text of old clause a, so the current substitute mapping is incorrect.)",
+   "contradiction C2 3/2016: new s37.ss1.cl(c) is mapped from old s37.ss1.cl(a) (similarity 0.43) but reads like old s37.ss1.cl(b) (1.00): revise ['3/2016|s20'] (The new clause c mirrors the text of old clause b, indicating the renumber mapping is mispaired.)",
+   "revise 3/2016|s20: [('3/2016', '', 's37.ss1.cl(a)'), ('3/2016', 's37.ss1.cl(a)', 's37.ss1.cl(c)'), ('3/2016', 's37.ss1.cl(b)', 's37.ss1.cl(b)')] -> [('3/2016', '', 's37.ss1.cl(a)'), ('3/2016', 's37.ss1.cl(a)', 's37.ss1.cl(b)'), ('3/2016', 's37.ss1.cl(b)', 's37.ss1.cl(c)')]"
+  ],
+  "edges": [
+   [
+    "3/2016",
+    "",
+    "s34.ss2.cl(b).expl2",
+    "insert",
+    "agent"
+   ],
+   [
+    "3/2016",
+    "",
+    "s37.ss1.cl(a)",
+    "insert",
+    "agent"
+   ],
+   [
+    "3/2016",
+    "",
+    "s48.ss2.expl2",
+    "insert",
+    "agent"
+   ],
+   [
+    "3/2016",
+    "",
+    "s57.ss1.expl2",
+    "insert",
+    "agent"
+   ],
+   [
+    "3/2016",
+    "s34.ss2.cl(b).expl1",
+    "s34.ss2.cl(b).expl1",
+    "substitute",
+    "agent"
+   ],
+   [
+    "3/2016",
+    "s37.ss1.cl(a)",
+    "s37.ss1.cl(b)",
+    "renumber",
+    "agent"
+   ],
+   [
+    "3/2016",
+    "s37.ss1.cl(b)",
+    "s37.ss1.cl(c)",
+    "renumber",
+    "agent"
+   ],
+   [
+    "3/2016",
+    "s48.ss2.expl1",
+    "s48.ss2.expl1",
+    "substitute",
+    "agent"
+   ],
+   [
+    "3/2016",
+    "s57.ss1.expl1",
+    "s57.ss1.expl1",
+    "substitute",
+    "agent"
+   ],
+   [
+    "3/2021",
+    "",
+    "s36.ss3.p2",
+    "insert",
+    "agent"
+   ],
+   [
+    "3/2021",
+    "",
+    "s36.ss3.p2.expl1",
+    "insert",
+    "agent"
+   ]
+  ]
+ }
+}

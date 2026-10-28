@@ -44,6 +44,7 @@ provision = "s3"
 ord = 3
 op_type = "insert"
 unit = "words"
+old = "s7.ss4.cl(b)"
 new = "s7.ss4.cl(b)"
 decided = "rule-checked"
 
@@ -292,6 +293,7 @@ provision = "s13"
 ord = 29
 op_type = "insert"
 unit = "words"
+old = "s25.cl(b)"
 new = "s25.cl(b)"
 decided = "rule-checked"
 

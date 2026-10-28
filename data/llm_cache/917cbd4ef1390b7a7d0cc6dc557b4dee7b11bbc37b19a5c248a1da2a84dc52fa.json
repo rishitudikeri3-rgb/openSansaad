@@ -1,0 +1,14 @@
+{
+ "model": "openai/gpt-oss-120b",
+ "messages": [
+  {
+   "role": "system",
+   "content": "You review the lineage of provisions of an Indian statute traced through its\namending Acts. Automatic checks found the conflicts below. For each, decide whether it shows a\nmapping that is likely WRONG (name the instruction group to revise) or is a FALSE ALARM (for\nexample: new matter may legitimately resemble old text; an omission may be intended).\nJudge on the texts given. Reply in JSON only:\n{\"verdicts\": [{\"conflict\": \"<id>\", \"false_alarm\": true|false, \"revise\": [\"<group>\", ...],\n  \"reason\": \"<one sentence>\"}]}\n\"revise\" must list only groups named in that conflict; empty if false_alarm."
+  },
+  {
+   "role": "user",
+   "content": "C1 [kind] groups ['3/2016|s5']: 3/2016: s9 (s) becomes s9.ss1 (ss)\n\nCurrent mappings of the groups involved:\n- [3/2016|s5] renumber: old s9 -> new s9.ss1 (rule)\n    old text: A party may, before, or during arbitral proceedings or at any time after the making of the arbitral award but before it is enforced in accordance with section 36, apply to a court—\nand the Court shall have the same power for making orders as it has for the purpose of, and in relation to, any proceedings before it.\nfor the appointment of a guardian for a minor or person of unsound mind for the purp\n- [3/2016|s5] insert: old None -> new s9.ss2 (rule)\n    new text: Where, before the commencement of the arbitral proceedings, a Court passes an order for any interim measure of protection under sub-section (1), the arbitral proceedings shall be commenced within a period of ninety days from the date of such order or within such further time as the Court may determine.\n- [3/2016|s5] insert: old None -> new s9.ss3 (rule)\n    new text: Once the arbitral tribunal has been constituted, the Court shall not entertain an application under sub-section (1), unless the Court finds that circumstances exist which may not render the remedy provided under section 17 efficacious."
+  }
+ ],
+ "response": "{\"verdicts\":[{\"conflict\":\"C1\",\"false_alarm\":true,\"revise\":[],\"reason\":\"The renumbering and insertions appear consistent with the amendment; no mapping error detected.\"}]}"
+}

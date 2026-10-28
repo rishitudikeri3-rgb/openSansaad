@@ -1,7 +1,7 @@
 .PHONY: install up down logs test test-integration migrate lint worker
 
 install:
-	uv sync
+	uv sync --all-extras
 
 up:
 	docker compose up -d --wait
