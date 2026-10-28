@@ -181,7 +181,7 @@ Neo4j: `(:Clause {act_id, version_label, path, node_type, number, heading, ord})
 
 ## 9. Phase plan
 
-**Phase 1 — Foundation** ← CURRENT
+**Phase 1 — Foundation** — done (2026-10-28)
 1. Skeleton + docker stack + smoke tests
 2. Data recon: shortlist 3 acts, assess source quality, pick one
 3. Ingestion: cache, source adapters, extraction, OCR detection, Celery tasks
@@ -189,7 +189,7 @@ Neo4j: `(:Clause {act_id, version_label, path, node_type, number, heading, ord})
 
 Exit criteria: full stack up; act chosen and recorded; principal + all amending acts cached/extracted/in DB; scanned docs flagged; debates & committee reports for the act fetched; sansad.in + PRS access verified with samples cached; clause tree in Postgres + Neo4j; resolved/unresolved op ratio reported; footnote coverage assessed; all tests pass offline.
 
-**Phase 2 — Agentic core:** hand-built ground truth for every amendment, Genealogy Agent, Contradiction loop, evaluation harness (precision/recall, correction count, single-pass baseline).
+**Phase 2 — Agentic core:** ← CURRENT hand-built ground truth for every amendment, Genealogy Agent, Contradiction loop, evaluation harness (precision/recall, correction count, single-pass baseline).
 
 **Phase 3 — Intent & trust:** Intent Agent (escalating search, OCR for pre-2009 debates), Verification Agent (refusal).
 
@@ -234,6 +234,7 @@ Exit criteria: full stack up; act chosen and recorded; principal + all amending 
   - 4a — **done** (2026-10-28): `data/transcriptions/bill-xxx-c-1995.{txt,toml,notes.md}` (Bill XXX-C as passed, PDF pages 6–41: preamble, ss.1–86, three Schedules), `parse/transcription.py` (`draft`: cleaned-image Tesseract; `check`: lines no witness contains). All 86 sections and pages 6–41 present; WIPO typed copy (manifest row, secondary) used as a witness only. Follow-up (2026-10-28): every flagged line reviewed and listed in `bill-xxx-c-1995.accepted.txt` (`check` skips them, reports stale ones); `numbering()` checks parts/chapters/sections/sub-sections/clauses/articles in sequence (catches the short marker lines the witness check skips); Schedule pages 33–41 all read in full on the images (6 more fixes); `.toml` lists witness paths and draft tool versions, so `check NAME.txt` runs from it; notes state the as-printed rule and tabulate every editorial change. `check` exits 1 on any flag, stale accepted line or numbering break (currently 0 / 0 / 0)
   - 4b — **done** (2026-10-28): `parse/clause_tree.py` (`show` / `load`), `parse/load.py` (Postgres, replaces one version in one transaction; graph written before commit), `graph/clauses.py` (`replace_tree`, refuses if genealogy edges touch the version unless `--force`); `clauses` table (migration `a2f5a9b20067`). Base text loaded as version `1996-enacted` of act 1, citing documents row 56: 553 nodes (86 sections, 191 sub-sections, 142 clauses, 26 sub-clauses, 12 provisos, 8 Explanations, 4 Parts, 12 Chapters, 3 Schedules, 27 articles, 39 paragraphs), 542 `CHILD_OF` edges, 0 parse warnings. Provisos / Explanations counted against the text (12 / 8). `[[flush]]` marker added to the transcription (11 list tails)
   - 4c — **done** (2026-10-28): `parse/amending_ops.py` (rule-based extractor: instruction tree, quoted blocks parsed with `clause_tree.parse_fragment`, known-paths state; `show` / `load`), `parse/load_ops.py` (one copy per sha256, e-Gazette > sansad.in > PRS; replaces each instrument's rows), `amendment_ops` table (migration `2ed6176fde15`). **Acts: 94 resolved / 11 unresolved (90%)** — Act 3 of 2016 46/9 (Explanation → Explanations 1 and 2 in ss.34/48/57, s.37(1) (a)(b) → (a)(b)(c): unequal substitutions), Act 33 of 2019 45/1 (s.15 amends Act 3 of 2016, not the principal Act), Act 3 of 2021 3/1 (where the quoted Explanation attaches). **Ordinances: 9 / 31** (Ordinance 9 of 2015 is OCR with margin notes mixed into the body — known extraction gap; Ordinance 14 of 2020: Explanation printed outside the quoted proviso, stray margin fragments after s.3's quote). Ops loaded for act 1 against `1996-enacted`
+  - 4d — **done** (2026-10-28): exit check in `docs/phase1-ingestion.md` §6–7. All criteria met except footnote coverage, **not assessable** (India Code unreachable). **Phase 1 closed**
 
 ## 12. Decisions Log
 
@@ -360,3 +361,4 @@ Exit criteria: full stack up; act chosen and recorded; principal + all amending 
 - A quoted block that never closes (2015 s.12(5): closing quote lost after "writing.") ends at the next margin note "Amendment/Insertion/Substitution/Omission of…" or next section naming "principal Act", with `meta.quote_unclosed` and a warning
 - Ops on other instruments (2019 s.15 → s.26 of Act 3 of 2016) are recorded unresolved ("amends another instrument"); commencement / retrospective wording ("deemed to have come into force on …") is read into `meta.effective_from`; a margin note naming other sections than the op targets is flagged in `reason`
 - Findings (4c): Ordinance 14 of 2020 prints its Explanation **outside** the quoted proviso (the 2021 Act inserts it) — flagged, read by hand in Phase 2; Ordinance 9 of 2015 s.23 seems to differ from the Act's s.56 change (read on the scan in Phase 2)
+- **Deadline triage (2026-10-28): 2 days left for Phases 2–5.** Scope cut to what §10 grades: Phase 2 in full (ground truth for the Acts' ops, Genealogy Agent on unresolved ops only, Contradiction loop, eval vs single-pass baseline); Phase 3 over already-cached sources (SOR → debate → Law Commission; news tier cut, no Hindi OCR); Phase 5 minimal (FastAPI, one D3 timeline page, routing chatbot; no React build, no Docker deploy). **Phase 4 cut** (bill metadata, session summaries, Session Monitor) — documented as future work. Ordinances not in ground truth (Acts re-enact them)

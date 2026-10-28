@@ -81,7 +81,29 @@ It is `verified = "model"`: a human pass is still due before the Phase 2 ground 
 | Scanned docs flagged | Done: `ocr_confidence` plus `ocr_regions_dropped`, both in the persist report. |
 | Debates and committee reports for the act fetched | Debates: done (LS and RS, every Bill). Committee reports: none exist for the enacted Bills; Law Commission reports done; the Srikrishna committee report waits for a browser download. |
 | sansad.in + PRS access verified, samples cached | Done (3d-i, 3d-iv). |
-| Clause tree in Postgres + Neo4j | Step 4. |
-| Resolved/unresolved op ratio reported | Step 4. |
-| Footnote coverage assessed | Blocked on India Code (§3). Step 4 reports it as not assessable unless a copy is obtained. |
-| All tests pass offline | Done (`make test`). |
+| Clause tree in Postgres + Neo4j | Done (4b): version `1996-enacted`, 553 clauses, 542 `CHILD_OF` edges, 0 parse warnings. |
+| Resolved/unresolved op ratio reported | Done (4c, §7). |
+| Footnote coverage assessed | **Not assessable** (checked 2026-10-28): India Code, the only source of footnotes, still unreachable. Not a blocker for Phase 2 — footnotes were only ever a noisy validation signal; ground truth is built from the Gazette texts. Re-check if India Code returns. |
+| All tests pass offline | Done: 238 offline, 20 integration (2026-10-28). |
+
+**Phase 1 closed 2026-10-28** with the one criterion above not assessable.
+
+## 7. Amendment operations (step 4c)
+
+Rule-based extraction (`parse/amending_ops.py`) against the `1996-enacted` clause tree, each Act's
+ops carried into the next instrument's known paths; Ordinances checked but not carried.
+
+| Instrument | Resolved | Unresolved |
+|---|---|---|
+| Act 3 of 2016 | 46 | 9 |
+| Act 33 of 2019 | 45 | 1 |
+| Act 3 of 2021 | 3 | 1 |
+| **Acts** | **94** | **11** (90% resolved) |
+| Ordinance 9 of 2015 (OCR) | 8 | 29 |
+| Ordinance 14 of 2020 | 1 | 2 |
+
+Acts by operation: insert 50/1, substitute 37/9, omit 6/1, renumber 1/0 (resolved/unresolved).
+Unresolved Act ops are the judgment cases Phase 2's Genealogy Agent takes: substitutions whose
+unit counts change (ss.34/48/57 Explanations, s.37(1) clauses), an op on another instrument
+(2019 s.15 → s.26 of Act 3 of 2016), and where a quoted Explanation attaches (2021).
+Ordinance 9 of 2015's low rate is its OCR (margin notes mixed into body lines), not the rules.
