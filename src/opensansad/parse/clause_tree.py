@@ -44,18 +44,20 @@ NUMBER_WORDS = {"FIRST": 1, "SECOND": 2, "THIRD": 3, "FOURTH": 4, "FIFTH": 5, "S
                 "SEVENTH": 7, "EIGHTH": 8, "NINTH": 9, "TENTH": 10}
 
 _CITATION = re.compile(r"^\d+ of \d{4}\.?$")
-_PART = re.compile(r"^PART ([IVX]+)$")
+_PART = re.compile(r"^PART ([IVX]+)([A-Z]?)$")  # "PART IA": inserted
 _CHAPTER = re.compile(r"^CHAPTER ([IVX]+)$")
 _SCHEDULE = re.compile(r"^THE (\w+) SCHEDULE$")
 _SEE = re.compile(r"^\(See (.+)\)$")
 _ARTICLE_HEAD = re.compile(r"^ARTICLE ([IVX]+)$")
 _ARTICLE_INLINE = re.compile(r"^Article (\d+)\.\s*—\s*")
-_SECTION = re.compile(r"^(\d+[A-Z]*)\.\s+")
+_SECTION = re.compile(r"^(\d+[A-Z]*(?:-[A-Z]+)?)\.\s+")  # 29A, 43-I
 _PARAGRAPH = re.compile(r"^(\d+)\.\s+")
-_SUB = re.compile(r"^\((\d+)\)\s*")
+_SUB = re.compile(r"^\((\d+[A-Z]*)\)\s*")  # (2A)
 _ITEM = re.compile(r"^\(([a-z]+)\)\s*")
 _PROVISO = re.compile(r"^Provided\b")
 _EXPLANATION = re.compile(r"^Explanation(?:\s+(\d+))?\.\s*—\s*")
+_EXPLAINS = re.compile(r"^(?:Without prejudice to the generality of|For the purposes? of) "
+                       r"(sub-clause|clause) \((\w+)\)")
 _GROUP = re.compile(r"^[A-Z][A-Z ]+$")  # a heading such as PRELIMINARY
 _REFERENCE_END = re.compile(
     r"(?:\b(?:sub-sections?|sections?|clauses?|sub-clauses?|articles?|paragraphs?"
@@ -136,6 +138,8 @@ class _Parser:
         self.front: Node | None = None  # long title / preamble / enacting formula, while open
         self.body_started = False
         self.last_owner: Node | None = None
+        self.fragment = False  # parsing text quoted in an amending act (parse_fragment)
+        self.explains: str | None = None
         self.cursor = -1  # file offset of the marker being read: where a new node's span starts
 
     # -- helpers -----------------------------------------------------------------------
@@ -252,8 +256,8 @@ class _Parser:
     def structure(self, s: str, begin: int, end: int) -> bool:
         """Parts, Chapters, Schedules, Articles and group headings."""
         if m := _PART.match(s):
-            n = ROMAN[m.group(1)]
-            self.part = self.new(f"pt{n}", "part", m.group(1), None)
+            n = f"{ROMAN[m.group(1)]}{m.group(2)}"
+            self.part = self.new(f"pt{n}", "part", m.group(1) + m.group(2), None)
             self.chapter, self.schedule, self.stack = None, None, []
             self.touch(self.part, begin, end)
             self.expect_title = self.part
@@ -389,12 +393,14 @@ class _Parser:
                               for n in self.stack)
             if not open_letter:
                 kind = "subclause"
-        elif len(label) != 1:
-            return False  # "(ab)": not a marker this parser knows
+        elif re.fullmatch(r"[ivx]+[a-h]", label):
+            kind = "subclause"  # "(ia)": inserted after (i)
+        elif not re.fullmatch(r"[a-z]{1,2}", label):
+            return False
         # continue the nearest open list of this kind
         for i in range(len(self.stack) - 1, -1, -1):
             n = self.stack[i]
-            if n.node_type == kind and _next_label(kind, n.number) == label:
+            if n.node_type == kind and _follows(kind, n.number, label):
                 parent = n.parent
                 assert parent is not None
                 self.pop_to(parent)
@@ -403,7 +409,7 @@ class _Parser:
         if parent is None:
             self.warn(f"({label}) outside any provision")
             return False
-        if label not in ("a", "i"):
+        if label not in ("a", "i") and not self.fragment:
             self.warn(f"{kind} ({label}) does not continue any open list; under {parent.path}")
             parent.meta.setdefault("notes", []).append(f"({label}) out of sequence")
         return self._item(kind, label, parent)
@@ -431,10 +437,20 @@ class _Parser:
         self.stack.append(node)
 
     def explanation(self, printed: str | None, text: str) -> None:
-        # one that says "In this section" belongs to the section, not the last sub-section
+        # one that says "In this section" belongs to the section, not the last sub-section;
+        # one that explains "sub-clause (ii)" / "clause (b)" belongs to the provision holding it
         kinds = ("section",) if text.startswith("In this section") else (
             "subsection", "section", "paragraph", "article")
         parent = next((n for n in reversed(self.stack) if n.node_type in kinds), None)
+        if parent is None and self.fragment and self.stack:
+            parent = self.stack[0]  # quoted under a clause: the unit it is quoted for
+        if (m := _EXPLAINS.search(text)) and not text.startswith("In this section"):
+            kind = "subclause" if m.group(1) == "sub-clause" else "clause"
+            holder = next((n for n in reversed(self.stack) if any(
+                c.node_type == kind and c.number == m.group(2) for c in n.children)), None)
+            if holder is not None and holder is not parent:
+                parent = holder
+                self.explains = f"names {m.group(1)} ({m.group(2)})"
         if parent is None:
             self.warn("Explanation outside any provision")
             return
@@ -443,6 +459,8 @@ class _Parser:
         node = self.new(f"{parent.path}.expl{k}", "explanation", printed or str(k), parent)
         if kinds == ("section",):
             node.meta["attached"] = "says 'In this section'"
+        elif self.explains:
+            node.meta["attached"], self.explains = self.explains, None
         self.stack.append(node)
 
     def list_opener(self) -> Node | None:
@@ -450,6 +468,21 @@ class _Parser:
         while self.stack and self.stack[-1].node_type in LIST_KINDS + ("proviso",):
             self.stack.pop()
         return self.top()
+
+
+def _follows(kind: str, previous: str | None, label: str) -> bool:
+    """`label` is the next item after `previous` in a list of `kind`, counting inserted
+    labels: (c) → (ca) → (cb) → (d); (i) → (ia) → (ii)."""
+    if previous is None:
+        return False
+    if _next_label(kind, previous) == label:
+        return True
+    base, extra = (previous[:-1], previous[-1]) if (
+        kind == "clause" and len(previous) == 2) or (
+        kind == "subclause" and re.fullmatch(r"[ivx]+[a-h]", previous)) else (previous, "")
+    if not extra:
+        return label == previous + "a"
+    return label == base + chr(ord(extra) + 1) or _next_label(kind, base) == label
 
 
 def _next_label(kind: str, label: str | None) -> str | None:
@@ -473,6 +506,38 @@ def parse(source: str) -> Tree:
     for n in p.nodes:
         if not n.segments and not n.children and n.node_type not in ("part", "chapter"):
             p.warnings.append(f"{n.path}: no text")
+    return Tree(p.nodes, p.warnings, source)
+
+
+def parse_fragment(source: str, lines: list[tuple[int, str]], *, parent: str | None = None,
+                   parent_type: str | None = None, siblings: dict[str, int] | None = None,
+                   after: tuple[str, str] | None = None) -> Tree:
+    """The clause tree of text quoted in an amending act (an inserted or substituted unit).
+
+    `lines` are (file offset, line) pairs from `source`; paths are built under `parent`
+    (e.g. `s11` for a sub-section, None for sections and Schedules). `siblings` counts the
+    provisos / Explanations `parent` already has, so an inserted one is numbered after them;
+    `after` = (node type, label) of the unit the text follows, so its list continues.
+    Returned nodes exclude the parent itself.
+    """
+    p = _Parser(source)
+    p.body_started = p.fragment = True
+    root = None
+    if parent is not None:
+        root = Node(parent, parent_type or "section", None, None)
+        for kind, count in (siblings or {}).items():
+            root.children += [Node(f"{parent}.~{kind}{i}", kind, None, root) for i in range(count)]
+        p.stack = [root]
+        if parent_type == "schedule":
+            p.schedule = root
+        if after is not None:
+            kind, label = after
+            prefix = "cl" if kind == "clause" else "sc"
+            p.stack.append(Node(f"{parent}.{prefix}({label})~", kind, label, root))
+    for offset, line in lines:
+        p.feed(line, offset)
+    if p.pending_heading:
+        p.warn(f"margin note never placed: {p.pending_heading!r}")
     return Tree(p.nodes, p.warnings, source)
 
 

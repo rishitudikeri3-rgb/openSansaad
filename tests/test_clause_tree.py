@@ -182,3 +182,31 @@ def test_load_into_sqlite(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> No
         bad = ct.parse(ACT.replace("(b) any requirement,", "(d) any requirement,"))
         with pytest.raises(ld.LoadRefused, match="warnings"):
             ld.load(bad, path, meta, session=session, graph=False)
+
+
+def test_explanation_naming_a_sub_clause_belongs_to_its_clause() -> None:
+    # printed like s.34(2): the Explanation follows clause (b)'s sub-clauses and explains (ii)
+    tree = ct.parse("BE it enacted by Parliament as follows:—\n"
+                    "1. (1) An award may be set aside only if—\n"
+                    "(a) a party proves incapacity; or\n"
+                    "(b) the Court finds that—\n"
+                    "(i) the dispute is not arbitrable, or\n"
+                    "(ii) the award conflicts with policy.\n"
+                    "Explanation.—Without prejudice to the generality of sub-clause (ii), "
+                    "it is declared.\n"
+                    "(2) An application shall be made in time.\n")
+    assert tree.warnings == []
+    expl = tree.by_path()["s1.ss1.cl(b).expl1"]
+    assert expl.meta["attached"] == "names sub-clause (ii)"
+    assert "s1.ss2" in tree.by_path()
+
+
+def test_fragment_numbers_after_existing_units() -> None:
+    source = "“Provided further that it applies.\nExplanation.—Here.”."
+    lines = [(0, "Provided further that it applies."), (35, "Explanation.—Here.")]
+    tree = ct.parse_fragment(source, lines, parent="s36.ss3", parent_type="subsection",
+                             siblings={"proviso": 1, "explanation": 0})
+    assert [n.path for n in tree.nodes] == ["s36.ss3.p2", "s36.ss3.expl1"]
+    after = ct.parse_fragment("(i) one", [(0, "(i) one")], parent="s2.ss1",
+                              parent_type="subsection", after=("clause", "h"))
+    assert [n.path for n in after.nodes] == ["s2.ss1.cl(i)"]

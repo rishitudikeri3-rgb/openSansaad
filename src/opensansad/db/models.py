@@ -1,7 +1,4 @@
-"""Phase 1 tables: acts, documents, fetch_log, clauses.
-
-amendment_ops is added in step 4c alongside the amendment-op extractor.
-"""
+"""Phase 1 tables: acts, documents, fetch_log, clauses, amendment_ops."""
 
 from datetime import datetime
 from enum import StrEnum
@@ -81,6 +78,21 @@ class NodeType(StrEnum):
     SCHEDULE = "schedule"
     ARTICLE = "article"  # of a treaty set out in a Schedule
     PARAGRAPH = "paragraph"  # numbered paragraph of a Schedule ("1." or "(1)")
+
+
+class OpType(StrEnum):
+    INSERT = "insert"
+    SUBSTITUTE = "substitute"
+    OMIT = "omit"
+    RENUMBER = "renumber"
+    SPLIT = "split"
+    MERGE = "merge"
+    OTHER = "other"
+
+
+class OpStatus(StrEnum):
+    RESOLVED = "resolved"  # every field fixed by a formula; checked against the known paths
+    UNRESOLVED = "unresolved"  # for the Genealogy Agent (Phase 2); `reason` says why
 
 
 def _enum(cls: type[StrEnum], name: str) -> Enum:
@@ -196,4 +208,40 @@ class Clause(Base):
     span_start: Mapped[int] = mapped_column(Integer)
     span_end: Mapped[int] = mapped_column(Integer)
     # Parse decisions worth a second look (e.g. how a proviso was attached), margin citations.
+    meta: Mapped[dict | None] = mapped_column(JSON().with_variant(JSONB(), "postgresql"))
+
+
+class AmendmentOp(Base):
+    """One operation an amending instrument makes on the principal Act's text.
+
+    `provision` is the instrument's own provision carrying it (`s3.cl(ii)`: clause (ii) of
+    its section 3). `target_path` is the clause path the operation acts on (for an insert,
+    the new unit's path; `anchor_path` is what it goes after), in the version the
+    instrument amends. [span_start, span_end) is the instruction, with any quoted text, in
+    `text_path` (the document's extracted text, relative to DATA_DIR) while it hashes to
+    `text_sha256`. Rule-extracted ops are `resolved` with confidence 1.0 or `unresolved`
+    with no confidence and a `reason`.
+    """
+
+    __tablename__ = "amendment_ops"
+    __table_args__ = (UniqueConstraint("amending_doc_id", "ord"),)
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    act_id: Mapped[int] = mapped_column(ForeignKey("acts.id"))  # the Act amended
+    amending_doc_id: Mapped[int] = mapped_column(ForeignKey("documents.id"), index=True)
+    ord: Mapped[int] = mapped_column(Integer)  # order within the instrument
+    provision: Mapped[str] = mapped_column(String(64))
+    op_type: Mapped[OpType] = mapped_column(_enum(OpType, "op_type"))
+    unit: Mapped[str | None] = mapped_column(String(32))  # node type, or "words" / "portion"
+    target_path: Mapped[str | None] = mapped_column(String(255))
+    anchor_path: Mapped[str | None] = mapped_column(String(255))
+    old_text: Mapped[str | None] = mapped_column(Text)
+    new_text: Mapped[str | None] = mapped_column(Text)
+    text_path: Mapped[str] = mapped_column(Text)
+    text_sha256: Mapped[str] = mapped_column(String(64))
+    span_start: Mapped[int] = mapped_column(Integer)
+    span_end: Mapped[int] = mapped_column(Integer)
+    status: Mapped[OpStatus] = mapped_column(_enum(OpStatus, "op_status"))
+    confidence: Mapped[float | None] = mapped_column(Float)
+    reason: Mapped[str | None] = mapped_column(Text)
     meta: Mapped[dict | None] = mapped_column(JSON().with_variant(JSONB(), "postgresql"))
