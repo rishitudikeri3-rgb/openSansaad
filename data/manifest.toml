@@ -423,3 +423,61 @@ doc_type = "debate"
 title = "Rajya Sabha debate, 22 Jul 1996 (session 178), floor version (as spoken): sitting including the passage of the Arbitration and Conciliation Bill, 1995"
 act = "26/1996"
 note = "Whole day of the sitting (the record as spoken, each member in their own language); the Bill is one item in it."
+
+# --- 3f-iii: the 1995 Bill as passed by Rajya Sabha (= text passed by both Houses) ---
+[[document]]
+url = "https://elibrary.sansad.in/server/api/core/bitstreams/537914ef-c6f7-4b97-b280-acb60145d5d6/content"
+source = "eparlib"
+doc_type = "bill"
+title = "The Arbitration and Conciliation Bill, 1995 (Bill No. XXX-C of 1995, as passed by Rajya Sabha on 22 Jul 1996)"
+act = "26/1996"
+note = "elibrary item 123456789/79403 (scan, 85 pp). Lok Sabha passed this text on 2 Aug 1996 without amendment (LS debate of that day: clauses, Schedules, enacting formula, Preamble and Title added unamended; the only amendment notice not moved), so it is the text passed by both Houses: primary base text of the 1996 Act."
+
+[[document]]
+url = "https://elibrary.sansad.in/server/api/core/bitstreams/5bbf180c-6b4c-4204-8107-27a7ffdbdad6/content"
+source = "eparlib"
+doc_type = "bill"
+title = "The Arbitration and Conciliation Bill, 1995 (Bill No. XXX-C of 1995, as passed by Rajya Sabha; second scan)"
+act = "26/1996"
+note = "elibrary item 123456789/159905, catalogued 'The Arbitration and Conciliation Bill 1996' (scan, 85 pp). A separate scan of the same Bill as item 79403: kept as an OCR cross-check."
+
+[[document]]
+url = "https://elibrary.sansad.in/server/api/core/bitstreams/41f81f4a-8911-4613-8230-11d8404cb7d4/content"
+source = "eparlib"
+doc_type = "bill"
+title = "The Arbitration and Conciliation (Amendment) Bill, 2003 (Rajya Sabha Bill No. LXXV of 2003, as introduced)"
+act = "26/1996"
+note = "elibrary item 123456789/159941 (scan, 52 pp). Introduced RS 22 Dec 2003, examined in the Standing Committee on Personnel, Public Grievances, Law and Justice's 9th Report (2005), withdrawn: never enacted, no genealogy event. Context for the 2015 Amendment."
+
+# --- 3f-iii: Law Commission of India reports (the Commission's own site) ---
+[[document]]
+url = "https://cdnbbsr.s3waas.gov.in/s3ca0daec69b5adc880fb464895726dbdf/uploads/2022/08/2022081615.pdf"
+source = "other"
+doc_type = "committee_report"
+title = "Law Commission of India, Report No. 246: Amendments to the Arbitration and Conciliation Act, 1996 (August 2014), part 1"
+act = "26/1996"
+note = "20th Law Commission. Listed on lawcommissionofindia.nic.in/report_twentieth/ as Accessible_PDF_01. The Commission's recommendations: attribute to the Commission, never state as fact."
+
+[[document]]
+url = "https://cdnbbsr.s3waas.gov.in/s3ca0daec69b5adc880fb464895726dbdf/uploads/2022/08/2022081650.pdf"
+source = "other"
+doc_type = "committee_report"
+title = "Law Commission of India, Report No. 246: Amendments to the Arbitration and Conciliation Act, 1996 (August 2014), part 2"
+act = "26/1996"
+note = "Listed on lawcommissionofindia.nic.in/report_twentieth/ as Accessible_PDF_02."
+
+[[document]]
+url = "https://cdnbbsr.s3waas.gov.in/s3ca0daec69b5adc880fb464895726dbdf/uploads/2022/08/2022081637.pdf"
+source = "other"
+doc_type = "committee_report"
+title = "Law Commission of India, Supplementary to Report No. 246: 'Public Policy' — developments post-Report No. 246 (February 2015)"
+act = "26/1996"
+note = "Listed on lawcommissionofindia.nic.in/report_twentieth/ under Report 246 as Accessible_Supplementary."
+
+[[document]]
+url = "https://cdnbbsr.s3waas.gov.in/s3ca0daec69b5adc880fb464895726dbdf/uploads/2022/08/2022081036.pdf"
+source = "other"
+doc_type = "committee_report"
+title = "Law Commission of India, Report No. 176: The Arbitration and Conciliation (Amendment) Bill, 2001"
+act = "26/1996"
+note = "16th Law Commission (2001). Listed on lawcommissionofindia.nic.in/report_sixteenth/. Basis of the 2003 Bill (withdrawn): context only."
