@@ -93,7 +93,10 @@ def _openai_transport(base_url: str, api_key: str, *, attempts: int = 6) -> Tran
             except (RateLimitError, APIConnectionError) as e:
                 err: Exception = e
             except APIStatusError as e:
-                if e.status_code < 500:
+                # Groq's JSON-mode check rejects a malformed generation (400
+                # json_validate_failed); sampling differs per request, so it is retried twice
+                if e.status_code < 500 and not ("json_validate_failed" in str(e.message)
+                                                and attempt < 2):
                     raise LLMError(f"{model}: HTTP {e.status_code}: {e.message}") from e
                 err = e
             log.warning("%s: %s; retry %d in %.0fs", model, type(err).__name__, attempt + 1,

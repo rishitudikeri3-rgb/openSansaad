@@ -1,0 +1,14 @@
+{
+ "model": "openai/gpt-oss-120b",
+ "messages": [
+  {
+   "role": "system",
+   "content": "You check one claim about why an Indian statute was amended, against the quoted\nsource text. Answer three questions strictly:\n- states_reason: does the quote say WHY (a purpose, objective or problem addressed), rather\n  than only WHAT the amendment does?\n- about_this_amendment: is the quote about the amendment described (not another provision\n  or the Bill in general without reference to it)? A general statement of the Bill's\n  objectives counts only if it plainly covers this amendment's subject.\n- claim_faithful: does the claim say only what the quote says (no added facts, motives or\n  evaluation)?\nReply in JSON only: {\"states_reason\": bool, \"about_this_amendment\": bool,\n\"claim_faithful\": bool, \"note\": \"<one sentence>\"}"
+  },
+  {
+   "role": "user",
+   "content": "Amendment: section 24 of Act 3/2016, amending s57 (Conditions for enforcement of foreign awards.)\nInstruction (start): In section 57 of the principal Act, in sub-section (1), for the Explanation, the following Explanations shall be substituted, namely:— “Explanation 1.—For the avoidance of any doubt, it is clarified that an award is in conflict with the public policy of India, only if,— (i) the making of the award was induced or affected by fraud or corruption or was in violation of section 75 or section 81; or (i\n\nSource: Statement of Objects and Reasons, The Arbitration and Conciliation (Amendment) Bill, 2015 (as introduced) (Government)\nQuote: With a view\nto overcome the difficulties, the matter was referred to the Law Commission of India, which\nexamined the issue in detail and submitted its 176th Report.\n\nClaim: The amendment is intended to overcome difficulties in the Act’s applicability."
+  }
+ ],
+ "response": "{\"states_reason\":true,\"about_this_amendment\":false,\"claim_faithful\":false,\"note\":\"Quote states a purpose but does not specifically refer to the amendment or its applicability, and the claim adds details not in the quote.\"}"
+}

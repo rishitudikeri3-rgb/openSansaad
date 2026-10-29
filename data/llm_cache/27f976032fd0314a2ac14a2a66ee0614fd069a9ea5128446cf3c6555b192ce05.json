@@ -1,0 +1,14 @@
+{
+ "model": "openai/gpt-oss-120b",
+ "messages": [
+  {
+   "role": "system",
+   "content": "You check one claim about why an Indian statute was amended, against the quoted\nsource text. Answer three questions strictly:\n- states_reason: does the quote say WHY (a purpose, objective or problem addressed), rather\n  than only WHAT the amendment does?\n- about_this_amendment: is the quote about the amendment described (not another provision\n  or the Bill in general without reference to it)? A general statement of the Bill's\n  objectives counts only if it plainly covers this amendment's subject.\n- claim_faithful: does the claim say only what the quote says (no added facts, motives or\n  evaluation)?\nReply in JSON only: {\"states_reason\": bool, \"about_this_amendment\": bool,\n\"claim_faithful\": bool, \"note\": \"<one sentence>\"}"
+  },
+  {
+   "role": "user",
+   "content": "Amendment: section 22 of Act 3/2016, amending s48 (Conditions for enforcement of foreign awards.)\nInstruction (start): In section 48 of the principal Act, for the Explanation to sub-section (2), the following Explanations shall be substituted, namely:— “Explanation 1.—For the avoidance of any doubt, it is clarified that an award is in conflict with the public policy of India, only if,— (i) the making of the award was induced or affected by fraud or corruption or was in violation of section 75 or section 81; or (ii\n\nSource: Lok Sabha debate, 17 Dec 2015: further discussion on the Statutory Resolution disapproving Ordinance 9 of 2015 and the Arbitration and Conciliation (Amendment) Bill, 2015 (Bill passed) (ADV. JOICE GEORGE (IDUKKI))\nQuote: Sir, in this Bill, we are trying to reduce the involvement of the court in an arbitration proceedings. For that, we have incorporated certain\nprovisions to restrict the courts from passing interim orders after constitution of an Arbitration Tribunal.\n\nClaim: The amendment aims to reduce the involvement of the court in arbitration proceedings by restricting courts from passing interim orders after the constitution of an Arbitration Tribunal."
+  }
+ ],
+ "response": "{\"states_reason\":true,\"about_this_amendment\":false,\"claim_faithful\":false,\"note\":\"Quote discusses limiting interim orders, not the public‑policy clarification amendment.\"}"
+}

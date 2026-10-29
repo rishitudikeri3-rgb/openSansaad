@@ -1,0 +1,14 @@
+{
+ "model": "openai/gpt-oss-120b",
+ "messages": [
+  {
+   "role": "system",
+   "content": "You check one claim about why an Indian statute was amended, against the quoted\nsource text. Answer three questions strictly:\n- states_reason: does the quote say WHY (a purpose, objective or problem addressed), rather\n  than only WHAT the amendment does?\n- about_this_amendment: is the quote about the amendment described (not another provision\n  or the Bill in general without reference to it)? A general statement of the Bill's\n  objectives counts only if it plainly covers this amendment's subject.\n- claim_faithful: does the claim say only what the quote says (no added facts, motives or\n  evaluation)?\nReply in JSON only: {\"states_reason\": bool, \"about_this_amendment\": bool,\n\"claim_faithful\": bool, \"note\": \"<one sentence>\"}"
+  },
+  {
+   "role": "user",
+   "content": "Amendment: section 5 of Act 33/2019, amending s23 (Statements of claim and defence.)\nInstruction (start): In section 23 of the principal Act, after sub-section (3), the following sub-section shall be inserted, namely:— “(4) The statement of claim and defence under this section shall be completed within a period of six months from the date the arbitrator or all the arbitrators, as the case may be, received notice, in writing, of their appointment.”.\n\nSource: Statement of Objects and Reasons, The Arbitration and Conciliation (Amendment) Bill, 2019 (as introduced in Rajya Sabha) (Government)\nQuote: (iv) to amend section 23 of the Act relating to \"Statement of claim and defence\"\nso as to provide that the statement of claim and defence shall be completed within a\nperiod of six months from the date the arbitrator receives the notice of appointment;\n\nClaim: The amendment is intended to ensure that the statement of claim and defence is completed within six months of the arbitrator’s appointment."
+  }
+ ],
+ "response": "{\"states_reason\":true,\"about_this_amendment\":true,\"claim_faithful\":true,\"note\":\"The source states the purpose of the amendment—to set a six‑month deadline—and matches the claim exactly.\"}"
+}

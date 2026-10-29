@@ -1,0 +1,14 @@
+{
+ "model": "openai/gpt-oss-120b",
+ "messages": [
+  {
+   "role": "system",
+   "content": "You check one claim about why an Indian statute was amended, against the quoted\nsource text. Answer three questions strictly:\n- states_reason: does the quote say WHY (a purpose, objective or problem addressed), rather\n  than only WHAT the amendment does?\n- about_this_amendment: is the quote about the amendment described (not another provision\n  or the Bill in general without reference to it)? A general statement of the Bill's\n  objectives counts only if it plainly covers this amendment's subject.\n- claim_faithful: does the claim say only what the quote says (no added facts, motives or\n  evaluation)?\nReply in JSON only: {\"states_reason\": bool, \"about_this_amendment\": bool,\n\"claim_faithful\": bool, \"note\": \"<one sentence>\"}"
+  },
+  {
+   "role": "user",
+   "content": "Amendment: section 17 of Act 3/2016, amending s31A ()\nInstruction (start): After section 31 of the principal Act, the following new section shall be inserted, namely:— [[margin: Regime for costs.]] ‘31A. (1) In relation to any arbitration proceeding or a proceeding under any of the provisions of this Act pertaining to the arbitration, the Court or arbitral tribunal, [[margin: 5 of 1908.]] notwithstanding anything contained in the Code of Civil Procedure,1908, shall have \n\nSource: Notes on Clauses, The Arbitration and Conciliation (Amendment) Bill, 2015 (as introduced) (Government)\nQuote: Clause 17 of the Bill seeks to insert a new section 31A in the principal Act to provide in\ndetail provisions related to regime of costs which may be determined and ordered by the\nCourt or arbitral tribunal in relation to any arbitral proceedings or any proceedings under the Act.\n\nClaim: The amendment is intended to provide detailed provisions for the regime of costs that can be determined and ordered by the Court or arbitral tribunal."
+  }
+ ],
+ "response": "{\"states_reason\":true,\"about_this_amendment\":true,\"claim_faithful\":true,\"note\":\"The quote states the purpose of the amendment and matches the claim exactly.\"}"
+}

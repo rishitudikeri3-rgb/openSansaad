@@ -1,0 +1,14 @@
+{
+ "model": "openai/gpt-oss-120b",
+ "messages": [
+  {
+   "role": "system",
+   "content": "You check one claim about why an Indian statute was amended, against the quoted\nsource text. Answer three questions strictly:\n- states_reason: does the quote say WHY (a purpose, objective or problem addressed), rather\n  than only WHAT the amendment does?\n- about_this_amendment: is the quote about the amendment described (not another provision\n  or the Bill in general without reference to it)? A general statement of the Bill's\n  objectives counts only if it plainly covers this amendment's subject.\n- claim_faithful: does the claim say only what the quote says (no added facts, motives or\n  evaluation)?\nReply in JSON only: {\"states_reason\": bool, \"about_this_amendment\": bool,\n\"claim_faithful\": bool, \"note\": \"<one sentence>\"}"
+  },
+  {
+   "role": "user",
+   "content": "Amendment: section 2 of Act 3/2016, amending s2 (Definitions.)\nInstruction (start): for clause (e), the following clause shall be substituted, namely:— ‘(e) “Court” means— (i) in the case of an arbitration other than international commercial arbitration, the principal Civil Court of original jurisdiction in a district, and includes the High Court in exercise of its ordinary original civil jurisdiction, having jurisdiction to decide the questions forming the subject-matter of the \n\nSource: Law Commission of India, Report No. 246: Amendments to the Arbitration and Conciliation Act, 1996 (August 2014), part 2 (Law Commission of India, Report No. 246)\nQuote: [NOTE: This is to solve the problem of conflict of jurisdiction that would arise in cases\nwhere interim measures are sought in India in case of arbitrations seated outside India.\nThis also ensures that in International Commercial Arbitrations, jurisdiction is exercised by the High Court, even if such High Court does not exercise ordinary original\ncivil jurisdiction.]\n\nClaim: The amendment to clause (e) is intended to solve the problem of conflict of jurisdiction that would arise in cases where interim measures are sought in India for arbitrations seated outside India, and to ensure that in International Commercial Arbitrations, jurisdiction is exercised by the High Court even if it does not exercise ordinary original civil jurisdiction."
+  }
+ ],
+ "response": "{\"states_reason\":true,\"about_this_amendment\":true,\"claim_faithful\":true,\"note\":\"The quote explicitly states the purpose of the amendment, pertains to clause (e), and the claim mirrors it exactly.\"}"
+}

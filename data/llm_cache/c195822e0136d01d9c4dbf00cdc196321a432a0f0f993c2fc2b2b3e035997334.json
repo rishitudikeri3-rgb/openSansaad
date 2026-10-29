@@ -1,0 +1,14 @@
+{
+ "model": "openai/gpt-oss-120b",
+ "messages": [
+  {
+   "role": "system",
+   "content": "You check one claim about why an Indian statute was amended, against the quoted\nsource text. Answer three questions strictly:\n- states_reason: does the quote say WHY (a purpose, objective or problem addressed), rather\n  than only WHAT the amendment does?\n- about_this_amendment: is the quote about the amendment described (not another provision\n  or the Bill in general without reference to it)? A general statement of the Bill's\n  objectives counts only if it plainly covers this amendment's subject.\n- claim_faithful: does the claim say only what the quote says (no added facts, motives or\n  evaluation)?\nReply in JSON only: {\"states_reason\": bool, \"about_this_amendment\": bool,\n\"claim_faithful\": bool, \"note\": \"<one sentence>\"}"
+  },
+  {
+   "role": "user",
+   "content": "Amendment: section 20 of Act 3/2016, amending s37 (Appealable orders.)\nInstruction (start): In section 37 of the principal Act, in sub-section (1), for clauses (a) and (b), the following clauses shall be substituted, namely:— “(a) refusing to refer the parties to arbitration under section 8; (b) granting or refusing to grant any measure under section 9; (c) setting aside or refusing to set aside an arbitral award under section 34.”.\n\nSource: Lok Sabha debate, 17 Dec 2015: further discussion on the Statutory Resolution disapproving Ordinance 9 of 2015 and the Arbitration and Conciliation (Amendment) Bill, 2015 (Bill passed) (SHRI THOTA NARASIMHAM (KAKINADA))\nQuote: The amendments seek to make disposal of commercial disputes more user-friendly and cost effective, which, in turn, will lead to expeditious\ndisposal of cases.\n\nClaim: The amendments seek to make disposal of commercial disputes more user-friendly and cost effective, which, in turn, will lead to expeditious disposal of cases."
+  }
+ ],
+ "response": "{\"states_reason\":true,\"about_this_amendment\":true,\"claim_faithful\":true,\"note\":\"Quote states the purpose of the amendments and the claim repeats it exactly, covering the amendment's intent.\"}"
+}

@@ -1,0 +1,14 @@
+{
+ "model": "openai/gpt-oss-120b",
+ "messages": [
+  {
+   "role": "system",
+   "content": "You check one claim about why an Indian statute was amended, against the quoted\nsource text. Answer three questions strictly:\n- states_reason: does the quote say WHY (a purpose, objective or problem addressed), rather\n  than only WHAT the amendment does?\n- about_this_amendment: is the quote about the amendment described (not another provision\n  or the Bill in general without reference to it)? A general statement of the Bill's\n  objectives counts only if it plainly covers this amendment's subject.\n- claim_faithful: does the claim say only what the quote says (no added facts, motives or\n  evaluation)?\nReply in JSON only: {\"states_reason\": bool, \"about_this_amendment\": bool,\n\"claim_faithful\": bool, \"note\": \"<one sentence>\"}"
+  },
+  {
+   "role": "user",
+   "content": "Amendment: section 3 of Act 3/2021, amending s43J ()\nInstruction (start): For section 43J of the principal Act, the following section shall be substituted, namely:— [[margin: Norms for accreditation of arbitrators.]] “43J. The qualifications, experience and norms for accreditation of arbitrators shall be such as may be specified by the regulations.”.\n\nSource: Lok Sabha debate, 12 Feb 2021: combined discussion on the Statutory Resolution disapproving Ordinance 14 of 2020 and the Arbitration and Conciliation (Amendment) Bill, 2021 (Bill passed) (SHRI 5. R. PARTHIBAN (SALEM))\nQuote: to amend section 43J; and omit the Eighth Schedule\nwith a view to\nempowering the Arbitration Council of India to lay down norms and\nqualifications by way of regulations for the purpose of accreditation of\narbitrators.\n\nClaim: The amendment aims to empower the Arbitration Council of India to lay down norms and qualifications by way of regulations for the purpose of accreditation of arbitrators."
+  }
+ ],
+ "response": "{\"states_reason\":true,\"about_this_amendment\":true,\"claim_faithful\":true,\"note\":\"The quote provides the purpose of the amendment and directly matches the claim.\"}"
+}

@@ -1,0 +1,14 @@
+{
+ "model": "openai/gpt-oss-120b",
+ "messages": [
+  {
+   "role": "system",
+   "content": "You check one claim about why an Indian statute was amended, against the quoted\nsource text. Answer three questions strictly:\n- states_reason: does the quote say WHY (a purpose, objective or problem addressed), rather\n  than only WHAT the amendment does?\n- about_this_amendment: is the quote about the amendment described (not another provision\n  or the Bill in general without reference to it)? A general statement of the Bill's\n  objectives counts only if it plainly covers this amendment's subject.\n- claim_faithful: does the claim say only what the quote says (no added facts, motives or\n  evaluation)?\nReply in JSON only: {\"states_reason\": bool, \"about_this_amendment\": bool,\n\"claim_faithful\": bool, \"note\": \"<one sentence>\"}"
+  },
+  {
+   "role": "user",
+   "content": "Amendment: section 3 of Act 3/2016, amending s7 (Arbitration agreement.)\nInstruction (start): In section 7 of the principal Act, in sub-section (4), in clause (b), after the words “or other means of telecommunication”, the words “including communication through electronic means” shall be inserted.\n\nSource: Law Commission of India, Report No. 246: Amendments to the Arbitration and Conciliation Act, 1996 (August 2014), part 1 (Law Commission of India, Report No. 246)\nQuote: The proposed sections 7(3A) and 7(3B) is intended to bring the\nIndian law in conformity with the UNCITRAL Model law and clarifies that an\narbitration agreement can be concluded by way of electronic communication\nas well.\n\nClaim: The amendment aims to align Indian law with the UNCITRAL Model Law and to permit arbitration agreements to be concluded through electronic communication."
+  }
+ ],
+ "response": "{\"states_reason\":true,\"about_this_amendment\":true,\"claim_faithful\":true,\"note\":\"The quote provides the purpose of the amendment and matches the claim exactly.\"}"
+}

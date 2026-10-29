@@ -1,0 +1,14 @@
+{
+ "model": "openai/gpt-oss-120b",
+ "messages": [
+  {
+   "role": "system",
+   "content": "You check one claim about why an Indian statute was amended, against the quoted\nsource text. Answer three questions strictly:\n- states_reason: does the quote say WHY (a purpose, objective or problem addressed), rather\n  than only WHAT the amendment does?\n- about_this_amendment: is the quote about the amendment described (not another provision\n  or the Bill in general without reference to it)? A general statement of the Bill's\n  objectives counts only if it plainly covers this amendment's subject.\n- claim_faithful: does the claim say only what the quote says (no added facts, motives or\n  evaluation)?\nReply in JSON only: {\"states_reason\": bool, \"about_this_amendment\": bool,\n\"claim_faithful\": bool, \"note\": \"<one sentence>\"}"
+  },
+  {
+   "role": "user",
+   "content": "Amendment: section 25 of Act 3/2016, amending sch4, sch5, sch6, sch7 (CIRCUMSTANCES DISCLOSING ANY PAST OR PRESENT RELATIONSHIP WITH OR)\nInstruction (start): After the Third Schedule to the principal Act, the following new Schedules shall be inserted, namely:— ‘THE FOURTH SCHEDULE [See section 11 (14)] Sum in dispute Model fee Up to Rs. 5,00,000 Rs. 45,000 Above Rs. 5,00,000 and up to Rs. 45,000 plus 3.5 per cent. of the claim amount Rs. 20,00,000 over and above Rs. 5,00,000 Above Rs. 20,00,000 and up to Rs. 97,500 plus 3 per cent. of the claim amount \n\nSource: Law Commission of India, Report No. 246: Amendments to the Arbitration and Conciliation Act, 1996 (August 2014), part 1 (Law Commission of India, Report No. 246)\nQuote: [NOTE: The above rules are taken and adapted from the Red list of the\nInternational Bar Associations Guidelines on Conflicts of Interest in\nInternational Arbitration.]\n\nClaim: The amendment adopts rules based on the International Bar Association’s Guidelines on Conflicts of Interest in International Arbitration."
+  }
+ ],
+ "response": "{\"states_reason\":false,\"about_this_amendment\":true,\"claim_faithful\":true,\"note\":\"The quote identifies the source of the rules but does not explain the amendment's purpose.\"}"
+}

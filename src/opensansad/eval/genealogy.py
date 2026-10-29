@@ -11,6 +11,7 @@ after (a group is right when its edges equal the truth's).
 
 import argparse
 import json
+import re
 import sys
 import tomllib
 from dataclasses import dataclass
@@ -106,12 +107,36 @@ def load_corpus(act_id: int, version: str):
     return corpus(acts, base)
 
 
+SYSTEM_MODE = "agentic-bulk"  # the system of record: bulk first pass, Contradiction loop
+LINEAGE = PROJECT_ROOT / "data" / "genealogy" / "arbitration-1996.json"
+
+
+def write_lineage(path: Path, edges, c) -> None:
+    """Every edge the system produced, in instrument order: what the demo API serves."""
+    order = {i: k for k, i in enumerate(c.order)}
+    rows = [{"instrument": e.instrument, "old": e.old, "new": e.new, "op_type": e.op_type,
+             "source": e.source, "group": e.group, "confidence": e.confidence,
+             "rationale": e.rationale} for e in edges]
+    def sec(group: str) -> int:  # "3/2016|s10.ss2" -> 10: amending-Act section order
+        return int(re.match(r"s(\d+)", group.split("|")[1]).group(1))
+    rows.sort(key=lambda r: (order.get(r["instrument"], 99), sec(r["group"]), r["group"],
+                             r["new"] or "", r["old"] or ""))
+    path.parent.mkdir(parents=True, exist_ok=True)
+    groups = {r["group"] for r in rows} | set(c.groups)
+    path.write_text(json.dumps({"mode": SYSTEM_MODE, "instruments": c.order, "edges": rows,
+                                "instructions": {g: c.groups[g].instruction
+                                                 for g in sorted(groups) if g in c.groups}},
+                               indent=1, ensure_ascii=False))
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(prog="python -m opensansad.eval.genealogy")
     ap.add_argument("--act-id", type=int, default=1)
     ap.add_argument("--version", default="1996-enacted")
     ap.add_argument("--modes", default="rules,label,single,agentic,single-bulk,agentic-bulk")
     ap.add_argument("--out", type=Path, default=PROJECT_ROOT / "data" / "eval" / "genealogy.json")
+    ap.add_argument("--lineage", type=Path, default=LINEAGE,
+                    help="where the system's full edge list (agentic-bulk mode) is written")
     args = ap.parse_args(argv)
 
     from opensansad.agents.llm import LLM
@@ -142,6 +167,8 @@ def main(argv: list[str] | None = None) -> int:
         results[mode] = {**score(edges, truth), **extra,
                          "edges": sorted([list(e.key) + [e.op_type, e.source] for e in edges
                                           if e.group in truth.hand])}
+        if mode == SYSTEM_MODE:
+            write_lineage(args.lineage, edges, c)
         r = results[mode]
         print(f"{mode:13} all P {r['all']['precision']:.3f} R {r['all']['recall']:.3f}  "
               f"hand P {r['hand']['precision']:.3f} R {r['hand']['recall']:.3f}  "

@@ -1,0 +1,14 @@
+{
+ "model": "openai/gpt-oss-120b",
+ "messages": [
+  {
+   "role": "system",
+   "content": "You check one claim about why an Indian statute was amended, against the quoted\nsource text. Answer three questions strictly:\n- states_reason: does the quote say WHY (a purpose, objective or problem addressed), rather\n  than only WHAT the amendment does?\n- about_this_amendment: is the quote about the amendment described (not another provision\n  or the Bill in general without reference to it)? A general statement of the Bill's\n  objectives counts only if it plainly covers this amendment's subject.\n- claim_faithful: does the claim say only what the quote says (no added facts, motives or\n  evaluation)?\nReply in JSON only: {\"states_reason\": bool, \"about_this_amendment\": bool,\n\"claim_faithful\": bool, \"note\": \"<one sentence>\"}"
+  },
+  {
+   "role": "user",
+   "content": "Amendment: section 9 of Act 33/2019, amending s42A, s42B (Protection of action taken in good faith.)\nInstruction (start): After section 42 of the principal Act, the following sections shall be inserted, namely:— [[margin: Confidentiality of information.]] “42A. Notwithstanding anything contained in any other law for the time being in force, the arbitrator, the arbitral institution and the parties to the arbitration agreement shall maintain confidentiality of all arbitral proceedings except award where its disclosure \n\nSource: Statement of Objects and Reasons, The Arbitration and Conciliation (Amendment) Bill, 2019 (as introduced in Rajya Sabha) (Government)\nQuote: to provide that the arbitrator, the arbitral institutions and the parties shall\nmaintain confidentiality of information relating to arbitral proceedings and also protect\nthe arbitrator or arbitrators from any suit or other legal proceedings for any action or\nomission done in good faith in the course of arbitration proceedings;\n\nClaim: The amendment aims to protect arbitrators from suits or other legal proceedings for actions or omissions done in good faith during arbitration."
+  }
+ ],
+ "response": "{\"states_reason\":true,\"about_this_amendment\":true,\"claim_faithful\":true,\"note\":\"The source states the purpose of the amendment is to protect arbitrators acting in good faith, matching the claim.\"}"
+}

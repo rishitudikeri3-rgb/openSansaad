@@ -1,0 +1,14 @@
+{
+ "model": "openai/gpt-oss-120b",
+ "messages": [
+  {
+   "role": "system",
+   "content": "You check one claim about why an Indian statute was amended, against the quoted\nsource text. Answer three questions strictly:\n- states_reason: does the quote say WHY (a purpose, objective or problem addressed), rather\n  than only WHAT the amendment does?\n- about_this_amendment: is the quote about the amendment described (not another provision\n  or the Bill in general without reference to it)? A general statement of the Bill's\n  objectives counts only if it plainly covers this amendment's subject.\n- claim_faithful: does the claim say only what the quote says (no added facts, motives or\n  evaluation)?\nReply in JSON only: {\"states_reason\": bool, \"about_this_amendment\": bool,\n\"claim_faithful\": bool, \"note\": \"<one sentence>\"}"
+  },
+  {
+   "role": "user",
+   "content": "Amendment: section 5 of Act 3/2016, amending s9 (Interim measures etc. by Court.)\nInstruction (start): Section 9 of the principal Act shall be renumbered as sub-section (1) thereof, and after sub-section (1) as so renumbered, the following sub-sections shall be inserted, namely:— “(2) Where, before the commencement of the arbitral proceedings, a Court passes an order for any interim measure of protection under sub-section (1), the arbitral proceedings shall be commenced within a period of ninety da\n\nSource: Lok Sabha debate, 17 Dec 2015: further discussion on the Statutory Resolution disapproving Ordinance 9 of 2015 and the Arbitration and Conciliation (Amendment) Bill, 2015 (Bill passed) (SHRI B. SENGUTTUVAN)\nQuote: This is to do way with the inconvenience caused by interim ex parte orders passed in original applications.\n\nClaim: The amendment is intended to eliminate the inconvenience caused by interim ex parte orders passed in original applications."
+  }
+ ],
+ "response": "{\"states_reason\":true,\"about_this_amendment\":true,\"claim_faithful\":true,\"note\":\"Quote directly states the purpose of the amendment, matching the claim.\"}"
+}

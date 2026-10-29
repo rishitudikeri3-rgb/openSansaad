@@ -1,0 +1,1706 @@
+{
+ "summary": {
+  "units": 42,
+  "sourced": 26,
+  "sourcing_rate": 0.619,
+  "by_tier": {
+   "sor": 17,
+   "report": 3,
+   "debate": 6
+  },
+  "not_determinable": 16,
+  "incomplete": 0,
+  "claims_blocked_by_verification": 26,
+  "by_role": {
+   "government": 17,
+   "committee": 3,
+   "member": 6
+  }
+ },
+ "llm": {
+  "requests": 82,
+  "cache_hits": 36
+ },
+ "results": [
+  {
+   "unit": "3/2016|s2",
+   "instrument": "3/2016",
+   "act_section": "s2",
+   "targets": [
+    "s2"
+   ],
+   "status": "sourced",
+   "claim": "The amendment ensures that an Indian Court can exercise jurisdiction to grant interim measures, etc., even where the seat of the arbitration is outside India.",
+   "tier": "sor",
+   "quote": "to ensure that an Indian Court can exercise jurisdiction to grant interim\nmeasures, etc., even where the seat of the arbitration is outside India",
+   "document_id": 21,
+   "span": [
+    45780,
+    45925
+   ],
+   "attribution": {
+    "by": "Government",
+    "role": "government",
+    "where": "Statement of Objects and Reasons, The Arbitration and Conciliation (Amendment) Bill, 2015 (as introduced)",
+    "signed_by": "D. V. SADANANDA GOWDA"
+   },
+   "attempts": [
+    {
+     "tier": "sor",
+     "outcome": "verified",
+     "passage": "S21",
+     "quote": "to ensure that an Indian Court can exercise jurisdiction to grant interim measures, etc., even where the seat of the arbitration is outside India",
+     "claim": "The amendment ensures that an Indian Court can exercise jurisdiction to grant interim measures, etc., even where the seat of the arbitration is outside India.",
+     "reasons": []
+    }
+   ]
+  },
+  {
+   "unit": "3/2016|s3",
+   "instrument": "3/2016",
+   "act_section": "s3",
+   "targets": [
+    "s7"
+   ],
+   "status": "sourced",
+   "claim": "The amendment aims to align Indian law with the UNCITRAL Model Law and to permit arbitration agreements to be concluded through electronic communication.",
+   "tier": "report",
+   "quote": "The proposed sections 7(3A) and 7(3B) is intended to bring the\nIndian law in conformity with the UNCITRAL Model law and clarifies that an\narbitration agreement can be concluded by way of electronic communication\nas well.",
+   "document_id": 59,
+   "span": [
+    85931,
+    86151
+   ],
+   "attribution": {
+    "by": "Law Commission of India, Report No. 246",
+    "role": "committee",
+    "where": "Law Commission of India, Report No. 246: Amendments to the Arbitration and Conciliation Act, 1996 (August 2014), part 1"
+   },
+   "attempts": [
+    {
+     "tier": "sor",
+     "outcome": "none found",
+     "passages": [
+      "S21",
+      "N21.2"
+     ]
+    },
+    {
+     "tier": "debate",
+     "outcome": "none found",
+     "passages": [
+      "D39.13",
+      "D39.138",
+      "D39.137"
+     ]
+    },
+    {
+     "tier": "report",
+     "outcome": "verified",
+     "passage": "R59.136",
+     "quote": "The proposed sections 7(3A) and 7(3B) is intended to bring the Indian law in conformity with the UNCITRAL Model law and clarifies that an arbitration agreement can be concluded by way of electronic communication as well.",
+     "claim": "The amendment aims to align Indian law with the UNCITRAL Model Law and to permit arbitration agreements to be concluded through electronic communication.",
+     "reasons": []
+    }
+   ]
+  },
+  {
+   "unit": "3/2016|s4",
+   "instrument": "3/2016",
+   "act_section": "s4",
+   "targets": [
+    "s8"
+   ],
+   "status": "sourced",
+   "claim": "The amendments proposed in the Bill will ensure that arbitration process becomes more user-friendly, cost effective and lead to expeditious disposal of cases.",
+   "tier": "sor",
+   "quote": "The amendments proposed in the Bill will ensure that arbitration process becomes\nmore user-friendly, cost effective and lead to expeditious disposal of cases.",
+   "document_id": 21,
+   "span": [
+    47373,
+    47531
+   ],
+   "attribution": {
+    "by": "Government",
+    "role": "government",
+    "where": "Statement of Objects and Reasons, The Arbitration and Conciliation (Amendment) Bill, 2015 (as introduced)",
+    "signed_by": "D. V. SADANANDA GOWDA"
+   },
+   "attempts": [
+    {
+     "tier": "sor",
+     "outcome": "verified",
+     "passage": "S21",
+     "quote": "The amendments proposed in the Bill will ensure that arbitration process becomes more user-friendly, cost effective and lead to expeditious disposal of cases.",
+     "claim": "The amendments proposed in the Bill will ensure that arbitration process becomes more user-friendly, cost effective and lead to expeditious disposal of cases.",
+     "reasons": []
+    }
+   ]
+  },
+  {
+   "unit": "3/2016|s5",
+   "instrument": "3/2016",
+   "act_section": "s5",
+   "targets": [
+    "s9"
+   ],
+   "status": "sourced",
+   "claim": "The amendment is intended to eliminate the inconvenience caused by interim ex parte orders passed in original applications.",
+   "tier": "debate",
+   "quote": "This is to do way with the inconvenience caused by interim ex parte orders passed in original applications.",
+   "document_id": 39,
+   "span": [
+    9704,
+    9811
+   ],
+   "attribution": {
+    "by": "SHRI B. SENGUTTUVAN",
+    "role": "member",
+    "where": "Lok Sabha debate, 17 Dec 2015: further discussion on the Statutory Resolution disapproving Ordinance 9 of 2015 and the Arbitration and Conciliation (Amendment) Bill, 2015 (Bill passed)"
+   },
+   "attempts": [
+    {
+     "tier": "sor",
+     "outcome": "blocked",
+     "passage": "S21",
+     "quote": "The Act was enacted to provide for speedy disposal of cases relating to arbitration with least court intervention. With the passage of time, some difficulties in the applicability of the Act have been noticed. Interpretation of the provisions of the Act by courts in some cases have resulted in delay",
+     "claim": "The amendment is intended to overcome difficulties that cause delays and excessive court interference, thereby ensuring speedy disposal of arbitration cases.",
+     "reasons": [
+      "reviewer: not about_this_amendment",
+      "Quote outlines general reasons (delay, court interference) but does not directly refer to the specific amendment provision."
+     ]
+    },
+    {
+     "tier": "debate",
+     "outcome": "verified",
+     "passage": "D39.14",
+     "quote": "This is to do way with the inconvenience caused by interim ex parte orders passed in original applications.",
+     "claim": "The amendment is intended to eliminate the inconvenience caused by interim ex parte orders passed in original applications.",
+     "reasons": []
+    }
+   ]
+  },
+  {
+   "unit": "3/2016|s6",
+   "instrument": "3/2016",
+   "act_section": "s6",
+   "targets": [
+    "s11"
+   ],
+   "status": "sourced",
+   "claim": "The amendment rationalizes the law and provides greater incentive for the High Court and/or Supreme Court to delegate the power of appointment to specialized, external persons or institutions.",
+   "tier": "report",
+   "quote": "This would rationalize the law and provide greater incentive for the\nHigh Court and/or Supreme Court to delegate the power of appointment\n(being a non-judicial act) to specialized, external persons or institutions.",
+   "document_id": 59,
+   "span": [
+    42392,
+    42606
+   ],
+   "attribution": {
+    "by": "Law Commission of India, Report No. 246",
+    "role": "committee",
+    "where": "Law Commission of India, Report No. 246: Amendments to the Arbitration and Conciliation Act, 1996 (August 2014), part 1"
+   },
+   "attempts": [
+    {
+     "tier": "sor",
+     "outcome": "blocked",
+     "passage": "S21",
+     "quote": "The Act was enacted to provide for speedy disposal of cases relating to arbitration with least court intervention. With the passage of time, some difficulties in the applicability of the Act have been noticed.",
+     "claim": "The Act was enacted to provide for speedy disposal of cases relating to arbitration with least court intervention, and with the passage of time, some difficulties in the applicability of the Act have been noticed.",
+     "reasons": [
+      "reviewer: not about_this_amendment",
+      "Quote states purpose and problems but does not refer to the specific amendment."
+     ]
+    },
+    {
+     "tier": "debate",
+     "outcome": "none found",
+     "passages": [
+      "D39.98",
+      "D39.97",
+      "D39.65"
+     ]
+    },
+    {
+     "tier": "report",
+     "outcome": "verified",
+     "passage": "R59.67",
+     "quote": "This would rationalize the law and provide greater incentive for the High Court and/or Supreme Court to delegate the power of appointment (being a non-judicial act) to specialized, external persons or institutions.",
+     "claim": "The amendment rationalizes the law and provides greater incentive for the High Court and/or Supreme Court to delegate the power of appointment to specialized, external persons or institutions.",
+     "reasons": []
+    }
+   ]
+  },
+  {
+   "unit": "3/2016|s7",
+   "instrument": "3/2016",
+   "act_section": "s7",
+   "targets": [
+    "s11A"
+   ],
+   "status": "sourced",
+   "claim": "To empower the Central Government to amend the Fourth Schedule by notification in the Official Gazette after laying the same in draft form before each House of Parliament.",
+   "tier": "sor",
+   "quote": "Clause 7 of the Bill seeks to insert a new section 11A in the principal Act to empower the\nCentral Government to amend the Fourth Schedule by notification in the Official Gazette after\nlaying the same in draft form before each House of Parliament.",
+   "document_id": 21,
+   "span": [
+    50815,
+    51062
+   ],
+   "attribution": {
+    "by": "Government",
+    "role": "government",
+    "where": "Notes on Clauses, The Arbitration and Conciliation (Amendment) Bill, 2015 (as introduced)",
+    "signed_by": "D. V. SADANANDA GOWDA"
+   },
+   "attempts": [
+    {
+     "tier": "sor",
+     "outcome": "verified",
+     "passage": "N21.6",
+     "quote": "Clause 7 of the Bill seeks to insert a new section 11A in the principal Act to empower the Central Government to amend the Fourth Schedule by notification in the Official Gazette after laying the same in draft form before each House of Parliament.",
+     "claim": "To empower the Central Government to amend the Fourth Schedule by notification in the Official Gazette after laying the same in draft form before each House of Parliament.",
+     "reasons": []
+    }
+   ]
+  },
+  {
+   "unit": "3/2016|s8",
+   "instrument": "3/2016",
+   "act_section": "s8",
+   "targets": [
+    "s12"
+   ],
+   "status": "sourced",
+   "claim": "The amendment seeks to ensure neutrality of arbitrators.",
+   "tier": "sor",
+   "quote": "Clause 8 of the Bill seeks to amend section 12 of the principal Act to ensure neutrality of\narbitrators.",
+   "document_id": 21,
+   "span": [
+    51063,
+    51167
+   ],
+   "attribution": {
+    "by": "Government",
+    "role": "government",
+    "where": "Notes on Clauses, The Arbitration and Conciliation (Amendment) Bill, 2015 (as introduced)",
+    "signed_by": "D. V. SADANANDA GOWDA"
+   },
+   "attempts": [
+    {
+     "tier": "sor",
+     "outcome": "verified",
+     "passage": "N21.7",
+     "quote": "Clause 8 of the Bill seeks to amend section 12 of the principal Act to ensure neutrality of arbitrators.",
+     "claim": "The amendment seeks to ensure neutrality of arbitrators.",
+     "reasons": []
+    }
+   ]
+  },
+  {
+   "unit": "3/2016|s9",
+   "instrument": "3/2016",
+   "act_section": "s9",
+   "targets": [
+    "s14"
+   ],
+   "status": "not_determinable",
+   "claim": "intent not determinable from available record",
+   "tier": null,
+   "quote": null,
+   "document_id": null,
+   "span": null,
+   "attribution": null,
+   "attempts": [
+    {
+     "tier": "sor",
+     "outcome": "none found",
+     "passages": [
+      "S21",
+      "N21.8"
+     ]
+    },
+    {
+     "tier": "debate",
+     "outcome": "no passages"
+    },
+    {
+     "tier": "report",
+     "outcome": "blocked",
+     "passage": null,
+     "quote": "This amendment is in consonance with the principles of natural justice, that an interested person cannot be an adjudicator.",
+     "claim": "The amendment aligns with natural justice principles that an interested person cannot serve as an adjudicator.",
+     "reasons": [
+      "no passage named"
+     ]
+    }
+   ]
+  },
+  {
+   "unit": "3/2016|s10",
+   "instrument": "3/2016",
+   "act_section": "s10",
+   "targets": [
+    "s17"
+   ],
+   "status": "sourced",
+   "claim": "The amendment aims to empower the arbitral tribunal to grant interim measures that the court can grant, making such orders enforceable as court orders.",
+   "tier": "debate",
+   "quote": "Section 17 is to be amended for empowering the Arbitral Tribunal to grant all kinds of interim measures which the court is empowered to\ngrant, under Section 9 and such order shall be 'enforceable in the same manner as if it is an order of the court’.",
+   "document_id": 39,
+   "span": [
+    44670,
+    44920
+   ],
+   "attribution": {
+    "by": "SHRI MEKAPATI RAJA MOHAN REDDY (NELLORE)",
+    "role": "member",
+    "where": "Lok Sabha debate, 17 Dec 2015: further discussion on the Statutory Resolution disapproving Ordinance 9 of 2015 and the Arbitration and Conciliation (Amendment) Bill, 2015 (Bill passed)"
+   },
+   "attempts": [
+    {
+     "tier": "sor",
+     "outcome": "blocked",
+     "passage": "S21",
+     "quote": "With a view to overcome the difficulties, the matter was referred to the Law Commission of India, which examined the issue in detail and submitted its 176th Report.",
+     "claim": "The amendment was made to overcome difficulties in the applicability of the Act.",
+     "reasons": [
+      "reviewer: not about_this_amendment",
+      "reviewer: not claim_faithful",
+      "Quote states a purpose to overcome difficulties but does not specifically refer to this amendment, and the claim adds specifics not present in the quote."
+     ]
+    },
+    {
+     "tier": "debate",
+     "outcome": "verified",
+     "passage": "D39.66",
+     "quote": "Section 17 is to be amended for empowering the Arbitral Tribunal to grant all kinds of interim measures which the court is empowered to grant, under Section 9 and such order shall be 'enforceable in the same manner as if it is an order of the court’.",
+     "claim": "The amendment aims to empower the arbitral tribunal to grant interim measures that the court can grant, making such orders enforceable as court orders.",
+     "reasons": []
+    }
+   ]
+  },
+  {
+   "unit": "3/2016|s11",
+   "instrument": "3/2016",
+   "act_section": "s11",
+   "targets": [
+    "s23"
+   ],
+   "status": "not_determinable",
+   "claim": "intent not determinable from available record",
+   "tier": null,
+   "quote": null,
+   "document_id": null,
+   "span": null,
+   "attribution": null,
+   "attempts": [
+    {
+     "tier": "sor",
+     "outcome": "none found",
+     "passages": [
+      "S21",
+      "N21.10",
+      "N21.12"
+     ]
+    },
+    {
+     "tier": "debate",
+     "outcome": "none found",
+     "passages": [
+      "D39.30",
+      "D39.31",
+      "D39.23"
+     ]
+    },
+    {
+     "tier": "report",
+     "outcome": "blocked",
+     "passage": null,
+     "quote": "This explanation is in order to ensure that counter claims and set off can be adjudicated upon by an arbitrator without seeking a separate/new reference by the respondent so long as it falls within the scope of the arbitration agreement.",
+     "claim": "The amendment is intended to ensure that counter claims and set off can be adjudicated upon by an arbitrator without seeking a separate/new reference by the respondent so long as it falls within the scope of the arbitration agreement.",
+     "reasons": [
+      "no passage named"
+     ]
+    }
+   ]
+  },
+  {
+   "unit": "3/2016|s12",
+   "instrument": "3/2016",
+   "act_section": "s12",
+   "targets": [
+    "s24"
+   ],
+   "status": "not_determinable",
+   "claim": "intent not determinable from available record",
+   "tier": null,
+   "quote": null,
+   "document_id": null,
+   "span": null,
+   "attribution": null,
+   "attempts": [
+    {
+     "tier": "sor",
+     "outcome": "blocked",
+     "passage": "S21",
+     "quote": "The Act was enacted to provide for speedy disposal of cases relating to arbitration with least court intervention. With a view to overcome the difficulties, the matter was referred to the Law Commission of India, which examined the issue in detail and submitted its 176th Report.",
+     "claim": "The amendment aims to ensure speedy disposal of arbitration cases by addressing difficulties that cause delays.",
+     "reasons": [
+      "quote is not verbatim in the cited document"
+     ]
+    },
+    {
+     "tier": "sor",
+     "outcome": "none found",
+     "passages": [
+      "S21",
+      "N21.11"
+     ]
+    },
+    {
+     "tier": "debate",
+     "outcome": "none found",
+     "passages": [
+      "D39.30",
+      "D39.19",
+      "D39.31"
+     ]
+    },
+    {
+     "tier": "report",
+     "outcome": "blocked",
+     "passage": null,
+     "quote": "This amendment is to ensure expeditious hearings in the arbitration and to avoid unnecessary adjournments.",
+     "claim": "The amendment aims to ensure expeditious hearings in the arbitration and to avoid unnecessary adjournments.",
+     "reasons": [
+      "no passage named"
+     ]
+    }
+   ]
+  },
+  {
+   "unit": "3/2016|s13",
+   "instrument": "3/2016",
+   "act_section": "s13",
+   "targets": [
+    "s25"
+   ],
+   "status": "not_determinable",
+   "claim": "intent not determinable from available record",
+   "tier": null,
+   "quote": null,
+   "document_id": null,
+   "span": null,
+   "attribution": null,
+   "attempts": [
+    {
+     "tier": "sor",
+     "outcome": "none found",
+     "passages": [
+      "S21",
+      "N21.12"
+     ]
+    },
+    {
+     "tier": "debate",
+     "outcome": "none found",
+     "passages": [
+      "D39.138",
+      "D39.137",
+      "D39.59"
+     ]
+    },
+    {
+     "tier": "report",
+     "outcome": "blocked",
+     "passage": null,
+     "quote": "[NOTE: This amendment is to ensure expeditious hearings in the arbitration and to avoid unnecessary adjournments.]",
+     "claim": "The amendment is intended to ensure expeditious hearings in the arbitration and to avoid unnecessary adjournments.",
+     "reasons": [
+      "no passage named"
+     ]
+    }
+   ]
+  },
+  {
+   "unit": "3/2016|s14",
+   "instrument": "3/2016",
+   "act_section": "s14",
+   "targets": [
+    "s28"
+   ],
+   "status": "sourced",
+   "claim": "The amendment was introduced to enable more cases to be resolved by arbitration and to prevent court delays, thereby making contract enforcement easier.",
+   "tier": "debate",
+   "quote": "The purpose of the Minister is good. He has introduced this clause so that more cases can be solved by arbitration; also that arbitration is not\nheld up in courts to make the process easy so that contract can be easily enforced.",
+   "document_id": 39,
+   "span": [
+    98109,
+    98337
+   ],
+   "attribution": {
+    "by": "PROF. SAUGATA ROY (DUM DUM)",
+    "role": "member",
+    "where": "Lok Sabha debate, 17 Dec 2015: further discussion on the Statutory Resolution disapproving Ordinance 9 of 2015 and the Arbitration and Conciliation (Amendment) Bill, 2015 (Bill passed)"
+   },
+   "attempts": [
+    {
+     "tier": "sor",
+     "outcome": "none found",
+     "passages": [
+      "S21",
+      "N21.13"
+     ]
+    },
+    {
+     "tier": "debate",
+     "outcome": "verified",
+     "passage": "D39.146",
+     "quote": "The purpose of the Minister is good. He has introduced this clause so that more cases can be solved by arbitration; also that arbitration is not held up in courts to make the process easy so that contract can be easily enforced.",
+     "claim": "The amendment was introduced to enable more cases to be resolved by arbitration and to prevent court delays, thereby making contract enforcement easier.",
+     "reasons": []
+    }
+   ]
+  },
+  {
+   "unit": "3/2016|s15",
+   "instrument": "3/2016",
+   "act_section": "s15",
+   "targets": [
+    "s29A",
+    "s29B"
+   ],
+   "status": "sourced",
+   "claim": "The amendment is intended to make arbitration more user‑friendly, cost‑effective and to achieve faster disposal of cases.",
+   "tier": "sor",
+   "quote": "The amendments proposed in the Bill will ensure that arbitration process becomes\nmore user-friendly, cost effective and lead to expeditious disposal of cases.",
+   "document_id": 21,
+   "span": [
+    47373,
+    47531
+   ],
+   "attribution": {
+    "by": "Government",
+    "role": "government",
+    "where": "Statement of Objects and Reasons, The Arbitration and Conciliation (Amendment) Bill, 2015 (as introduced)",
+    "signed_by": "D. V. SADANANDA GOWDA"
+   },
+   "attempts": [
+    {
+     "tier": "sor",
+     "outcome": "verified",
+     "passage": "S21",
+     "quote": "The amendments proposed in the Bill will ensure that arbitration process becomes more user-friendly, cost effective and lead to expeditious disposal of cases.",
+     "claim": "The amendment is intended to make arbitration more user‑friendly, cost‑effective and to achieve faster disposal of cases.",
+     "reasons": []
+    }
+   ]
+  },
+  {
+   "unit": "3/2016|s16",
+   "instrument": "3/2016",
+   "act_section": "s16",
+   "targets": [
+    "s31"
+   ],
+   "status": "sourced",
+   "claim": "The amendment is intended to ensure that the default rate of interest reflects prevailing commercial realities instead of an arbitrary 18% rate.",
+   "tier": "report",
+   "quote": "[NOTE: Explanation 1 ensures that the default rate of interest is in line with\nprevailing commercial realities and not an arbitrary figure of 18%.",
+   "document_id": 59,
+   "span": [
+    119711,
+    119857
+   ],
+   "attribution": {
+    "by": "Law Commission of India, Report No. 246",
+    "role": "committee",
+    "where": "Law Commission of India, Report No. 246: Amendments to the Arbitration and Conciliation Act, 1996 (August 2014), part 1"
+   },
+   "attempts": [
+    {
+     "tier": "sor",
+     "outcome": "blocked",
+     "passage": "S21",
+     "quote": "The amendments proposed in the Bill will ensure that arbitration process becomes more user-friendly, cost effective and lead to expeditious disposal of cases.",
+     "claim": "The amendments proposed in the Bill will ensure that arbitration process becomes more user-friendly, cost effective and lead to expeditious disposal of cases.",
+     "reasons": [
+      "reviewer: not about_this_amendment",
+      "Quote states a general purpose for the Bill’s amendments but does not specifically refer to the interest‑on‑awards amendment."
+     ]
+    },
+    {
+     "tier": "debate",
+     "outcome": "none found",
+     "passages": [
+      "D39.23",
+      "D39.30",
+      "D39.66"
+     ]
+    },
+    {
+     "tier": "report",
+     "outcome": "verified",
+     "passage": "R59.189",
+     "quote": "[NOTE: Explanation 1 ensures that the default rate of interest is in line with prevailing commercial realities and not an arbitrary figure of 18%.",
+     "claim": "The amendment is intended to ensure that the default rate of interest reflects prevailing commercial realities instead of an arbitrary 18% rate.",
+     "reasons": []
+    }
+   ]
+  },
+  {
+   "unit": "3/2016|s17",
+   "instrument": "3/2016",
+   "act_section": "s17",
+   "targets": [
+    "s31A"
+   ],
+   "status": "sourced",
+   "claim": "The amendment is intended to provide detailed provisions for the regime of costs that can be determined and ordered by the Court or arbitral tribunal.",
+   "tier": "sor",
+   "quote": "Clause 17 of the Bill seeks to insert a new section 31A in the principal Act to provide in\ndetail provisions related to regime of costs which may be determined and ordered by the\nCourt or arbitral tribunal in relation to any arbitral proceedings or any proceedings under the Act.",
+   "document_id": 21,
+   "span": [
+    55641,
+    55920
+   ],
+   "attribution": {
+    "by": "Government",
+    "role": "government",
+    "where": "Notes on Clauses, The Arbitration and Conciliation (Amendment) Bill, 2015 (as introduced)",
+    "signed_by": "D. V. SADANANDA GOWDA"
+   },
+   "attempts": [
+    {
+     "tier": "sor",
+     "outcome": "verified",
+     "passage": "N21.16",
+     "quote": "Clause 17 of the Bill seeks to insert a new section 31A in the principal Act to provide in detail provisions related to regime of costs which may be determined and ordered by the Court or arbitral tribunal in relation to any arbitral proceedings or any proceedings under the Act.",
+     "claim": "The amendment is intended to provide detailed provisions for the regime of costs that can be determined and ordered by the Court or arbitral tribunal.",
+     "reasons": []
+    }
+   ]
+  },
+  {
+   "unit": "3/2016|s18",
+   "instrument": "3/2016",
+   "act_section": "s18",
+   "targets": [
+    "s34"
+   ],
+   "status": "sourced",
+   "claim": "The amendment adds Explanation 2 to clarify that the test for contravention of fundamental Indian law will not involve a review of the dispute’s merits.",
+   "tier": "sor",
+   "quote": "Explanation 2 is inserted to explain that the test as to whether there is a contravention with\nthe fundamental policy of Indian law shall not entail a review on the merits of the dispute.",
+   "document_id": 21,
+   "span": [
+    56479,
+    56666
+   ],
+   "attribution": {
+    "by": "Government",
+    "role": "government",
+    "where": "Notes on Clauses, The Arbitration and Conciliation (Amendment) Bill, 2015 (as introduced)",
+    "signed_by": "D. V. SADANANDA GOWDA"
+   },
+   "attempts": [
+    {
+     "tier": "sor",
+     "outcome": "verified",
+     "passage": "N21.17",
+     "quote": "Explanation 2 is inserted to explain that the test as to whether there is a contravention with the fundamental policy of Indian law shall not entail a review on the merits of the dispute.",
+     "claim": "The amendment adds Explanation 2 to clarify that the test for contravention of fundamental Indian law will not involve a review of the dispute’s merits.",
+     "reasons": []
+    }
+   ]
+  },
+  {
+   "unit": "3/2016|s19",
+   "instrument": "3/2016",
+   "act_section": "s19",
+   "targets": [
+    "s36"
+   ],
+   "status": "not_determinable",
+   "claim": "intent not determinable from available record",
+   "tier": null,
+   "quote": null,
+   "document_id": null,
+   "span": null,
+   "attribution": null,
+   "attempts": [
+    {
+     "tier": "sor",
+     "outcome": "blocked",
+     "passage": "S21",
+     "quote": "With a view to overcome the difficulties, the matter was referred to the Law Commission of India, which examined the issue in detail and submitted its 176th Report.",
+     "claim": "The amendment was made to overcome the difficulties in the applicability of the Act.",
+     "reasons": [
+      "reviewer: not about_this_amendment",
+      "reviewer: not claim_faithful",
+      "Quote states a purpose to overcome difficulties but does not specifically refer to the amendment, and the claim adds specifics not present in the quote."
+     ]
+    },
+    {
+     "tier": "debate",
+     "outcome": "none found",
+     "passages": [
+      "D39.30",
+      "D39.25",
+      "D39.70"
+     ]
+    },
+    {
+     "tier": "report",
+     "outcome": "none found",
+     "passages": [
+      "R59.196",
+      "R60.112",
+      "R60.72"
+     ]
+    }
+   ]
+  },
+  {
+   "unit": "3/2016|s20",
+   "instrument": "3/2016",
+   "act_section": "s20",
+   "targets": [
+    "s37"
+   ],
+   "status": "sourced",
+   "claim": "The amendments seek to make disposal of commercial disputes more user-friendly and cost effective, which, in turn, will lead to expeditious disposal of cases.",
+   "tier": "debate",
+   "quote": "The amendments seek to make disposal of commercial disputes more user-friendly and cost effective, which, in turn, will lead to expeditious\ndisposal of cases.",
+   "document_id": 39,
+   "span": [
+    67341,
+    67499
+   ],
+   "attribution": {
+    "by": "SHRI THOTA NARASIMHAM (KAKINADA)",
+    "role": "member",
+    "where": "Lok Sabha debate, 17 Dec 2015: further discussion on the Statutory Resolution disapproving Ordinance 9 of 2015 and the Arbitration and Conciliation (Amendment) Bill, 2015 (Bill passed)"
+   },
+   "attempts": [
+    {
+     "tier": "sor",
+     "outcome": "blocked",
+     "passage": "N21.19",
+     "quote": "Clause 20 of the Bill seeks to amend section 37 of the principal Act so as to include the order refusing to refer the parties to arbitration under section 8 also appealable.",
+     "claim": "Clause 20 of the Bill seeks to amend section 37 of the principal Act so as to include the order refusing to refer the parties to arbitration under section 8 also appealable.",
+     "reasons": [
+      "reviewer: not states_reason",
+      "The quote states what the amendment does but gives no purpose, and the claim mirrors the quote exactly."
+     ]
+    },
+    {
+     "tier": "debate",
+     "outcome": "verified",
+     "passage": "D39.100",
+     "quote": "The amendments seek to make disposal of commercial disputes more user-friendly and cost effective, which, in turn, will lead to expeditious disposal of cases.",
+     "claim": "The amendments seek to make disposal of commercial disputes more user-friendly and cost effective, which, in turn, will lead to expeditious disposal of cases.",
+     "reasons": []
+    }
+   ]
+  },
+  {
+   "unit": "3/2016|s21",
+   "instrument": "3/2016",
+   "act_section": "s21",
+   "targets": [
+    "s47"
+   ],
+   "status": "not_determinable",
+   "claim": "intent not determinable from available record",
+   "tier": null,
+   "quote": null,
+   "document_id": null,
+   "span": null,
+   "attribution": null,
+   "attempts": [
+    {
+     "tier": "sor",
+     "outcome": "blocked",
+     "passage": null,
+     "quote": "It is proposed to introduce the Arbitration and Conciliation (Amendment) Bill, 2015, to replace the Arbitration and Conciliation (Amendment) Ordinance, 2015, which inter alia, provides for the following, namely:— (i) to amend the definition of “Court” to provide that in the case of international com",
+     "claim": "The amendment aims to change the definition of “Court” so that for international commercial arbitrations the High Court is designated as the Court.",
+     "reasons": [
+      "no passage named"
+     ]
+    },
+    {
+     "tier": "debate",
+     "outcome": "none found",
+     "passages": [
+      "D39.30",
+      "D39.29",
+      "D39.118"
+     ]
+    },
+    {
+     "tier": "report",
+     "outcome": "none found",
+     "passages": [
+      "R60.142",
+      "R60.129",
+      "R59.140"
+     ]
+    }
+   ]
+  },
+  {
+   "unit": "3/2016|s22",
+   "instrument": "3/2016",
+   "act_section": "s22",
+   "targets": [
+    "s48"
+   ],
+   "status": "not_determinable",
+   "claim": "intent not determinable from available record",
+   "tier": null,
+   "quote": null,
+   "document_id": null,
+   "span": null,
+   "attribution": null,
+   "attempts": [
+    {
+     "tier": "sor",
+     "outcome": "blocked",
+     "passage": "N21.21",
+     "quote": "Clause 22 of the Bill seeks to amend section 48 of the principal Act to provide for Explanation to the term 'public policy of India' in clause (b) of sub-section (2), by amending the existing Explanation, to the effect that an arbitral award is in conflict with the public policy of India only if the",
+     "claim": "The amendment is intended to provide an Explanation to the term ‘public policy of India’ in section 48(b) to clarify when an award conflicts with public policy.",
+     "reasons": [
+      "quote is not verbatim in the cited document"
+     ]
+    },
+    {
+     "tier": "sor",
+     "outcome": "blocked",
+     "passage": "N21.21",
+     "quote": "Clause 22 of the Bill seeks to amend section 48 of the principal Act to provide for Explanation to the term 'public policy of India' in clause (b) of sub-section (2).",
+     "claim": "Clause 22 of the Bill seeks to amend section 48 of the principal Act to provide for Explanation to the term 'public policy of India' in clause (b) of sub-section (2).",
+     "reasons": [
+      "quote is not verbatim in the cited document"
+     ]
+    },
+    {
+     "tier": "debate",
+     "outcome": "blocked",
+     "passage": "D39.68",
+     "quote": "In this Bill, we are trying to reduce the involvement of the court in an arbitration proceedings.",
+     "claim": "The amendment aims to reduce the involvement of the court in arbitration proceedings.",
+     "reasons": [
+      "quote is not verbatim in the cited document"
+     ]
+    },
+    {
+     "tier": "debate",
+     "outcome": "blocked",
+     "passage": "D39.68",
+     "quote": "Sir, in this Bill, we are trying to reduce the involvement of the court in an arbitration proceedings. For that, we have incorporated certain provisions to restrict the courts from passing interim orders after constitution of an Arbitration Tribunal.",
+     "claim": "The amendment aims to reduce the involvement of the court in arbitration proceedings by restricting courts from passing interim orders after the constitution of an Arbitration Tribunal.",
+     "reasons": [
+      "reviewer: not about_this_amendment",
+      "reviewer: not claim_faithful",
+      "Quote discusses limiting interim orders, not the public‑policy clarification amendment."
+     ]
+    },
+    {
+     "tier": "report",
+     "outcome": "none found",
+     "passages": [
+      "R59.201",
+      "R62.42",
+      "R62.42"
+     ]
+    }
+   ]
+  },
+  {
+   "unit": "3/2016|s23",
+   "instrument": "3/2016",
+   "act_section": "s23",
+   "targets": [
+    "s56"
+   ],
+   "status": "sourced",
+   "claim": "The amendment is intended to change the definition of “Court” so that for international commercial arbitrations the Court will be the High Court.",
+   "tier": "sor",
+   "quote": "(i) to amend the definition of “Court” to provide that in the case of\ninternational commercial arbitrations, the Court should be the High Court;",
+   "document_id": 21,
+   "span": [
+    45630,
+    45774
+   ],
+   "attribution": {
+    "by": "Government",
+    "role": "government",
+    "where": "Statement of Objects and Reasons, The Arbitration and Conciliation (Amendment) Bill, 2015 (as introduced)",
+    "signed_by": "D. V. SADANANDA GOWDA"
+   },
+   "attempts": [
+    {
+     "tier": "sor",
+     "outcome": "blocked",
+     "passage": "S21",
+     "quote": "It is proposed to introduce the Arbitration and Conciliation (Amendment) Bill, 2015, to replace the Arbitration and Conciliation (Amendment) Ordinance, 2015, which inter alia, provides for the following, namely:— (i) to amend the definition of “Court” to provide that in the case of international com",
+     "claim": "The amendment aims to change the definition of “Court” so that for international commercial arbitrations the High Court is designated as the court.",
+     "reasons": [
+      "quote is not verbatim in the cited document"
+     ]
+    },
+    {
+     "tier": "sor",
+     "outcome": "verified",
+     "passage": "S21",
+     "quote": "(i) to amend the definition of “Court” to provide that in the case of international commercial arbitrations, the Court should be the High Court;",
+     "claim": "The amendment is intended to change the definition of “Court” so that for international commercial arbitrations the Court will be the High Court.",
+     "reasons": []
+    }
+   ]
+  },
+  {
+   "unit": "3/2016|s24",
+   "instrument": "3/2016",
+   "act_section": "s24",
+   "targets": [
+    "s57"
+   ],
+   "status": "not_determinable",
+   "claim": "intent not determinable from available record",
+   "tier": null,
+   "quote": null,
+   "document_id": null,
+   "span": null,
+   "attribution": null,
+   "attempts": [
+    {
+     "tier": "sor",
+     "outcome": "blocked",
+     "passage": "S21",
+     "quote": "With a view to overcome the difficulties, the matter was referred to the Law Commission of India, which examined the issue in detail and submitted its 176th Report.",
+     "claim": "The amendment is intended to overcome difficulties in the Act’s applicability.",
+     "reasons": [
+      "reviewer: not about_this_amendment",
+      "reviewer: not claim_faithful",
+      "Quote states a purpose but does not specifically refer to the amendment or its applicability, and the claim adds details not in the quote."
+     ]
+    },
+    {
+     "tier": "debate",
+     "outcome": "blocked",
+     "passage": "D39.68",
+     "quote": "In this Bill, we are trying to reduce the involvement of the court in an arbitration proceedings. For that, we have incorporated certain provisions to restrict the courts from passing interim orders after constitution of an Arbitration Tribunal. We have also reduced the scope of judicial interferenc",
+     "claim": "The amendment seeks to reduce court involvement in arbitration by restricting interim orders and limiting judicial interference in awards.",
+     "reasons": [
+      "quote is not verbatim in the cited document"
+     ]
+    },
+    {
+     "tier": "debate",
+     "outcome": "blocked",
+     "passage": "D39.68",
+     "quote": "Sir, in this Bill, we are trying to reduce the involvement of the court in an arbitration proceedings. For that, we have incorporated certain provisions to restrict the courts from passing interim orders after constitution of an Arbitration Tribunal.",
+     "claim": "The amendment aims to reduce court involvement in arbitration proceedings.",
+     "reasons": [
+      "reviewer: not about_this_amendment",
+      "reviewer: not claim_faithful",
+      "Quote gives a purpose but does not pertain to the specific amendment, making the claim inaccurate."
+     ]
+    },
+    {
+     "tier": "report",
+     "outcome": "blocked",
+     "passage": "R62.41",
+     "quote": "Unless the above amendment to the Commission’s proposed Section 34(2)(b)(ii) is incorporated, “public policy” will continue to be widely construed and the object of the amendments suggested by Law Commission in this regard would not be met.",
+     "claim": "The amendment is needed to prevent the public policy provision from being widely construed and to achieve the object of the Law Commission’s suggested amendments.",
+     "reasons": [
+      "reviewer: not about_this_amendment",
+      "Quote discusses purpose of amendment (prevent wide construction), but refers to a different provision than the one described."
+     ]
+    }
+   ]
+  },
+  {
+   "unit": "3/2016|s25",
+   "instrument": "3/2016",
+   "act_section": "s25",
+   "targets": [
+    "sch4",
+    "sch5",
+    "sch6",
+    "sch7"
+   ],
+   "status": "not_determinable",
+   "claim": "intent not determinable from available record",
+   "tier": null,
+   "quote": null,
+   "document_id": null,
+   "span": null,
+   "attribution": null,
+   "attempts": [
+    {
+     "tier": "sor",
+     "outcome": "blocked",
+     "passage": null,
+     "quote": "to provide that a model fee Schedule on the basis of which High Courts may frame rules for the purpose of determination of fees of arbitral tribunal, where a High Court appoints arbitrator in terms of section 11 of the Act;",
+     "claim": "The amendment aims to introduce a model fee schedule so High Courts can set rules for determining arbitral tribunal fees.",
+     "reasons": [
+      "no passage named"
+     ]
+    },
+    {
+     "tier": "debate",
+     "outcome": "none found",
+     "passages": [
+      "D39.153",
+      "D39.141",
+      "D39.140"
+     ]
+    },
+    {
+     "tier": "report",
+     "outcome": "blocked",
+     "passage": "R59.223",
+     "quote": "[NOTE: The above rules are taken and adapted from the Red list of the International Bar Associations Guidelines on Conflicts of Interest in International Arbitration.]",
+     "claim": "The amendment adopts rules based on the International Bar Association’s Guidelines on Conflicts of Interest in International Arbitration.",
+     "reasons": [
+      "reviewer: not states_reason",
+      "The quote identifies the source of the rules but does not explain the amendment's purpose."
+     ]
+    }
+   ]
+  },
+  {
+   "unit": "33/2019|s2",
+   "instrument": "33/2019",
+   "act_section": "s2",
+   "targets": [
+    "s2"
+   ],
+   "status": "sourced",
+   "claim": "The amendment was recommended to minimise the need to approach the courts for appointment of arbitrators and to strengthen institutional arbitration in India.",
+   "tier": "sor",
+   "quote": "With a view to\nstrengthen institutional arbitration in the country, the said Committee, inter alia, recommended\nfor the establishment of an independent body for grading of arbitral institutions and\naccreditation of arbitrators, etc. The Committee has also recommended certain amendments\nto the said Act to minimise the need to approach the Courts for appointment of arbitrators.",
+   "document_id": 28,
+   "span": [
+    26067,
+    26445
+   ],
+   "attribution": {
+    "by": "Government",
+    "role": "government",
+    "where": "Statement of Objects and Reasons, The Arbitration and Conciliation (Amendment) Bill, 2019 (as introduced in Rajya Sabha)",
+    "signed_by": "RAVI SHANKAR PRASAD"
+   },
+   "attempts": [
+    {
+     "tier": "sor",
+     "outcome": "verified",
+     "passage": "S28",
+     "quote": "With a view to strengthen institutional arbitration in the country, the said Committee, inter alia, recommended for the establishment of an independent body for grading of arbitral institutions and accreditation of arbitrators, etc. The Committee has also recommended certain amendments to the said A",
+     "claim": "The amendment was recommended to minimise the need to approach the courts for appointment of arbitrators and to strengthen institutional arbitration in India.",
+     "reasons": []
+    }
+   ]
+  },
+  {
+   "unit": "33/2019|s3",
+   "instrument": "33/2019",
+   "act_section": "s3",
+   "targets": [
+    "s11"
+   ],
+   "status": "sourced",
+   "claim": "The amendment was made to reduce reliance on courts for appointing arbitrators and to promote institutional arbitration, aiming to make India a hub for such arbitration.",
+   "tier": "sor",
+   "quote": "The Committee has also recommended certain amendments\nto the said Act to minimise the need to approach the Courts for appointment of arbitrators.\nAfter examination of the said recommendations with a view to make India a hub of institutional\narbitration for both domestic and international arbitration, it was decided to amend the\nArbitration and Conciliation Act, 1996.",
+   "document_id": 28,
+   "span": [
+    26300,
+    26669
+   ],
+   "attribution": {
+    "by": "Government",
+    "role": "government",
+    "where": "Statement of Objects and Reasons, The Arbitration and Conciliation (Amendment) Bill, 2019 (as introduced in Rajya Sabha)",
+    "signed_by": "RAVI SHANKAR PRASAD"
+   },
+   "attempts": [
+    {
+     "tier": "sor",
+     "outcome": "verified",
+     "passage": "S28",
+     "quote": "The Committee has also recommended certain amendments to the said Act to minimise the need to approach the Courts for appointment of arbitrators. After examination of the said recommendations with a view to make India a hub of institutional arbitration for both domestic and international arbitration",
+     "claim": "The amendment was made to reduce reliance on courts for appointing arbitrators and to promote institutional arbitration, aiming to make India a hub for such arbitration.",
+     "reasons": []
+    }
+   ]
+  },
+  {
+   "unit": "33/2019|s4",
+   "instrument": "33/2019",
+   "act_section": "s4",
+   "targets": [
+    "s17"
+   ],
+   "status": "not_determinable",
+   "claim": "intent not determinable from available record",
+   "tier": null,
+   "quote": null,
+   "document_id": null,
+   "span": null,
+   "attribution": null,
+   "attempts": [
+    {
+     "tier": "sor",
+     "outcome": "none found",
+     "passages": [
+      "S28"
+     ]
+    },
+    {
+     "tier": "debate",
+     "outcome": "blocked",
+     "passage": "D41.57",
+     "quote": "Under Section 23, six-month timeframe has been given to file the claim. There is some confusion as to whether one-year time period, that is given for the arbitration to be completed, starts after these six months or also includes this period. Otherwise, the purpose for which the time that has been f",
+     "claim": "The amendment is intended to remove confusion about when the arbitration period begins so that the intended quicker settlement of arbitration can be achieved.",
+     "reasons": [
+      "quote is not verbatim in the cited document"
+     ]
+    },
+    {
+     "tier": "debate",
+     "outcome": "none found",
+     "passages": [
+      "D41.57",
+      "D41.22"
+     ]
+    },
+    {
+     "tier": "report",
+     "outcome": "no passages"
+    }
+   ]
+  },
+  {
+   "unit": "33/2019|s5",
+   "instrument": "33/2019",
+   "act_section": "s5",
+   "targets": [
+    "s23"
+   ],
+   "status": "sourced",
+   "claim": "The amendment is intended to ensure that the statement of claim and defence is completed within six months of the arbitrator’s appointment.",
+   "tier": "sor",
+   "quote": "(iv) to amend section 23 of the Act relating to \"Statement of claim and defence\"\nso as to provide that the statement of claim and defence shall be completed within a\nperiod of six months from the date the arbitrator receives the notice of appointment;",
+   "document_id": 28,
+   "span": [
+    27930,
+    28181
+   ],
+   "attribution": {
+    "by": "Government",
+    "role": "government",
+    "where": "Statement of Objects and Reasons, The Arbitration and Conciliation (Amendment) Bill, 2019 (as introduced in Rajya Sabha)",
+    "signed_by": "RAVI SHANKAR PRASAD"
+   },
+   "attempts": [
+    {
+     "tier": "sor",
+     "outcome": "verified",
+     "passage": "S28",
+     "quote": "(iv) to amend section 23 of the Act relating to \"Statement of claim and defence\" so as to provide that the statement of claim and defence shall be completed within a period of six months from the date the arbitrator receives the notice of appointment;",
+     "claim": "The amendment is intended to ensure that the statement of claim and defence is completed within six months of the arbitrator’s appointment.",
+     "reasons": []
+    }
+   ]
+  },
+  {
+   "unit": "33/2019|s6",
+   "instrument": "33/2019",
+   "act_section": "s6",
+   "targets": [
+    "s29A"
+   ],
+   "status": "sourced",
+   "claim": "The amendment aims to make the arbitration process more efficient and to bring justice to the doorsteps of people by helping resolve commercial disputes promptly.",
+   "tier": "debate",
+   "quote": "So, what this Act is particularly trying to do is make the whole thing more efficient, bring justice at the\ndoorsteps and help people resolve their commercial disputes.",
+   "document_id": 41,
+   "span": [
+    11202,
+    11370
+   ],
+   "attribution": {
+    "by": "SHRI KODIKUNNIL SURESH (MAVELIKKARA)",
+    "role": "member",
+    "where": "Lok Sabha debate, 1 Aug 2019: consideration of the Arbitration and Conciliation (Amendment) Bill, 2019 as passed by Rajya Sabha"
+   },
+   "attempts": [
+    {
+     "tier": "sor",
+     "outcome": "none found",
+     "passages": [
+      "S28"
+     ]
+    },
+    {
+     "tier": "debate",
+     "outcome": "verified",
+     "passage": "D41.18",
+     "quote": "So, what this Act is particularly trying to do is make the whole thing more efficient, bring justice at the doorsteps and help people resolve their commercial disputes.",
+     "claim": "The amendment aims to make the arbitration process more efficient and to bring justice to the doorsteps of people by helping resolve commercial disputes promptly.",
+     "reasons": []
+    }
+   ]
+  },
+  {
+   "unit": "33/2019|s7",
+   "instrument": "33/2019",
+   "act_section": "s7",
+   "targets": [
+    "s34"
+   ],
+   "status": "not_determinable",
+   "claim": "intent not determinable from available record",
+   "tier": null,
+   "quote": null,
+   "document_id": null,
+   "span": null,
+   "attribution": null,
+   "attempts": [
+    {
+     "tier": "sor",
+     "outcome": "none found",
+     "passages": [
+      "S28"
+     ]
+    },
+    {
+     "tier": "debate",
+     "outcome": "no passages"
+    },
+    {
+     "tier": "report",
+     "outcome": "no passages"
+    }
+   ]
+  },
+  {
+   "unit": "33/2019|s8",
+   "instrument": "33/2019",
+   "act_section": "s8",
+   "targets": [
+    "s37"
+   ],
+   "status": "not_determinable",
+   "claim": "intent not determinable from available record",
+   "tier": null,
+   "quote": null,
+   "document_id": null,
+   "span": null,
+   "attribution": null,
+   "attempts": [
+    {
+     "tier": "sor",
+     "outcome": "none found",
+     "passages": [
+      "S28"
+     ]
+    },
+    {
+     "tier": "debate",
+     "outcome": "no passages"
+    },
+    {
+     "tier": "report",
+     "outcome": "no passages"
+    }
+   ]
+  },
+  {
+   "unit": "33/2019|s9",
+   "instrument": "33/2019",
+   "act_section": "s9",
+   "targets": [
+    "s42A",
+    "s42B"
+   ],
+   "status": "sourced",
+   "claim": "The amendment aims to protect arbitrators from suits or other legal proceedings for actions or omissions done in good faith during arbitration.",
+   "tier": "sor",
+   "quote": "to provide that the arbitrator, the arbitral institutions and the parties shall\nmaintain confidentiality of information relating to arbitral proceedings and also protect\nthe arbitrator or arbitrators from any suit or other legal proceedings for any action or\nomission done in good faith in the course of arbitration proceedings;",
+   "document_id": 28,
+   "span": [
+    28186,
+    28514
+   ],
+   "attribution": {
+    "by": "Government",
+    "role": "government",
+    "where": "Statement of Objects and Reasons, The Arbitration and Conciliation (Amendment) Bill, 2019 (as introduced in Rajya Sabha)",
+    "signed_by": "RAVI SHANKAR PRASAD"
+   },
+   "attempts": [
+    {
+     "tier": "sor",
+     "outcome": "verified",
+     "passage": "S28",
+     "quote": "to provide that the arbitrator, the arbitral institutions and the parties shall maintain confidentiality of information relating to arbitral proceedings and also protect the arbitrator or arbitrators from any suit or other legal proceedings for any action or omission done in good faith in the course",
+     "claim": "The amendment aims to protect arbitrators from suits or other legal proceedings for actions or omissions done in good faith during arbitration.",
+     "reasons": []
+    }
+   ]
+  },
+  {
+   "unit": "33/2019|s10",
+   "instrument": "33/2019",
+   "act_section": "s10",
+   "targets": [
+    "pt1A"
+   ],
+   "status": "sourced",
+   "claim": "The amendment was made to strengthen institutional arbitration in India by establishing an independent body for grading arbitral institutions and accrediting arbitrators.",
+   "tier": "sor",
+   "quote": "With a view to\nstrengthen institutional arbitration in the country, the said Committee, inter alia, recommended\nfor the establishment of an independent body for grading of arbitral institutions and\naccreditation of arbitrators, etc.",
+   "document_id": 28,
+   "span": [
+    26067,
+    26299
+   ],
+   "attribution": {
+    "by": "Government",
+    "role": "government",
+    "where": "Statement of Objects and Reasons, The Arbitration and Conciliation (Amendment) Bill, 2019 (as introduced in Rajya Sabha)",
+    "signed_by": "RAVI SHANKAR PRASAD"
+   },
+   "attempts": [
+    {
+     "tier": "sor",
+     "outcome": "verified",
+     "passage": "S28",
+     "quote": "With a view to strengthen institutional arbitration in the country, the said Committee, inter alia, recommended for the establishment of an independent body for grading of arbitral institutions and accreditation of arbitrators, etc.",
+     "claim": "The amendment was made to strengthen institutional arbitration in India by establishing an independent body for grading arbitral institutions and accrediting arbitrators.",
+     "reasons": []
+    }
+   ]
+  },
+  {
+   "unit": "33/2019|s11",
+   "instrument": "33/2019",
+   "act_section": "s11",
+   "targets": [
+    "s45"
+   ],
+   "status": "not_determinable",
+   "claim": "intent not determinable from available record",
+   "tier": null,
+   "quote": null,
+   "document_id": null,
+   "span": null,
+   "attribution": null,
+   "attempts": [
+    {
+     "tier": "sor",
+     "outcome": "none found",
+     "passages": [
+      "S28"
+     ]
+    },
+    {
+     "tier": "debate",
+     "outcome": "no passages"
+    },
+    {
+     "tier": "report",
+     "outcome": "no passages"
+    }
+   ]
+  },
+  {
+   "unit": "33/2019|s12",
+   "instrument": "33/2019",
+   "act_section": "s12",
+   "targets": [
+    "s50"
+   ],
+   "status": "not_determinable",
+   "claim": "intent not determinable from available record",
+   "tier": null,
+   "quote": null,
+   "document_id": null,
+   "span": null,
+   "attribution": null,
+   "attempts": [
+    {
+     "tier": "sor",
+     "outcome": "none found",
+     "passages": [
+      "S28"
+     ]
+    },
+    {
+     "tier": "debate",
+     "outcome": "no passages"
+    },
+    {
+     "tier": "report",
+     "outcome": "no passages"
+    }
+   ]
+  },
+  {
+   "unit": "33/2019|s13",
+   "instrument": "33/2019",
+   "act_section": "s13",
+   "targets": [
+    "s87"
+   ],
+   "status": "sourced",
+   "claim": "The amendment was made to clarify that section 26 of the 2015 Amendment Act applies only to arbitral proceedings commenced on or after 23 October 2015 and to the court proceedings arising from them.",
+   "tier": "sor",
+   "quote": "to clarify that section 26 of the Arbitration and Conciliation (Amendment)\nAct, 2015, is applicable only to the arbitral proceedings which commenced on or after\n23rd October, 2015 and to such court proceedings which emanate from such arbitral\nproceedings.",
+   "document_id": 28,
+   "span": [
+    28524,
+    28779
+   ],
+   "attribution": {
+    "by": "Government",
+    "role": "government",
+    "where": "Statement of Objects and Reasons, The Arbitration and Conciliation (Amendment) Bill, 2019 (as introduced in Rajya Sabha)",
+    "signed_by": "RAVI SHANKAR PRASAD"
+   },
+   "attempts": [
+    {
+     "tier": "sor",
+     "outcome": "verified",
+     "passage": "S28",
+     "quote": "to clarify that section 26 of the Arbitration and Conciliation (Amendment) Act, 2015, is applicable only to the arbitral proceedings which commenced on or after 23rd October, 2015 and to such court proceedings which emanate from such arbitral proceedings.",
+     "claim": "The amendment was made to clarify that section 26 of the 2015 Amendment Act applies only to arbitral proceedings commenced on or after 23 October 2015 and to the court proceedings arising from them.",
+     "reasons": []
+    }
+   ]
+  },
+  {
+   "unit": "33/2019|s14",
+   "instrument": "33/2019",
+   "act_section": "s14",
+   "targets": [
+    "sch8"
+   ],
+   "status": "sourced",
+   "claim": "The amendment inserts a new Part 1A to establish an independent body for grading arbitral institutions and accrediting arbitrators.",
+   "tier": "sor",
+   "quote": "to insert a new Part 1A to the Act for the establishment and incorporation of\nan independent body namely, the Arbitration Council of India for the purpose of\ngrading of arbitral institutions and accreditation of arbitrators, etc.",
+   "document_id": 28,
+   "span": [
+    27698,
+    27927
+   ],
+   "attribution": {
+    "by": "Government",
+    "role": "government",
+    "where": "Statement of Objects and Reasons, The Arbitration and Conciliation (Amendment) Bill, 2019 (as introduced in Rajya Sabha)",
+    "signed_by": "RAVI SHANKAR PRASAD"
+   },
+   "attempts": [
+    {
+     "tier": "sor",
+     "outcome": "verified",
+     "passage": "S28",
+     "quote": "to insert a new Part 1A to the Act for the establishment and incorporation of an independent body namely, the Arbitration Council of India for the purpose of grading of arbitral institutions and accreditation of arbitrators, etc.",
+     "claim": "The amendment inserts a new Part 1A to establish an independent body for grading arbitral institutions and accrediting arbitrators.",
+     "reasons": []
+    }
+   ]
+  },
+  {
+   "unit": "33/2019|s15",
+   "instrument": "33/2019",
+   "act_section": "s15",
+   "targets": [
+    "s26"
+   ],
+   "status": "not_determinable",
+   "claim": "intent not determinable from available record",
+   "tier": null,
+   "quote": null,
+   "document_id": null,
+   "span": null,
+   "attribution": null,
+   "attempts": [
+    {
+     "tier": "sor",
+     "outcome": "none found",
+     "passages": [
+      "S28"
+     ]
+    },
+    {
+     "tier": "debate",
+     "outcome": "none found",
+     "passages": [
+      "D41.44",
+      "D41.58",
+      "D41.57"
+     ]
+    },
+    {
+     "tier": "report",
+     "outcome": "no passages"
+    }
+   ]
+  },
+  {
+   "unit": "33/2019|s16",
+   "instrument": "33/2019",
+   "act_section": "s16",
+   "targets": [
+    "sch4"
+   ],
+   "status": "not_determinable",
+   "claim": "intent not determinable from available record",
+   "tier": null,
+   "quote": null,
+   "document_id": null,
+   "span": null,
+   "attribution": null,
+   "attempts": [
+    {
+     "tier": "sor",
+     "outcome": "blocked",
+     "passage": "S28",
+     "quote": "After examination of the said recommendations with a view to make India a hub of institutional arbitration for both domestic and international arbitration, it was decided to amend the Arbitration and Conciliation Act, 1996.",
+     "claim": "The amendment was made to make India a hub of institutional arbitration for both domestic and international arbitration.",
+     "reasons": [
+      "reviewer: not about_this_amendment",
+      "Quote gives purpose but is a general Bill objective, not specific to the schedule‑4 substitution."
+     ]
+    },
+    {
+     "tier": "debate",
+     "outcome": "no passages"
+    },
+    {
+     "tier": "report",
+     "outcome": "no passages"
+    }
+   ]
+  },
+  {
+   "unit": "3/2021|s2",
+   "instrument": "3/2021",
+   "act_section": "s2",
+   "targets": [
+    "s36"
+   ],
+   "status": "sourced",
+   "claim": "The amendment was made to address corrupt practices in securing contracts or arbitral awards by allowing parties to seek an unconditional stay of enforcement where the award is induced by fraud or corruption.",
+   "tier": "sor",
+   "quote": "In order to address the issue of corrupt practices in securing contracts or arbitral\nawards, a need was felt to ensure that all the stakeholder parties get an opportunity to seek\nunconditional stay of enforcement of arbitral awards, where the underlying arbitration\nagreement or contract or making of the arbitral award is induced by fraud or corruption.",
+   "document_id": 31,
+   "span": [
+    3102,
+    3456
+   ],
+   "attribution": {
+    "by": "Government",
+    "role": "government",
+    "where": "Statement of Objects and Reasons, The Arbitration and Conciliation (Amendment) Bill, 2021 (as introduced)",
+    "signed_by": "RAVI SHANKAR PRASAD"
+   },
+   "attempts": [
+    {
+     "tier": "sor",
+     "outcome": "verified",
+     "passage": "S31",
+     "quote": "In order to address the issue of corrupt practices in securing contracts or arbitral awards, a need was felt to ensure that all the stakeholder parties get an opportunity to seek unconditional stay of enforcement of arbitral awards, where the underlying arbitration agreement or contract or making of",
+     "claim": "The amendment was made to address corrupt practices in securing contracts or arbitral awards by allowing parties to seek an unconditional stay of enforcement where the award is induced by fraud or corruption.",
+     "reasons": []
+    }
+   ]
+  },
+  {
+   "unit": "3/2021|s3",
+   "instrument": "3/2021",
+   "act_section": "s3",
+   "targets": [
+    "s43J"
+   ],
+   "status": "sourced",
+   "claim": "The amendment aims to empower the Arbitration Council of India to lay down norms and qualifications by way of regulations for the purpose of accreditation of arbitrators.",
+   "tier": "debate",
+   "quote": "to amend section 43J; and omit the Eighth Schedule\nwith a view to\nempowering the Arbitration Council of India to lay down norms and\nqualifications by way of regulations for the purpose of accreditation of\narbitrators.",
+   "document_id": 44,
+   "span": [
+    67092,
+    67309
+   ],
+   "attribution": {
+    "by": "SHRI 5. R. PARTHIBAN (SALEM)",
+    "role": "member",
+    "where": "Lok Sabha debate, 12 Feb 2021: combined discussion on the Statutory Resolution disapproving Ordinance 14 of 2020 and the Arbitration and Conciliation (Amendment) Bill, 2021 (Bill passed)"
+   },
+   "attempts": [
+    {
+     "tier": "sor",
+     "outcome": "blocked",
+     "passage": "S31",
+     "quote": "Also to promote India as a hub of international commercial arbitration by attracting eminent arbitrators to the country, it was also felt necessary to omit the Eighth Schedule of the Act.",
+     "claim": "The amendment was made to promote India as a hub of international commercial arbitration by attracting eminent arbitrators to the country.",
+     "reasons": [
+      "reviewer: not about_this_amendment",
+      "reviewer: not claim_faithful",
+      "Quote gives a purpose but refers to omitting the Eighth Schedule, not the specific section 43J amendment claimed."
+     ]
+    },
+    {
+     "tier": "debate",
+     "outcome": "verified",
+     "passage": "D44.106",
+     "quote": "to amend section 43J; and omit the Eighth Schedule with a view to empowering the Arbitration Council of India to lay down norms and qualifications by way of regulations for the purpose of accreditation of arbitrators.",
+     "claim": "The amendment aims to empower the Arbitration Council of India to lay down norms and qualifications by way of regulations for the purpose of accreditation of arbitrators.",
+     "reasons": []
+    }
+   ]
+  },
+  {
+   "unit": "3/2021|s4",
+   "instrument": "3/2021",
+   "act_section": "s4",
+   "targets": [
+    "sch8"
+   ],
+   "status": "sourced",
+   "claim": "To promote India as a hub of international commercial arbitration by attracting eminent arbitrators to the country.",
+   "tier": "sor",
+   "quote": "Also to promote India as a hub of international commercial arbitration by attracting eminent\narbitrators to the country, it was also felt necessary to omit the Eighth Schedule of the Act.",
+   "document_id": 31,
+   "span": [
+    3457,
+    3644
+   ],
+   "attribution": {
+    "by": "Government",
+    "role": "government",
+    "where": "Statement of Objects and Reasons, The Arbitration and Conciliation (Amendment) Bill, 2021 (as introduced)",
+    "signed_by": "RAVI SHANKAR PRASAD"
+   },
+   "attempts": [
+    {
+     "tier": "sor",
+     "outcome": "verified",
+     "passage": "S31",
+     "quote": "Also to promote India as a hub of international commercial arbitration by attracting eminent arbitrators to the country, it was also felt necessary to omit the Eighth Schedule of the Act.",
+     "claim": "To promote India as a hub of international commercial arbitration by attracting eminent arbitrators to the country.",
+     "reasons": []
+    }
+   ]
+  }
+ ]
+}

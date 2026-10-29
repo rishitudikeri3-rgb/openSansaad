@@ -1,0 +1,14 @@
+{
+ "model": "openai/gpt-oss-120b",
+ "messages": [
+  {
+   "role": "system",
+   "content": "You check one claim about why an Indian statute was amended, against the quoted\nsource text. Answer three questions strictly:\n- states_reason: does the quote say WHY (a purpose, objective or problem addressed), rather\n  than only WHAT the amendment does?\n- about_this_amendment: is the quote about the amendment described (not another provision\n  or the Bill in general without reference to it)? A general statement of the Bill's\n  objectives counts only if it plainly covers this amendment's subject.\n- claim_faithful: does the claim say only what the quote says (no added facts, motives or\n  evaluation)?\nReply in JSON only: {\"states_reason\": bool, \"about_this_amendment\": bool,\n\"claim_faithful\": bool, \"note\": \"<one sentence>\"}"
+  },
+  {
+   "role": "user",
+   "content": "Amendment: section 16 of Act 3/2016, amending s31 (Form and contents of arbitral award.)\nInstruction (start): in sub-section (7), for clause (b), the following clause shall be substituted, namely:— ‘(b) A sum directed to be paid by an arbitral award shall, unless the award otherwise directs, carry interest at the rate of two per cent. higher than the current rate of interest prevalent on the date of award, from the date of award to the date of payment. Explanation.—The expression “current rate of interest\n\nSource: Law Commission of India, Report No. 246: Amendments to the Arbitration and Conciliation Act, 1996 (August 2014), part 1 (Law Commission of India, Report No. 246)\nQuote: [NOTE: Explanation 1 ensures that the default rate of interest is in line with\nprevailing commercial realities and not an arbitrary figure of 18%.\n\nClaim: The amendment is intended to ensure that the default rate of interest reflects prevailing commercial realities instead of an arbitrary 18% rate."
+  }
+ ],
+ "response": "{\"states_reason\":true,\"about_this_amendment\":true,\"claim_faithful\":true,\"note\":\"Quote gives the purpose of the amendment and aligns with the claim.\"}"
+}

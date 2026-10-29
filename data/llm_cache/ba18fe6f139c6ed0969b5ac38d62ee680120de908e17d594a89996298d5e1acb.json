@@ -1,0 +1,14 @@
+{
+ "model": "openai/gpt-oss-120b",
+ "messages": [
+  {
+   "role": "system",
+   "content": "You check one claim about why an Indian statute was amended, against the quoted\nsource text. Answer three questions strictly:\n- states_reason: does the quote say WHY (a purpose, objective or problem addressed), rather\n  than only WHAT the amendment does?\n- about_this_amendment: is the quote about the amendment described (not another provision\n  or the Bill in general without reference to it)? A general statement of the Bill's\n  objectives counts only if it plainly covers this amendment's subject.\n- claim_faithful: does the claim say only what the quote says (no added facts, motives or\n  evaluation)?\nReply in JSON only: {\"states_reason\": bool, \"about_this_amendment\": bool,\n\"claim_faithful\": bool, \"note\": \"<one sentence>\"}"
+  },
+  {
+   "role": "user",
+   "content": "Amendment: section 6 of Act 33/2019, amending s29A ()\nInstruction (start): for sub-section (1), the following sub-section shall be substituted, namely:— “(1) The award in matters other than international commercial arbitration shall be made by the arbitral tribunal within a period of twelve months from the date of completion of pleadings under sub-section (4) of section 23: Provided that the award in the matter of international commercial arbitration may be made as exped\n\nSource: Lok Sabha debate, 1 Aug 2019: consideration of the Arbitration and Conciliation (Amendment) Bill, 2019 as passed by Rajya Sabha (SHRI KODIKUNNIL SURESH (MAVELIKKARA))\nQuote: So, what this Act is particularly trying to do is make the whole thing more efficient, bring justice at the\ndoorsteps and help people resolve their commercial disputes.\n\nClaim: The amendment aims to make the arbitration process more efficient and to bring justice to the doorsteps of people by helping resolve commercial disputes promptly."
+  }
+ ],
+ "response": "{\"states_reason\":true,\"about_this_amendment\":true,\"claim_faithful\":true,\"note\":\"Quote states purpose and covers efficiency of arbitration, matching claim.\"}"
+}

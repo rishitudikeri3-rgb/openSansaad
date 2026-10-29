@@ -1,0 +1,14 @@
+{
+ "model": "openai/gpt-oss-120b",
+ "messages": [
+  {
+   "role": "system",
+   "content": "You check one claim about why an Indian statute was amended, against the quoted\nsource text. Answer three questions strictly:\n- states_reason: does the quote say WHY (a purpose, objective or problem addressed), rather\n  than only WHAT the amendment does?\n- about_this_amendment: is the quote about the amendment described (not another provision\n  or the Bill in general without reference to it)? A general statement of the Bill's\n  objectives counts only if it plainly covers this amendment's subject.\n- claim_faithful: does the claim say only what the quote says (no added facts, motives or\n  evaluation)?\nReply in JSON only: {\"states_reason\": bool, \"about_this_amendment\": bool,\n\"claim_faithful\": bool, \"note\": \"<one sentence>\"}"
+  },
+  {
+   "role": "user",
+   "content": "Amendment: section 2 of Act 3/2021, amending s36 (Enforcement.)\nInstruction (start): In the Arbitration and Conciliation Act, 1996 (hereinafter referred to as the principal Act), in section 36, in sub-section (3), after the proviso, the following shall be inserted and shall be deemed to have been inserted with effect from the 23rd day of October, 2015, namely: “Provided further that where the Court is satisfied that a prima facie case is made out that,— (a) the arbitration agreeme\n\nSource: Statement of Objects and Reasons, The Arbitration and Conciliation (Amendment) Bill, 2021 (as introduced) (Government)\nQuote: In order to address the issue of corrupt practices in securing contracts or arbitral\nawards, a need was felt to ensure that all the stakeholder parties get an opportunity to seek\nunconditional stay of enforcement of arbitral awards, where the underlying arbitration\nagreement or contract or making of the arbitral award is induced by fraud or corruption.\n\nClaim: The amendment was made to address corrupt practices in securing contracts or arbitral awards by allowing parties to seek an unconditional stay of enforcement where the award is induced by fraud or corruption."
+  }
+ ],
+ "response": "{\"states_reason\":true,\"about_this_amendment\":true,\"claim_faithful\":true,\"note\":\"The quote gives the purpose (addressing corruption) for the specific amendment and the claim mirrors it exactly.\"}"
+}

@@ -1,0 +1,14 @@
+{
+ "model": "openai/gpt-oss-120b",
+ "messages": [
+  {
+   "role": "system",
+   "content": "You check one claim about why an Indian statute was amended, against the quoted\nsource text. Answer three questions strictly:\n- states_reason: does the quote say WHY (a purpose, objective or problem addressed), rather\n  than only WHAT the amendment does?\n- about_this_amendment: is the quote about the amendment described (not another provision\n  or the Bill in general without reference to it)? A general statement of the Bill's\n  objectives counts only if it plainly covers this amendment's subject.\n- claim_faithful: does the claim say only what the quote says (no added facts, motives or\n  evaluation)?\nReply in JSON only: {\"states_reason\": bool, \"about_this_amendment\": bool,\n\"claim_faithful\": bool, \"note\": \"<one sentence>\"}"
+  },
+  {
+   "role": "user",
+   "content": "Amendment: section 18 of Act 3/2016, amending s34 (Application for setting aside arbitral award.)\nInstruction (start): in sub-section (2), in clause (b), for the Explanation, the following Explanations shall be substituted, namely:— “Explanation 1.—For the avoidance of any doubt, it is clarified that an award is in conflict with the public policy of India, only if,— (i) the making of the award was induced or affected by fraud or corruption or was in violation of section 75 or section 81; or (ii) it is in contraven\n\nSource: Notes on Clauses, The Arbitration and Conciliation (Amendment) Bill, 2015 (as introduced) (Government)\nQuote: Explanation 2 is inserted to explain that the test as to whether there is a contravention with\nthe fundamental policy of Indian law shall not entail a review on the merits of the dispute.\n\nClaim: The amendment adds Explanation 2 to clarify that the test for contravention of fundamental Indian law will not involve a review of the dispute’s merits."
+  }
+ ],
+ "response": "{\"states_reason\":true,\"about_this_amendment\":true,\"claim_faithful\":true,\"note\":\"The quote states the purpose of adding Explanation 2 and directly matches the claim.\"}"
+}

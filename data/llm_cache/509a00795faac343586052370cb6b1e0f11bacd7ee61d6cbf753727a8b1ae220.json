@@ -1,0 +1,14 @@
+{
+ "model": "openai/gpt-oss-120b",
+ "messages": [
+  {
+   "role": "system",
+   "content": "You check one claim about why an Indian statute was amended, against the quoted\nsource text. Answer three questions strictly:\n- states_reason: does the quote say WHY (a purpose, objective or problem addressed), rather\n  than only WHAT the amendment does?\n- about_this_amendment: is the quote about the amendment described (not another provision\n  or the Bill in general without reference to it)? A general statement of the Bill's\n  objectives counts only if it plainly covers this amendment's subject.\n- claim_faithful: does the claim say only what the quote says (no added facts, motives or\n  evaluation)?\nReply in JSON only: {\"states_reason\": bool, \"about_this_amendment\": bool,\n\"claim_faithful\": bool, \"note\": \"<one sentence>\"}"
+  },
+  {
+   "role": "user",
+   "content": "Amendment: section 15 of Act 3/2016, amending s29A, s29B (Fast track procedure.)\nInstruction (start): After section 29 of the principal Act, the following new sections shall be inserted, namely:— [[margin: Time limit for arbitral award.]] “29A. (1) The award shall be made within a period of twelve months from the date the arbitral tribunal enters upon the reference. Explanation.—For the purpose of this sub-section, an arbitral tribunal shall be deemed to have entered upon the reference on the date\n\nSource: Statement of Objects and Reasons, The Arbitration and Conciliation (Amendment) Bill, 2015 (as introduced) (Government)\nQuote: The amendments proposed in the Bill will ensure that arbitration process becomes\nmore user-friendly, cost effective and lead to expeditious disposal of cases.\n\nClaim: The amendment is intended to make arbitration more user‑friendly, cost‑effective and to achieve faster disposal of cases."
+  }
+ ],
+ "response": "{\"states_reason\":true,\"about_this_amendment\":true,\"claim_faithful\":true,\"note\":\"The source states the purpose of the amendment aligns with the claim, and it pertains to the amendment’s subject.\"}"
+}

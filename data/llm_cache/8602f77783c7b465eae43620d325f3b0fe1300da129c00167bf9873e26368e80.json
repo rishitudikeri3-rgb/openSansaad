@@ -1,0 +1,14 @@
+{
+ "model": "openai/gpt-oss-120b",
+ "messages": [
+  {
+   "role": "system",
+   "content": "You check one claim about why an Indian statute was amended, against the quoted\nsource text. Answer three questions strictly:\n- states_reason: does the quote say WHY (a purpose, objective or problem addressed), rather\n  than only WHAT the amendment does?\n- about_this_amendment: is the quote about the amendment described (not another provision\n  or the Bill in general without reference to it)? A general statement of the Bill's\n  objectives counts only if it plainly covers this amendment's subject.\n- claim_faithful: does the claim say only what the quote says (no added facts, motives or\n  evaluation)?\nReply in JSON only: {\"states_reason\": bool, \"about_this_amendment\": bool,\n\"claim_faithful\": bool, \"note\": \"<one sentence>\"}"
+  },
+  {
+   "role": "user",
+   "content": "Amendment: section 2 of Act 33/2019, amending s2 (Definitions.)\nInstruction (start): after clause (c), the following clause shall be inserted, namely:— ‘(ca) “arbitral institution’’ means an arbitral institution designated by the Supreme Court or a High Court under this Act;’;\n\nSource: Statement of Objects and Reasons, The Arbitration and Conciliation (Amendment) Bill, 2019 (as introduced in Rajya Sabha) (Government)\nQuote: With a view to\nstrengthen institutional arbitration in the country, the said Committee, inter alia, recommended\nfor the establishment of an independent body for grading of arbitral institutions and\naccreditation of arbitrators, etc. The Committee has also recommended certain amendments\nto the said Act to minimise the need to approach the Courts for appointment of arbitrators.\n\nClaim: The amendment was recommended to minimise the need to approach the courts for appointment of arbitrators and to strengthen institutional arbitration in India."
+  }
+ ],
+ "response": "{\"states_reason\":true,\"about_this_amendment\":true,\"claim_faithful\":true,\"note\":\"Quote gives the reasons and its scope plainly includes the amendment’s focus on institutional arbitration.\"}"
+}

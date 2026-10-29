@@ -1,0 +1,14 @@
+{
+ "model": "openai/gpt-oss-120b",
+ "messages": [
+  {
+   "role": "system",
+   "content": "You check one claim about why an Indian statute was amended, against the quoted\nsource text. Answer three questions strictly:\n- states_reason: does the quote say WHY (a purpose, objective or problem addressed), rather\n  than only WHAT the amendment does?\n- about_this_amendment: is the quote about the amendment described (not another provision\n  or the Bill in general without reference to it)? A general statement of the Bill's\n  objectives counts only if it plainly covers this amendment's subject.\n- claim_faithful: does the claim say only what the quote says (no added facts, motives or\n  evaluation)?\nReply in JSON only: {\"states_reason\": bool, \"about_this_amendment\": bool,\n\"claim_faithful\": bool, \"note\": \"<one sentence>\"}"
+  },
+  {
+   "role": "user",
+   "content": "Amendment: section 6 of Act 3/2016, amending s11 (Appointment of arbitrators.)\nInstruction (start): in sub-sections (4), (5) and (6), for the words “the Chief Justice or any person or institution designated by him” wherever they occur, the words “the Supreme Court or, as the case may be, the High Court or any person or institution designated by such Court” shall be substituted;\n\nSource: Law Commission of India, Report No. 246: Amendments to the Arbitration and Conciliation Act, 1996 (August 2014), part 1 (Law Commission of India, Report No. 246)\nQuote: This would rationalize the law and provide greater incentive for the\nHigh Court and/or Supreme Court to delegate the power of appointment\n(being a non-judicial act) to specialized, external persons or institutions.\n\nClaim: The amendment rationalizes the law and provides greater incentive for the High Court and/or Supreme Court to delegate the power of appointment to specialized, external persons or institutions."
+  }
+ ],
+ "response": "{\"states_reason\":true,\"about_this_amendment\":true,\"claim_faithful\":true,\"note\":\"Quote gives the purpose of the amendment and the claim mirrors it exactly.\"}"
+}

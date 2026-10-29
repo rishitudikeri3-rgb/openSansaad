@@ -1,0 +1,14 @@
+{
+ "model": "openai/gpt-oss-120b",
+ "messages": [
+  {
+   "role": "system",
+   "content": "You check one claim about why an Indian statute was amended, against the quoted\nsource text. Answer three questions strictly:\n- states_reason: does the quote say WHY (a purpose, objective or problem addressed), rather\n  than only WHAT the amendment does?\n- about_this_amendment: is the quote about the amendment described (not another provision\n  or the Bill in general without reference to it)? A general statement of the Bill's\n  objectives counts only if it plainly covers this amendment's subject.\n- claim_faithful: does the claim say only what the quote says (no added facts, motives or\n  evaluation)?\nReply in JSON only: {\"states_reason\": bool, \"about_this_amendment\": bool,\n\"claim_faithful\": bool, \"note\": \"<one sentence>\"}"
+  },
+  {
+   "role": "user",
+   "content": "Amendment: section 14 of Act 3/2016, amending s28 (Rules applicable to substance of dispute.)\nInstruction (start): In section 28 of the principal Act, for sub-section (3), the following sub-section shall be substituted, namely:— “(3) While deciding and making an award, the arbitral tribunal shall, in all cases, take into account the terms of the contract and trade usages applicable to the transaction.”.\n\nSource: Lok Sabha debate, 17 Dec 2015: further discussion on the Statutory Resolution disapproving Ordinance 9 of 2015 and the Arbitration and Conciliation (Amendment) Bill, 2015 (Bill passed) (PROF. SAUGATA ROY (DUM DUM))\nQuote: The purpose of the Minister is good. He has introduced this clause so that more cases can be solved by arbitration; also that arbitration is not\nheld up in courts to make the process easy so that contract can be easily enforced.\n\nClaim: The amendment was introduced to enable more cases to be resolved by arbitration and to prevent court delays, thereby making contract enforcement easier."
+  }
+ ],
+ "response": "{\"states_reason\":true,\"about_this_amendment\":true,\"claim_faithful\":true,\"note\":\"The quote explicitly gives the purpose of the clause, refers to the specific amendment, and the claim mirrors it exactly.\"}"
+}

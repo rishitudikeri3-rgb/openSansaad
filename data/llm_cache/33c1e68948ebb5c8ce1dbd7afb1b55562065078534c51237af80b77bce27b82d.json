@@ -1,0 +1,14 @@
+{
+ "model": "openai/gpt-oss-120b",
+ "messages": [
+  {
+   "role": "system",
+   "content": "You check one claim about why an Indian statute was amended, against the quoted\nsource text. Answer three questions strictly:\n- states_reason: does the quote say WHY (a purpose, objective or problem addressed), rather\n  than only WHAT the amendment does?\n- about_this_amendment: is the quote about the amendment described (not another provision\n  or the Bill in general without reference to it)? A general statement of the Bill's\n  objectives counts only if it plainly covers this amendment's subject.\n- claim_faithful: does the claim say only what the quote says (no added facts, motives or\n  evaluation)?\nReply in JSON only: {\"states_reason\": bool, \"about_this_amendment\": bool,\n\"claim_faithful\": bool, \"note\": \"<one sentence>\"}"
+  },
+  {
+   "role": "user",
+   "content": "Amendment: section 13 of Act 33/2019, amending s87 ()\nInstruction (start): After section 86 of the principal Act, the following section shall be inserted and shall be deemed to have been inserted with effect from the 23rd October, 2015, namely:— [[margin: Effect of arbitral and related court proceedings commenced prior to 23rd October, 2015.]] “87. Unless the parties otherwise agree, the amendments made to this Act by [[margin: 3 of 2016.]] the Arbitration and Conciliati\n\nSource: Statement of Objects and Reasons, The Arbitration and Conciliation (Amendment) Bill, 2019 (as introduced in Rajya Sabha) (Government)\nQuote: to clarify that section 26 of the Arbitration and Conciliation (Amendment)\nAct, 2015, is applicable only to the arbitral proceedings which commenced on or after\n23rd October, 2015 and to such court proceedings which emanate from such arbitral\nproceedings.\n\nClaim: The amendment was made to clarify that section 26 of the 2015 Amendment Act applies only to arbitral proceedings commenced on or after 23 October 2015 and to the court proceedings arising from them."
+  }
+ ],
+ "response": "{\"states_reason\":true,\"about_this_amendment\":true,\"claim_faithful\":true,\"note\":\"The source states the amendment’s purpose is to clarify the limited applicability of section 26, matching the claim.\"}"
+}

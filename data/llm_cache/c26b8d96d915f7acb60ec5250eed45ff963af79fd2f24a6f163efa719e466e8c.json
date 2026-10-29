@@ -1,0 +1,14 @@
+{
+ "model": "openai/gpt-oss-120b",
+ "messages": [
+  {
+   "role": "system",
+   "content": "You check one claim about why an Indian statute was amended, against the quoted\nsource text. Answer three questions strictly:\n- states_reason: does the quote say WHY (a purpose, objective or problem addressed), rather\n  than only WHAT the amendment does?\n- about_this_amendment: is the quote about the amendment described (not another provision\n  or the Bill in general without reference to it)? A general statement of the Bill's\n  objectives counts only if it plainly covers this amendment's subject.\n- claim_faithful: does the claim say only what the quote says (no added facts, motives or\n  evaluation)?\nReply in JSON only: {\"states_reason\": bool, \"about_this_amendment\": bool,\n\"claim_faithful\": bool, \"note\": \"<one sentence>\"}"
+  },
+  {
+   "role": "user",
+   "content": "Amendment: section 14 of Act 33/2019, amending sch8 ()\nInstruction (start): After the Seventh Schedule to the principal Act, the following Schedule shall be inserted, namely:— ‘‘THE EIGHTH SCHEDULE (See section 43J) Qualifications and Experience of Arbitrator A person shall not be qualified to be an arbitrator unless he— [[margin: 25 of 1961.]] (i) is an advocate within the meaning of the Advocates Act, 1961 having ten years of practice experience as an advocate; or (ii) \n\nSource: Statement of Objects and Reasons, The Arbitration and Conciliation (Amendment) Bill, 2019 (as introduced in Rajya Sabha) (Government)\nQuote: to insert a new Part 1A to the Act for the establishment and incorporation of\nan independent body namely, the Arbitration Council of India for the purpose of\ngrading of arbitral institutions and accreditation of arbitrators, etc.\n\nClaim: The amendment inserts a new Part 1A to establish an independent body for grading arbitral institutions and accrediting arbitrators."
+  }
+ ],
+ "response": "{\"states_reason\":true,\"about_this_amendment\":true,\"claim_faithful\":true,\"note\":\"Quote gives the purpose of inserting Part 1A and aligns exactly with the claim.\"}"
+}

@@ -25,3 +25,6 @@ data/text/*
 .idea/
 .DS_Store
 *:Zone.Identifier
+
+# Static demo build (published on the gh-pages branch, not on master)
+site/
