@@ -41,7 +41,7 @@ def client() -> TestClient:
 def test_act_lists_changed_and_inserted_provisions() -> None:
     a = client().get("/api/act").json()
     assert [(p["path"], p["changes"]) for p in a["provisions"]] == [("s37", 3), ("s38", 0)]
-    assert a["inserted"] == [{"path": "s29A", "changes": 1}]
+    assert a["inserted"] == [{"path": "s29A", "heading": None, "changes": 1}]
     assert a["intent_summary"]["sourced"] == 1
 
 
@@ -66,7 +66,7 @@ def test_inserted_provision_and_refusal() -> None:
 def test_unknown_provision_is_404_and_index_served() -> None:
     c = client()
     assert c.get("/api/provision/s99").status_code == 404
-    assert "d3" in c.get("/").text
+    assert "OpenSansad" in c.get("/").text
 
 
 def test_export_writes_static_copy(tmp_path) -> None:
@@ -76,4 +76,4 @@ def test_export_writes_static_copy(tmp_path) -> None:
     n = export(tmp_path, Store(provs, LINEAGE, INTENT))
     assert n == 2  # s37 and the inserted s29A
     assert (tmp_path / "api" / "provision" / "s29A").exists()
-    assert "d3" in (tmp_path / "index.html").read_text()
+    assert "OpenSansad" in (tmp_path / "index.html").read_text()

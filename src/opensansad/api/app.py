@@ -50,8 +50,9 @@ class Provision:
 
 class Store:
     def __init__(self, provisions: list[Provision], lineage: dict, intent: dict,
-                 evaluation: dict | None = None):
+                 evaluation: dict | None = None, headings: dict[str, str] | None = None):
         self.provisions = {p.path: p for p in provisions}
+        self.headings = headings or {}  # headings of provisions inserted after 1996
         self.evaluation = evaluation or {}
         self.lineage = lineage
         self.intent = {r["unit"]: r for r in intent.get("results", [])}
@@ -61,7 +62,7 @@ class Store:
     def load(cls, act_id: int = 1, version: str = "1996-enacted") -> "Store":
         from sqlalchemy import select
 
-        from opensansad.db.models import Clause
+        from opensansad.db.models import AmendmentOp, Clause
         from opensansad.db.session import get_sessionmaker
 
         with get_sessionmaker()() as s:
@@ -69,11 +70,15 @@ class Store:
                                                   Clause.version_label == version)).all()
             provs = [Provision(c.path, c.node_type, c.number, c.heading, c.text,
                                c.parent_path, c.ord) for c in rows]
+            headings = {o.target_path: o.meta["heading"] for o in s.scalars(
+                select(AmendmentOp).where(AmendmentOp.act_id == act_id,
+                                          AmendmentOp.op_type == "insert"))
+                if o.target_path and "." not in o.target_path and (o.meta or {}).get("heading")}
 
         def read(p: Path) -> dict:
             return json.loads(p.read_text()) if p.exists() else {}
         return cls(provs, read(LINEAGE) or {"edges": [], "instructions": {}}, read(INTENT),
-                   read(EVAL))
+                   read(EVAL), headings)
 
     def top(self, path: str) -> str:
         return path.split(".")[0]
@@ -104,7 +109,7 @@ class Store:
                                             for g in groups},
                            "intent": [self._intent(u) for u in units]})
         head = self.provisions.get(top)
-        return {"path": top, "heading": head.heading if head else None,
+        return {"path": top, "heading": head.heading if head else self.headings.get(top),
                 "in_1996": head is not None,
                 "nodes_1996": [{"path": p.path, "node_type": p.node_type, "number": p.number,
                                 "heading": p.heading, "text": p.text} for p in base],
@@ -142,7 +147,8 @@ def create_app(store: Store | None = None) -> FastAPI:
                 "instruments": [{"id": i, **INSTRUMENTS.get(i, {})}
                                 for i in s.lineage.get("instruments", [])],
                 "provisions": rows,
-                "inserted": [{"path": p, "changes": changed[p]} for p in inserted],
+                "inserted": [{"path": p, "heading": s.headings.get(p), "changes": changed[p]}
+                             for p in inserted],
                 "intent_summary": s.intent_summary,
                 "genealogy_eval": {m: {"all": v["all"], "hand": v["hand"],
                                        "hand_groups_right": v["hand_groups_right"],
