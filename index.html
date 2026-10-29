@@ -80,6 +80,22 @@ th { font-size:12px; text-transform:uppercase; letter-spacing:.05em; color:var(-
 td.num { font-variant-numeric:tabular-nums; }
 tr.best td { font-weight:600; }
 .tablewrap { overflow-x:auto; }
+.stories { display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:10px; margin:0 0 14px; }
+.story { text-align:left; background:var(--card); border:1px solid var(--line); border-radius:10px; padding:11px 14px;
+  font:inherit; color:inherit; cursor:pointer; transition:border-color .15s, transform .15s; }
+.story:hover { border-color:var(--accent); transform:translateY(-1px); }
+.story b { display:block; font-size:14px; }
+.story span { color:var(--muted); font-size:12.5px; }
+.story .k { color:var(--accent); font-size:11px; text-transform:uppercase; letter-spacing:.06em; font-weight:600; }
+.tabs { display:flex; gap:6px; flex-wrap:wrap; margin-top:14px; }
+.tabs button { border:1px solid var(--line); background:var(--card); color:var(--muted); border-radius:16px; padding:4px 12px;
+  font:inherit; font-size:13px; cursor:pointer; }
+.tabs button.on { border-color:var(--accent); color:var(--accent); font-weight:600; }
+.changes { margin:6px 0 0; padding-left:18px; font-size:14px; }
+.changes li { margin:2px 0; }
+.glossary { display:grid; grid-template-columns:repeat(auto-fit, minmax(230px, 1fr)); gap:8px 20px; font-size:13px;
+  color:var(--muted); margin:14px 0 0; }
+.glossary b { color:var(--fg); font-weight:600; }
 footer { color:var(--muted); font-size:13px; padding:40px 0 50px; }
 @media (max-width:480px) { header.top nav a:first-child { display:none; } }
 @media (max-width:820px) {
@@ -107,11 +123,23 @@ footer { color:var(--muted); font-size:13px; padding:40px 0 50px; }
   </section>
 
   <h2 class="sec" id="explore">Explore the Act</h2>
-  <p class="lead">Pick a section. The chart follows each clause from the 1996 text through the 2015, 2019 and
-     2021 amending Acts; click an Act's column to see its instruction and the stated reason.</p>
+  <p class="lead">Start with one of these, or pick any section from the list. The chart follows each clause from the
+     1996 text through the 2015, 2019 and 2021 amending Acts; below it, the reason for each change.</p>
+  <div class="stories">
+    <button class="story" data-go="s37" data-ev="0"><span class="k">Self-correction</span><b>Section 37: the agent fixed its own mistake</b><span>Clause (a) became (b), not (a). The first pass got it wrong; the Contradiction Agent caught it.</span></button>
+    <button class="story" data-go="sch8" data-ev="1"><span class="k">Inserted, then removed</span><b>Schedule 8: added in 2019, deleted in 2021</b><span>Arbitrator qualifications, and the Government's stated reason for removing them.</span></button>
+    <button class="story" data-go="s29A" data-ev="0"><span class="k">A new rule</span><b>Section 29A: a deadline for awards</b><span>Inserted in 2015, amended in 2019, with the Government's reason quoted.</span></button>
+    <button class="story" data-go="s36" data-ev="0"><span class="k">Refusing to guess</span><b>Section 36: “not determinable”</b><span>No source passed verification for 2015, so the system says so instead of inventing a reason.</span></button>
+  </div>
   <div class="explorer">
     <div class="list" id="list"><input id="q" placeholder="Filter: 34, schedule, appeal…" aria-label="Filter provisions"></div>
     <div id="view"><p class="muted">Loading…</p></div>
+  </div>
+  <div class="glossary">
+    <div><b>SOR</b>: Statement of Objects and Reasons, the Government's official explanation printed in every Bill.</div>
+    <div><b>Amending Act</b>: a law that changes another law (“in section 37, for clause (a), substitute…”).</div>
+    <div><b>Sourced</b>: the reason is a verbatim quote from a primary source, attributed to whoever said it.</div>
+    <div><b>Not determinable</b>: no source stated a reason that passed verification, so none is shown.</div>
   </div>
 
   <h2 class="sec" id="how">How it works</h2>
@@ -149,6 +177,27 @@ const natural = (a, b) => a.localeCompare(b, "en", { numeric:true });
 const pct = x => `${Math.round(x * 100)}%`;
 const SHORT = { "3/2016":"2015 Amendment", "33/2019":"2019 Amendment", "3/2021":"2021 Amendment" };
 const ROLE = { government:"Government", member:"Member of Parliament", committee:"Law Commission" };
+
+function cite(path) {
+  return path.split(".").map((t, i) => {
+    let m;
+    if (i === 0) return (m = t.match(/^sch(\d+)$/)) ? `Schedule ${m[1]}` : (m = t.match(/^pt(\w+)$/)) ? `Part ${m[1]}`
+      : (m = t.match(/^s(\w[\w-]*)$/)) ? `s.${m[1]}` : t;
+    if ((m = t.match(/^ss(\w+)$/)) || (m = t.match(/^(?:cl|sc)\((\w+)\)$/))) return `(${m[1]})`;
+    if ((m = t.match(/^p(\d+)$/))) return ` proviso ${m[1]}`;
+    if ((m = t.match(/^expl(\d+)$/))) return ` Explanation ${m[1]}`;
+    if ((m = t.match(/^art(\d+)$/))) return `, art. ${m[1]}`;
+    if ((m = t.match(/^para(\d+)$/))) return `, para ${m[1]}`;
+    return ` ${t}`;
+  }).join("");
+}
+
+function sentence(e) {
+  if (e.op_type === "insert") return `${cite(e.new)} added`;
+  if (e.op_type === "omit" || !e.new) return `${cite(e.old)} deleted`;
+  if (e.old === e.new) return `${cite(e.old)} reworded`;
+  return `${cite(e.old)} became ${cite(e.new)}`;
+}
 
 function label(path) {
   if (/^sch\d/.test(path)) return path.replace(/^sch(\d+)/, "Schedule $1");
@@ -195,17 +244,21 @@ fetch("api/act").then(r => r.json()).then(act => {
     const q = this.value.trim().toLowerCase();
     list.selectAll("button").style("display", function () { return !q || this.dataset.q.includes(q) ? null : "none"; });
   });
+  d3.selectAll(".story").on("click", function () {
+    show(this.dataset.go, true, +this.dataset.ev);
+    document.querySelector(".explorer").scrollIntoView({ behavior:"smooth", block:"start" });
+  });
   const start = decodeURIComponent(location.hash.slice(1));
   show(start && !["explore", "how", "results"].includes(start) ? start : "s37", false);
 }).catch(() => { document.getElementById("view").innerHTML = '<p class="muted">Could not load data.</p>'; });
 
-function show(path, scroll = true) {
+function show(path, scroll = true, ev = null) {
   if (scroll) history.replaceState(null, "", `#${path}`);
   d3.selectAll("#list button").classed("on", function () { return this.dataset.path === path; });
-  fetch(`api/provision/${encodeURIComponent(path)}`).then(r => r.json()).then(render);
+  fetch(`api/provision/${encodeURIComponent(path)}`).then(r => r.json()).then(p => render(p, ev));
 }
 
-function render(p) {
+function render(p, ev = null) {
   const view = d3.select("#view").html("");
   view.append("h2").text(label(p.path));
   view.append("div").attr("class", "muted").text(p.heading || (p.in_1996 ? "" : "Not in the 1996 Act: inserted by amendment"));
@@ -213,6 +266,7 @@ function render(p) {
     view.append("p").attr("class", "muted").text("Not amended by the Acts of 2015, 2019 or 2021: the 1996 text stands.");
     return;
   }
+  const text1996 = new Map(p.nodes_1996.map(n => [n.path, n.text]));
   view.append("div").attr("class", "legend").html(
     Object.entries({ insert:"inserted", substitute:"substituted", renumber:"moved / renumbered", omit:"omitted" })
       .map(([k, v]) => `<span><i style="background:${OP[k]}"></i>${v}</span>`).join(""));
@@ -222,13 +276,13 @@ function render(p) {
   const paths = new Set();
   p.events.forEach(e => e.edges.forEach(x => { if (x.old) paths.add(x.old); if (x.new) paths.add(x.new); }));
   const rows = [...paths].sort(natural);
-  const left = Math.min(230, 40 + d3.max(rows, r => r.length) * 7.4);
+  const left = Math.min(260, 30 + d3.max(rows, r => cite(r).length) * 7.4);
   const step = 165, W = left + 30 + (cols.length - 1) * step + 90, H = 52 + rows.length * 26;
   const x = i => left + 30 + i * step, y = r => 48 + rows.indexOf(r) * 26;
   const svg = view.append("svg").attr("viewBox", `0 0 ${W} ${H}`).attr("width", "100%").style("max-width", `${W}px`);
   rows.forEach(r => {
     svg.append("line").attr("class", "row").attr("x1", left).attr("x2", W - 10).attr("y1", y(r)).attr("y2", y(r));
-    svg.append("text").attr("x", 0).attr("y", y(r) + 4).text(r);
+    svg.append("text").attr("x", 0).attr("y", y(r) + 4).text(cite(r)).append("title").text(r);
   });
   cols.forEach((c, i) => svg.append("text").attr("class", "col").attr("data-i", i)
     .attr("x", x(i)).attr("y", 18).attr("text-anchor", "middle")
@@ -246,7 +300,7 @@ function render(p) {
         const tx = x(i), ty = ed.new ? y(ed.new) : y(ed.old), mx = (x(from) + tx) / 2;
         svg.append("path").attr("fill", "none").attr("stroke", OP[ed.op_type] || OP.other).attr("stroke-width", 2.2)
           .attr("d", `M${x(from)},${y(ed.old)} C${mx},${y(ed.old)} ${mx},${ty} ${tx},${ty}`)
-          .append("title").text(`${ed.op_type}: ${ed.old} → ${ed.new ?? "omitted"} (${ed.source === "agent" ? "Genealogy Agent" : "rule"})${ed.rationale ? "\n" + ed.rationale : ""}`);
+          .append("title").text(`${sentence(ed)} (${ed.source === "agent" ? "decided by the Genealogy Agent" : "read by the rules"})${ed.rationale ? "\n" + ed.rationale : ""}`);
         if (!ed.new) {
           next.delete(ed.old);
           svg.append("path").attr("class", "gone").attr("d", `M${tx - 5},${ty - 5}L${tx + 5},${ty + 5}M${tx + 5},${ty - 5}L${tx - 5},${ty + 5}`);
@@ -258,16 +312,25 @@ function render(p) {
   });
   svg.selectAll("circle").data(nodes).join("circle").attr("class", d => d.cls)
     .attr("cx", d => x(d.c)).attr("cy", d => y(d.r)).attr("r", 5.5)
-    .append("title").text(d => d.r);
-  view.append("div").attr("class", "hint").text("Hover a line for the mapping and the agent's rationale. Click an Act to see why it changed.");
+    .append("title").text(d => d.c === 0 && text1996.get(d.r)
+      ? `${cite(d.r)}, 1996 text:\n${text1996.get(d.r).slice(0, 400)}` : cite(d.r));
+  view.append("div").attr("class", "hint").text("Hover a circle for the 1996 wording, or a line for how it changed and who decided.");
+  const tabs = view.append("div").attr("class", "tabs");
+  p.events.forEach((e, k) => tabs.append("button").attr("data-i", k + 1).text(SHORT[e.instrument] || e.instrument)
+    .on("click", () => detail(e, k + 1)));
   view.append("div").attr("class", "cards").attr("id", "cards");
-  const k = p.events.findIndex(e => e.intent.some(it => it.status === "sourced"));
-  detail(p.events[k < 0 ? 0 : k], (k < 0 ? 0 : k) + 1);
+  const sourced = p.events.findIndex(e => e.intent.some(it => it.status === "sourced"));
+  const k = ev !== null && ev < p.events.length ? ev : (sourced < 0 ? 0 : sourced);
+  detail(p.events[k], k + 1);
 }
 
 function detail(e, i) {
-  d3.selectAll("svg .col").classed("on", function () { return +this.dataset.i === i; });
+  d3.selectAll("svg .col, .tabs button").classed("on", function () { return +this.dataset.i === i; });
   const cards = d3.select("#cards").html("");
+  const what = cards.append("div").attr("class", "card");
+  what.append("h4").text(`What the ${SHORT[e.instrument] || e.instrument} changed`);
+  const ul = what.append("ul").attr("class", "changes");
+  e.edges.forEach(x => ul.append("li").text(sentence(x) + (x.source === "agent" ? " (decided by the Genealogy Agent)" : "")));
   for (const it of e.intent) {
     const c = cards.append("div").attr("class", "card");
     if (it.status === "sourced") {
@@ -286,10 +349,8 @@ function detail(e, i) {
   const head = cards.append("div").attr("class", "card");
   head.append("h4").text(e.title || e.instrument);
   head.append("div").attr("class", "muted").text(`In force ${e.effective || "(unknown)"}.`);
-  const ul = head.append("div").attr("class", "muted").style("margin-top", "6px");
-  e.edges.forEach(x => ul.append("div").text(`${x.old ?? "(new)"} → ${x.new ?? "omitted"} · ${x.op_type}${x.source === "agent" ? " · mapped by the Genealogy Agent" : ""}`));
   const ins = head.append("details");
-  ins.append("summary").text("Amending instruction text");
+  ins.append("summary").text("Read the amending instruction (official text)");
   Object.entries(e.instructions).forEach(([g, t]) => ins.append("pre").text(t ?? ""));
 }
 </script>
