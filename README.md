@@ -8,29 +8,27 @@ nothing to install.
 
 ## Using the demo
 
-The demo is built for someone with no legal training. Open it and:
+The page has two versions, switched at the top right:
 
-1. **Tap a question.** Plain questions like "Is there a deadline to decide a case?" or "Who is
-   allowed to be an arbitrator?", or type a word ("appeal", "fees", "court") in the search box.
-   Every part of the law is also listed at the bottom.
-2. **See what changed, year by year.** Each answer shows a strip like
-   `1996 Original → 2015 Changed → 2021 Changed`, then one card per year saying in one sentence
-   what happened ("This rule was added to the law", "Some words were changed and new points were
-   added").
-3. **See who said why.** Under each change, the reason is quoted word for word, marked with who said it:
-   🏛️ the Government (official reasons printed in the Bill, with the minister who signed them),
-   🗣️ an MP in the Lok Sabha debate (labelled as their own opinion, not the Government's), or
-   📘 the Law Commission. ❓ means no reason was found, and the app says so instead of guessing.
-4. **Check the source.** "Show the original legal words" and "Show the exact legal words
-   Parliament used" open the real text.
+- **😊 Easy** (the default) is for anyone. An arbitrator is explained as a *private judge* both sides
+  trust. You tap a plain question ("Is there a time limit to finish a case?", "Can a court cancel
+  the decision?") and get a short story ("Made in 1996. Changed in 2015. Changed again in 2021."),
+  then one card per year: 🟢 added, 🟠 changed or 🔴 taken out, and **why**, in simple words, with
+  who said it: 🏛️ the Government, 🗣️ an MP (their own opinion) or 📘 the Law Commission. "See their
+  exact words" opens the original quote and its source. ❓ means no written reason was found, and
+  the page says so instead of guessing.
+- **📚 Full** adds the legal detail: rule (section) numbers, the dates each Act took effect, the
+  quote with its source line, the reason as the system recorded it, the original 1996 wording, the
+  exact amendment text, and a list of every part of the law.
 
-Sections are called *rules* and Schedules *lists* on the page, with the legal name alongside
-("Rule 37 … Lawyers call it Section 37").
+The Easy view's simple wording comes from a fixed list of word swaps (e.g. *arbitral tribunal* →
+*arbitrator*, *expeditious disposal of cases* → *cases being settled faster*) applied to the
+verified reason. It is not new model output, and the exact quote is always one tap away.
 
-Good questions to try: **Who is allowed to be an arbitrator?** (added in 2019, removed in 2021,
-with the Government's reason for each), **Can I appeal against a decision?** (the clauses were
-renumbered; the system first paired them wrongly and corrected itself, see below), **When does
-the decision have to be followed?** (the system refuses to give a reason it can't quote),
+Good questions to try: **Who can be an arbitrator?** (added in 2019, removed in 2021, with the
+Government's reason for each), **Can I challenge a decision in a higher court?** (the clauses were
+renumbered; the system first paired them wrongly and corrected itself, see below), **When must
+the losing side obey the decision?** (no reason could be quoted for 2015, so none is shown),
 **What is the Arbitration Council?** (a new Part with its 13 rules).
 
 Everything below explains how the system behind that page works, and how well it works.
