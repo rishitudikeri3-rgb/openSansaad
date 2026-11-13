@@ -19,18 +19,21 @@ body { margin:0; background:var(--bg); color:var(--fg);
 a { color:var(--accent); }
 button { font:inherit; color:inherit; }
 .wrap { max-width:760px; margin:0 auto; padding:0 16px; }
-header { border-bottom:1px solid var(--line); background:var(--card); }
-header .wrap { display:flex; align-items:center; justify-content:space-between; gap:12px; height:60px; }
+header { border-bottom:1px solid var(--line); background:var(--card); position:sticky; top:0; z-index:5; }
+header .wrap { display:flex; align-items:center; justify-content:space-between; gap:12px; height:62px; }
 .brand { font-weight:700; font-size:20px; text-decoration:none; color:var(--fg); }
 .brand span { color:var(--accent); }
-header small { color:var(--muted); font-size:15px; }
+.mode { display:flex; background:var(--soft); border-radius:12px; padding:3px; }
+.mode button { border:0; background:none; padding:6px 14px; border-radius:9px; cursor:pointer; font-size:15px; color:var(--muted); }
+.mode button[aria-pressed="true"] { background:var(--card); color:var(--fg); font-weight:600; box-shadow:0 1px 3px rgba(0,0,0,.12); }
 
-.hero { padding:40px 0 4px; }
+.hero { padding:36px 0 4px; }
 .hero h1 { font-size:clamp(30px, 6vw, 44px); line-height:1.15; margin:0 0 14px; letter-spacing:-.02em; }
 .hero p { margin:0; font-size:19px; color:var(--muted); }
 .card { background:var(--card); border:1px solid var(--line); border-radius:16px; padding:20px 22px; margin-top:22px; }
 .card h3 { margin:0 0 6px; font-size:19px; }
 .card p { margin:0; }
+.card p + p { margin-top:10px; }
 .steps { display:grid; grid-template-columns:repeat(3, 1fr); gap:12px; margin-top:22px; }
 .step { background:var(--card); border:1px solid var(--line); border-radius:16px; padding:16px; text-align:center; font-size:16px; }
 .step b { display:block; font-size:30px; line-height:1.2; }
@@ -49,9 +52,6 @@ h2 { font-size:24px; margin:36px 0 14px; letter-spacing:-.01em; }
 .key { display:grid; gap:10px; }
 .key div { display:flex; gap:12px; align-items:flex-start; }
 .key .ic { font-size:24px; line-height:1.3; flex:none; width:30px; text-align:center; }
-.key b { font-weight:600; }
-details.all { margin-top:36px; }
-details.all > summary { cursor:pointer; font-size:18px; color:var(--accent); font-weight:600; }
 .list { background:var(--card); border:1px solid var(--line); border-radius:14px; overflow:hidden; margin-top:12px; }
 .row { display:flex; align-items:center; justify-content:space-between; gap:12px; width:100%; text-align:left;
   background:none; border:0; border-top:1px solid var(--line); padding:13px 16px; cursor:pointer; font-size:16px; }
@@ -64,15 +64,19 @@ details.all > summary { cursor:pointer; font-size:18px; color:var(--accent); fon
 .tag.removed { background:var(--del-soft); color:var(--del); }
 .tag.never { background:var(--soft); color:var(--muted); }
 .empty { padding:16px; color:var(--muted); }
+.switch { margin-top:30px; text-align:center; }
+.switch button { background:var(--card); border:2px solid var(--line); border-radius:12px; padding:10px 18px; cursor:pointer; font-size:16px; }
+.switch button:hover { border-color:var(--accent); }
 
 .back { margin:22px 0 6px; background:none; border:0; color:var(--accent); cursor:pointer; padding:6px 0; font-size:17px; }
 .title { display:flex; gap:14px; align-items:flex-start; }
 .title .ic { font-size:40px; line-height:1.1; }
 .title h1 { font-size:clamp(26px, 5vw, 36px); margin:0; line-height:1.2; letter-spacing:-.01em; }
 .title .sub { color:var(--muted); font-size:16px; margin-top:4px; }
+.story { font-size:20px; margin:18px 0 0; }
 .path { display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:22px 0 6px; }
 .path .arrow { color:var(--muted); }
-.yr { font-weight:700; font-size:28px; margin:30px 0 8px; display:flex; align-items:center; gap:12px; }
+.yr { font-weight:700; font-size:28px; margin:30px 0 8px; display:flex; flex-wrap:wrap; align-items:center; gap:4px 12px; }
 .yr .tag { font-size:13px; }
 .yr small { font-weight:400; font-size:15px; color:var(--muted); }
 .what { font-size:20px; font-weight:500; }
@@ -80,47 +84,52 @@ details.all > summary { cursor:pointer; font-size:18px; color:var(--accent); fon
 .why .lab { font-size:16px; font-weight:700; margin-bottom:8px; }
 .why .who { display:flex; gap:10px; align-items:flex-start; font-size:17px; }
 .why .who .ic { font-size:24px; line-height:1.2; }
+.why .simple { margin-top:10px; font-size:20px; line-height:1.5; }
 .why .quote { margin:12px 0 0; padding:12px 16px; background:var(--soft); border-left:4px solid var(--accent);
-  border-radius:0 10px 10px 0; font-size:18px; }
+  border-radius:0 10px 10px 0; font-size:17px; }
 .why .short { margin-top:10px; font-size:16px; color:var(--muted); }
 .why .from { margin-top:10px; font-size:14px; color:var(--muted); }
 .why.none .quote { border-left-color:var(--line); color:var(--muted); }
-details.text { margin-top:16px; }
+details.text { margin-top:14px; }
 details.text summary { cursor:pointer; color:var(--accent); font-size:16px; }
 details.text .txt { white-space:pre-wrap; font-size:14px; color:var(--muted); margin-top:8px; max-height:320px; overflow:auto;
   background:var(--soft); border-radius:10px; padding:10px 12px; font-family:ui-serif, Georgia, serif; }
 footer { color:var(--muted); font-size:15px; padding:30px 0 50px; border-top:1px solid var(--line); margin-top:44px; }
 @media (max-width:560px) { .steps { grid-template-columns:1fr; } .step { display:flex; gap:12px; align-items:center; text-align:left; }
-  .step b { font-size:24px; } header small { display:none; } }
+  .step b { font-size:24px; } .mode button { padding:6px 10px; } }
 </style>
 </head>
 <body>
 <header><div class="wrap">
   <a class="brand" href="#">Open<span>Sansad</span></a>
-  <small>Laws, explained simply</small>
+  <div class="mode" role="group" aria-label="How much detail">
+    <button data-mode="easy">😊 Easy</button><button data-mode="full">📚 Full</button>
+  </div>
 </div></header>
 
 <main class="wrap" id="app"><p style="padding:40px 0;color:var(--muted)">Loading…</p></main>
 
 <div class="wrap"><footer>
-  We never make up a reason. Every reason here is copied word for word from an official
-  record, and we always say who said it. If we can't find one, we tell you.
+  We never make up a reason. Every reason comes word for word from an official record,
+  and we always say who said it. If we can't find one, we tell you.
   <a href="https://github.com/rishitudikeri3-rgb/openSansaad#readme">How this works</a>
 </footer></div>
 
 <script>
 // questions people actually ask, each pointing at the part of the law that answers it
 const QUESTIONS = [
-  ["s29A", "⏱️", "Is there a deadline to decide a case?", "Yes, since 2015"],
-  ["s12", "🤨", "What if the arbitrator is on one side?", "Rules to stop unfair arbitrators"],
-  ["sch8", "🎓", "Who is allowed to be an arbitrator?", "A list added in 2019, removed in 2021"],
-  ["s37", "↩️", "Can I appeal against a decision?", "What you can appeal"],
-  ["s11", "👉", "Who picks the arbitrator?", "If the two sides can't agree"],
-  ["s36", "✅", "When does the decision have to be followed?", "Putting the decision into effect"],
+  ["s29A", "⏱️", "Is there a time limit to finish a case?", "Yes, since 2015"],
+  ["s12", "🤨", "What if the arbitrator is unfair?", "Rules to keep them neutral"],
+  ["sch8", "🎓", "Who can be an arbitrator?", "A list added in 2019, then removed in 2021"],
+  ["s34", "🚫", "Can a court cancel the decision?", "When a court can throw it out"],
+  ["s37", "↩️", "Can I challenge a decision in a higher court?", "What you are allowed to appeal"],
+  ["s11", "👉", "Who picks the arbitrator if we can't agree?", "When the two sides can't decide"],
+  ["s36", "✅", "When must the losing side obey the decision?", "Making the decision count"],
   ["s31A", "💰", "Who pays the costs?", "Added in 2015"],
-  ["s42A", "🔒", "Is the case kept private?", "Added in 2019"],
-  ["s29B", "⚡", "Is there a fast-track option?", "A quicker way, added in 2015"],
-  ["pt1A", "🏛️", "What is the Arbitration Council?", "A new body set up in 2019"],
+  ["s42A", "🔒", "Is the case kept secret?", "Added in 2019"],
+  ["s29B", "⚡", "Is there a faster option?", "A quick route, added in 2015"],
+  ["s17", "⏸️", "Can the arbitrator give orders before the end?", "Temporary orders while the case runs"],
+  ["pt1A", "🏛️", "What is the Arbitration Council?", "A new body that rates arbitration centres"],
 ];
 // plain names for parts added after 1996 whose heading the data does not carry
 const TITLES = {
@@ -130,16 +139,83 @@ const TITLES = {
   sch5: "Reasons to doubt an arbitrator is fair", sch6: "Form where an arbitrator declares any links to the sides",
   sch7: "Links that stop someone being an arbitrator", sch8: "Who can be an arbitrator",
 };
+// Easy view only: legal phrases in the checked reasons swapped for everyday words, longest first.
+// The exact quote is always one tap away, and Full view shows the reason as recorded.
+const PLAIN = [
+  ["make disposal of commercial disputes more user-friendly and cost effective", "make settling business disputes simpler and cheaper"],
+  ["to achieve faster disposal of cases", "to settle cases faster"],
+  ["The amendments proposed in the Bill will ensure that", "The changes will make sure that"],
+  [/^The amendments? (?:is intended to|aims to|seeks? to|was made to|was introduced to)/, "This was done to"],
+  [/^The amendment was recommended to/, "This was recommended to"],
+  [/^The amendment ensures that/, "This makes sure that"], [/^The amendment rationalizes/, "This simplifies"],
+  [/^The amendment (?:inserts|adds)/, "This adds"], [/^To empower/, "To allow"],
+  ["the Central Government to amend the Fourth Schedule by notification in the Official Gazette after laying the same in draft form before each House of Parliament",
+   "the Government to change the arbitrators' fee list by official notice, after first showing a draft to both Houses of Parliament"],
+  ["exercise jurisdiction to grant interim measures, etc.,", "give temporary orders"],
+  ["even where the seat of the arbitration is outside India", "even when the arbitration takes place outside India"],
+  ["align Indian law with the UNCITRAL Model Law", "match Indian law to the United Nations' model arbitration law"],
+  ["permit arbitration agreements to be concluded through electronic communication", "allow arbitration agreements to be made by email or other electronic means"],
+  ["eliminate the inconvenience caused by interim ex parte orders passed in original applications", "stop the trouble caused by temporary orders made without hearing the other side"],
+  ["provides greater incentive for the High Court and/or Supreme Court to delegate the power of appointment to specialized, external persons or institutions",
+   "encourages the High Court and Supreme Court to let outside experts or arbitration centres choose arbitrators"],
+  ["ensure neutrality of arbitrators", "make sure arbitrators don't take sides"],
+  ["empower the arbitral tribunal to grant interim measures that the court can grant, making such orders enforceable as court orders",
+   "let the arbitrator give the same temporary orders a court can, and make those orders count like court orders"],
+  ["contract enforcement", "enforcing contracts"],
+  ["the default rate of interest reflects prevailing commercial realities instead of an arbitrary 18% rate", "the standard interest rate follows real market rates instead of a fixed 18%"],
+  ["provide detailed provisions for the regime of costs that can be determined and ordered by the Court or arbitral tribunal", "set clear rules on who pays the costs, decided by the court or the arbitrator"],
+  ["Explanation 2 to clarify that the test for contravention of fundamental Indian law will not involve a review of the dispute’s merits",
+   "a note making clear that when a court checks whether a decision breaks basic Indian law, it will not decide the whole dispute again"],
+  ["change the definition of “Court” so that for international commercial arbitrations the Court will be the High Court", "make sure international business cases go to a High Court"],
+  ["minimise the need to approach the courts for appointment of arbitrators", "reduce the need to go to court just to get an arbitrator appointed"],
+  ["reduce reliance on courts for appointing arbitrators", "rely less on courts to pick arbitrators"],
+  ["the statement of claim and defence is completed within six months of the arbitrator’s appointment", "both sides hand in their written cases within six months of the arbitrator being appointed"],
+  ["protect arbitrators from suits or other legal proceedings for actions or omissions done in good faith during arbitration", "protect arbitrators from being sued for honest decisions made during a case"],
+  ["clarify that section 26 of the 2015 Amendment Act applies only to arbitral proceedings commenced on or after 23 October 2015 and to the court proceedings arising from them",
+   "make clear that the 2015 changes apply only to cases started on or after 23 October 2015 (and court cases coming from them)"],
+  ["a new Part 1A to establish", "a new part to set up"],
+  ["address corrupt practices in securing contracts or arbitral awards by allowing parties to seek an unconditional stay of enforcement where the award is induced by fraud or corruption",
+   "fight corruption, by letting a side ask for a decision to be put on hold if it was won through fraud or bribery"],
+  ["lay down norms and qualifications by way of regulations for the purpose of accreditation of arbitrators", "set the rules and qualifications for approving arbitrators"],
+  ["institutional arbitration", "arbitration run by professional centres"],
+  ["grading arbitral institutions and accrediting arbitrators", "rating arbitration centres and approving arbitrators"],
+  ["expeditious disposal of cases", "cases being settled faster"], ["faster disposal of cases", "settling cases faster"],
+  ["disposal of commercial disputes", "settling business disputes"], ["commercial disputes", "business disputes"],
+  ["international commercial arbitration", "international business arbitration"], ["eminent arbitrators", "top arbitrators"],
+  ["a hub of", "a centre for"], ["a hub for", "a centre for"],
+  ["thereby making enforcing contracts easier", "making it easier to enforce contracts"],
+  ["empower the Arbitration Council of India to", "let the Arbitration Council of India"], ["by establishing", "by setting up"],
+  [/more user[-‑ ]friendly/g, "easier to use"], [/user[-‑ ]friendly/g, "easier to use"], [/cost[-‑ ]effective/g, "cheaper"],
+  [/\bensure\b/g, "make sure"], [/\barbitral\b/g, "arbitration"], [/\bamendments\b/g, "changes"], [/\bamendment\b/g, "change"],
+];
+const plain = s => PLAIN.reduce((t, [a, b]) => t.replace(a, b),
+  s.replace(/[\u00a0\u2009\u202f]/g, " ").replace(/[\u2010\u2011]/g, "-"));
+
 const YEAR = { "3/2016": "2015", "33/2019": "2019", "3/2021": "2021" };
 const WHEN = { "3/2016": "applies from 23 Oct 2015", "33/2019": "applied in stages from 30 Aug 2019", "3/2021": "applies from 4 Nov 2020" };
 const LABEL = { added: "Added", changed: "Changed", removed: "Removed", never: "Never changed" };
-let ACT = null;
+const DOT = { added: "🟢", changed: "🟠", removed: "🔴" };
+let ACT = null, MODE = "easy";
+try { MODE = localStorage.getItem("mode") === "full" ? "full" : "easy"; } catch (e) {}
+const easy = () => MODE === "easy";
 const app = document.getElementById("app");
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const go = root => root.querySelectorAll("[data-go]").forEach(b => b.onclick = () => location.hash = "#/" + b.dataset.go);
 const titleCase = s => s.toLowerCase().replace(/\b([a-z])/g, c => c.toUpperCase());
+const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
 const norm = s => String(s ?? "").toLowerCase().replace(/[^a-z]/g, "");
 const isSch = p => p.startsWith("sch"), isPart = p => p.startsWith("pt");
+
+function setMode(m) {
+  MODE = m;
+  try { localStorage.setItem("mode", m); } catch (e) {}
+  document.querySelectorAll(".mode button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.mode === m)));
+  if (ACT) route(false);
+}
+document.querySelectorAll(".mode button").forEach(b => b.onclick = () => setMode(b.dataset.mode));
+setMode(MODE);
+const switchBtn = () => `<div class="switch"><button onclick="setMode('${easy() ? "full" : "easy"}')">${easy()
+  ? "📚 Want the legal details? Switch to the Full version" : "😊 Too much detail? Switch to the Easy version"}</button></div>`;
 
 function number(path) {   // "Rule 37" / "List 8" / "Part IA", with the lawyers' name alongside
   if (isSch(path)) { const n = +path.slice(3); return [`List ${n}`, `${["", "First", "Second", "Third", "Fourth", "Fifth", "Sixth", "Seventh", "Eighth"][n]} Schedule`]; }
@@ -157,14 +233,14 @@ const question = path => QUESTIONS.find(q => q[0] === path);
 fetch("api/act").then(r => r.json()).then(act => {
   ACT = act;
   act.all = act.provisions.map(p => ({ ...p, added: false })).concat(act.inserted.map(p => ({ ...p, added: true })));
-  window.addEventListener("hashchange", route);
+  window.addEventListener("hashchange", () => route());
   route();
 }).catch(() => app.innerHTML = '<p style="padding:40px 0">Sorry, the page could not load. Please refresh.</p>');
 
-function route() {
+function route(top = true) {
   const h = decodeURIComponent(location.hash.replace(/^#\/?/, ""));
   if (h) detail(h); else home();
-  window.scrollTo(0, 0);
+  if (top) window.scrollTo(0, 0);
 }
 
 function status(p) { return p.added ? "added" : p.changes ? "changed" : "never"; }
@@ -181,34 +257,38 @@ function home() {
   const bySort = (a, b) => a.path.localeCompare(b.path, "en", { numeric: true });
   app.innerHTML = `
     <section class="hero">
-      <h1>Laws change. See how, and why.</h1>
-      <p>Pick a question below. We show you what changed in the law each year, and the reason someone gave for it, in their own words.</p>
+      <h1>${easy() ? "What changed in this law, and why?" : "Laws change. See how, and why."}</h1>
+      <p>${easy() ? "Tap a question. We'll show you what changed, and why, in simple words."
+        : "Pick a question, or any part of the law. For each change you get the year, what changed, the reason given word for word, who gave it, and the legal text."}</p>
     </section>
-    <div class="card"><h3>⚖️ What law is this?</h3>
-      <p>When two sides have a dispute, say over a business deal, they can skip court and let a neutral person
-      decide. That person is the <b>arbitrator</b>, and this is called <b>arbitration</b>. India's rules for it are in one law
-      from <b>1996</b>. Parliament changed that law <b>3 times</b>: in 2015, 2019 and 2021.</p></div>
-    <div class="steps">
+    <div class="card"><h3>⚖️ What is this law about?</h3>
+      ${easy() ? `<p>Sometimes two sides fight, say over a business deal. Instead of going to court, they can pick a
+        <b>private judge</b> they both trust. That private judge is called an <b>arbitrator</b>, and this is called <b>arbitration</b>.</p>
+        <p>India's rules for this are in one law from <b>1996</b>. Parliament changed it <b>3 times</b>: in 2015, 2019 and 2021.</p>`
+      : `<p>The <b>Arbitration and Conciliation Act, 1996</b> sets out how disputes are settled by an arbitrator (a private
+        judge both sides agree on) instead of a court. Parliament amended it by Acts passed in <b>2015</b> (Act 3 of 2016),
+        <b>2019</b> (Act 33 of 2019) and <b>2021</b> (Act 3 of 2021).</p>`}</div>
+    ${easy() ? `<div class="steps">
       <div class="step"><b>1️⃣</b> Tap a question</div>
-      <div class="step"><b>2️⃣</b> See what changed, year by year</div>
-      <div class="step"><b>3️⃣</b> See who said why</div>
-    </div>
-    <div class="search"><input id="q" type="search" placeholder="🔍  Type a word, e.g. appeal, fees, court, deadline" aria-label="Search"></div>
+      <div class="step"><b>2️⃣</b> See what changed</div>
+      <div class="step"><b>3️⃣</b> See why</div>
+    </div>` : ""}
+    <div class="search"><input id="q" type="search" placeholder="🔍  Type a word, like: costs, appeal, secret, time" aria-label="Search"></div>
     <div id="results"></div>
     <div id="browse">
-      <h2>Popular questions</h2>
+      <h2>${easy() ? "Pick a question" : "Popular questions"}</h2>
       <div class="qs">${QUESTIONS.map(qcard).join("")}</div>
       <h2>Who gives the reasons?</h2>
       <div class="card key">
-        <div><span class="ic">🏛️</span><span><b>The Government.</b> Its official reason, printed in the Bill it brought to Parliament.</span></div>
-        <div><span class="ic">🗣️</span><span><b>A Member of Parliament (MP).</b> What one MP said in a debate. This is their own opinion.</span></div>
-        <div><span class="ic">📘</span><span><b>The Law Commission.</b> A group of legal experts who advise the Government.</span></div>
-        <div><span class="ic">❓</span><span><b>No reason found.</b> We couldn't find a written reason, so we don't guess.</span></div>
+        <div><span class="ic">🏛️</span><span><b>The Government.</b> ${easy() ? "The people who wrote the change." : "Its official reasons, printed in the Bill it brought to Parliament and signed by the minister."}</span></div>
+        <div><span class="ic">🗣️</span><span><b>An MP.</b> ${easy() ? "A Member of Parliament, giving their own opinion." : "A Member of Parliament in the Lok Sabha debate. This is their own opinion, not the Government's."}</span></div>
+        <div><span class="ic">📘</span><span><b>The Law Commission.</b> ${easy() ? "Legal experts who advise the Government." : "The expert body that advises the Government on law reform (Report No. 246 and its supplement)."}</span></div>
+        <div><span class="ic">❓</span><span><b>No reason found.</b> ${easy() ? "We couldn't find one written down, so we don't guess." : "We searched the Bill, the Lok Sabha debate and (for 2015) the Law Commission's reports and found no reason we could quote. We don't guess."}</span></div>
       </div>
-      <details class="all"><summary>See every part of the law (${ACT.all.length})</summary>
+      ${easy() ? "" : `<h2>Every part of the law (${ACT.all.length})</h2>
         <div class="list">${ACT.all.filter(p => p.changes).sort(bySort).map(row).join("")}</div>
-        <div class="list">${ACT.all.filter(p => !p.changes).map(row).join("")}</div>
-      </details>
+        <div class="list">${ACT.all.filter(p => !p.changes).map(row).join("")}</div>`}
+      ${switchBtn()}
     </div>`;
   go(app);
   const q = document.getElementById("q"), res = document.getElementById("results");
@@ -220,7 +300,7 @@ function home() {
     const hits = ACT.all.filter(p => `${number(p.path).join(" ")} ${title(p.path, p.heading)}`.toLowerCase().includes(v)
       || p.path.toLowerCase() === "s" + v);
     res.innerHTML = (qs.length ? `<h2>Questions</h2><div class="qs">${qs.map(qcard).join("")}</div>` : "")
-      + `<h2>Parts of the law</h2><div class="list">`
+      + `<h2>${easy() ? "Other things that match" : "Parts of the law"}</h2><div class="list">`
       + (hits.length ? hits.map(row).join("") : `<div class="empty">Nothing found for “${esc(q.value)}”. Try another word.</div>`) + "</div>";
     go(res);
   };
@@ -233,41 +313,53 @@ function eventStatus(path, e) {
   return "changed";
 }
 function whatHappened(path, e, st) {
-  if (st === "added") return `This ${kind(path)} was added to the law.`;
-  if (st === "removed") return `This ${kind(path)} was taken out of the law.`;
-  if (e.edges.some(x => x.old === path && x.new === path)) return `This ${kind(path)} was completely rewritten.`;
+  if (st === "added") return easy() ? `A new ${kind(path)} was added.` : `This ${kind(path)} was added to the law.`;
+  if (st === "removed") return easy() ? `This ${kind(path)} was taken out.` : `This ${kind(path)} was taken out of the law.`;
+  if (e.edges.some(x => x.old === path && x.new === path)) return easy() ? `The ${kind(path)} was rewritten.` : `This ${kind(path)} was completely rewritten.`;
   const has = { words: 0, added: 0, moved: 0, removed: 0 };
   e.edges.forEach(x => x.old == null ? has.added++ : x.new == null ? has.removed++ : x.old === x.new ? has.words++ : has.moved++);
+  if (easy()) return has.added ? `The ${kind(path)} got new parts${has.words || has.moved || has.removed ? ", and some other changes" : ""}.`
+    : "Some of the wording was changed.";
   const bits = [has.words && "some words were changed", has.added && "new points were added",
                 has.moved && "some points were moved around", has.removed && "some points were taken out"].filter(Boolean);
-  const s = bits.join(bits.length > 2 ? ", " : " and ").replace(/, (?=[^,]*$)/, " and ");
-  return s.charAt(0).toUpperCase() + s.slice(1) + ".";
+  return cap(bits.join(bits.length > 2 ? ", " : " and ").replace(/, (?=[^,]*$)/, " and ")) + ".";
 }
 
 function who(it) {
   const a = it.attribution || {};
   if (a.role === "government") {
     const bill = (a.where || "").match(/Bill, (\d{4})/);
-    return { ic: "🏛️", said: "The Government said:",
+    return { ic: "🏛️", easy: "The Government said it was to:", said: "The Government said:",
       from: `Official reasons printed in the ${bill ? bill[1] + " " : ""}Bill${a.signed_by ? `, signed by Minister ${titleCase(a.signed_by)}` : ""}.` };
   }
   if (a.role === "committee")
-    return { ic: "📘", said: "The Law Commission said:", from: `Law Commission of India, ${(a.by || "").replace(/^Law Commission of India,?\s*/, "")}.` };
+    return { ic: "📘", easy: "The Law Commission (legal experts) said it was to:", said: "The Law Commission said:",
+      from: `Law Commission of India, ${(a.by || "").replace(/^Law Commission of India,?\s*/, "")}.` };
   const m = (a.by || "").match(/^(?:SHRI|SHRIMATI|SMT\.|KUMARI|DR\.|PROF\.|ADV\.)?\s*(.*?)\s*(?:\(([^)]*)\))?$/);
   const name = m ? titleCase(m[1]) : a.by, seat = m && m[2] ? ` (MP for ${titleCase(m[2])})` : "";
   const date = (a.where || "").match(/(\d{1,2} \w{3} \d{4})/);
-  return { ic: "🗣️", said: `An MP, ${name}${seat}, said:`,
+  return { ic: "🗣️", easy: `An MP, ${name}, said (their own opinion) it was to:`, said: `An MP, ${name}${seat}, said:`,
     from: `Debate in the Lok Sabha${date ? ", " + date[1] : ""}. This is the MP's own opinion, not the Government's official reason.` };
 }
 
 function why(e) {
   return e.intent.map(it => {
     if (it.status !== "sourced") {
-      const where = e.instrument === "3/2016" ? "the Bill, the debate in Parliament and the Law Commission's report" : "the Bill and the debate in Parliament";
+      if (easy()) return `<div class="why none"><div class="lab">Why?</div><div class="who"><span class="ic">❓</span>
+        <span>We couldn't find a reason written down. We don't guess.</span></div></div>`;
+      const where = e.instrument === "3/2016" ? "the Bill, the debate in Parliament and the Law Commission's reports" : "the Bill and the debate in Parliament";
       return `<div class="why none"><div class="lab">Why?</div><div class="who"><span class="ic">❓</span><span>No reason found.</span></div>
         <div class="quote">We looked in ${where}, but couldn't find a reason for this change. We only show reasons we can quote word for word, so we don't guess.</div></div>`;
     }
     const w = who(it), quote = it.quote.replace(/\s+/g, " ").trim();
+    if (easy()) {
+      const simple = cap(plain(it.claim).replace(/^(This was done to|To) /, ""));
+      const lead = /^(This|The changes)/.test(simple) ? w.easy.replace(/ it was to:$/, ":") : w.easy;
+      return `<div class="why"><div class="lab">Why?</div><div class="who"><span class="ic">${w.ic}</span><span>${esc(lead)}</span></div>
+        <div class="simple">${esc(simple)}</div>
+        <details class="text"><summary>💬 See their exact words</summary>
+          <div class="quote">“${esc(quote)}”</div><div class="from">${esc(w.from)}</div></details></div>`;
+    }
     return `<div class="why"><div class="lab">Why?</div><div class="who"><span class="ic">${w.ic}</span><span>${esc(w.said)}</span></div>
       <div class="quote">“${esc(quote)}”</div>
       ${norm(it.claim) === norm(quote) ? "" : `<div class="short"><b>In short:</b> ${esc(it.claim)}</div>`}
@@ -275,34 +367,51 @@ function why(e) {
   }).join("");
 }
 
+function story(path, p) {   // "Made in 1996. Changed in 2015. Changed again in 2019."
+  if (!p.events.length) return "Made in 1996, and never changed since.";
+  const words = { added: "Added", removed: "Taken out" };
+  return (p.in_1996 ? "Made in 1996. " : "") + p.events.map((e, i) => {
+    const s = eventStatus(path, e);
+    return `${words[s] || (i ? "Changed again" : "Changed")} in ${YEAR[e.instrument] || e.instrument}.`;
+  }).join(" ");
+}
+
 function detail(path) {
   const back = `<button class="back" onclick="location.hash=''">← Back to questions</button>`;
   fetch(`api/provision/${encodeURIComponent(path)}`).then(r => { if (!r.ok) throw 0; return r.json(); }).then(p => {
     const q = question(path), [n, lawyer] = number(path), t = title(path, p.heading);
-    const steps = (p.in_1996 ? [["1996", "never", "Original"]] : [])
-      .concat(p.events.map(e => { const s = eventStatus(path, e); return [YEAR[e.instrument] || e.instrument, s, LABEL[s]]; }));
-    let html = `${back}
-      <div class="title"><span class="ic">${q ? q[1] : "📄"}</span><div><h1>${esc(q ? q[2] : t || n)}</h1>
-        <div class="sub">This is ${esc(n)} of the arbitration law${t && q ? ` (“${esc(t)}”)` : ""}.${n !== lawyer ? ` Lawyers call it ${esc(lawyer)}.` : ""}</div></div></div>
-      <div class="path">${steps.map(([y, s, l]) => `<span class="tag ${s}">${y} · ${l}</span>`).join('<span class="arrow">→</span>')}</div>`;
+    let html = `${back}<div class="title"><span class="ic">${q ? q[1] : "📄"}</span><div><h1>${esc(q ? q[2] : t || n)}</h1>`;
+    if (easy()) {
+      html += `</div></div><div class="story">${esc(story(path, p))}</div>`;
+    } else {
+      const steps = (p.in_1996 ? [["1996", "never", "Original"]] : [])
+        .concat(p.events.map(e => { const s = eventStatus(path, e); return [YEAR[e.instrument] || e.instrument, s, LABEL[s]]; }));
+      html += `<div class="sub">This is ${esc(n)} of the arbitration law${t && q ? ` (“${esc(t)}”)` : ""}.${n !== lawyer ? ` Lawyers call it ${esc(lawyer)}.` : ""}</div></div></div>
+        <div class="path">${steps.map(([y, s, l]) => `<span class="tag ${s}">${y} · ${l}</span>`).join('<span class="arrow">→</span>')}</div>`;
+    }
     if (p.in_1996) {
       const original = p.nodes_1996.filter(x => x.text).map(x => (x.number && x.path !== path ? `(${x.number}) ` : "") + x.text).join("\n\n");
-      html += `<div class="yr">1996 <small>the original law</small></div>
+      html += easy()
+        ? `<div class="yr">📜 1996</div><div class="card" style="margin-top:0"><div class="what">${p.events.length
+            ? `The ${kind(path)} was first made.` : `The ${kind(path)} was made, and has stayed the same ever since.`}</div></div>`
+        : `<div class="yr">1996 <small>the original law</small></div>
         <div class="card" style="margin-top:0"><div class="what">${p.events.length ? `This is how the ${kind(path)} first read.` : `This ${kind(path)} has never been changed since 1996.`}</div>
         ${original ? `<details class="text"><summary>📄 Show the original legal words</summary><div class="txt">${esc(original)}</div></details>` : ""}</div>`;
     }
     for (const e of p.events) {
-      const st = eventStatus(path, e), words = Object.values(e.instructions).filter(Boolean).join("\n\n");
-      html += `<div class="yr">${YEAR[e.instrument] || e.instrument} <span class="tag ${st}">${LABEL[st]}</span> <small>${esc(WHEN[e.instrument] || "")}</small></div>
+      const st = eventStatus(path, e), y = YEAR[e.instrument] || e.instrument, words = Object.values(e.instructions).filter(Boolean).join("\n\n");
+      html += easy()
+        ? `<div class="yr">${DOT[st]} ${y}</div><div class="card" style="margin-top:0"><div class="what">${esc(whatHappened(path, e, st))}</div>${why(e)}</div>`
+        : `<div class="yr">${y} <span class="tag ${st}">${LABEL[st]}</span> <small>${esc(WHEN[e.instrument] || "")}</small></div>
         <div class="card" style="margin-top:0"><div class="what">${esc(whatHappened(path, e, st))}</div>${why(e)}
         ${words ? `<details class="text"><summary>📄 Show the exact legal words Parliament used</summary><div class="txt">${esc(words)}</div></details>` : ""}</div>`;
     }
     if (path === "pt1A") {
       const inside = ACT.all.filter(x => /^s43[A-Z]$|^s43-I$/.test(x.path))
         .sort((a, b) => a.path.replace("-", "").localeCompare(b.path.replace("-", "")));
-      html += `<h2>What's inside this part</h2><div class="list">${inside.map(row).join("")}</div>`;
+      html += `<h2>${easy() ? "The Council's rules" : "What's inside this part"}</h2><div class="list">${inside.map(row).join("")}</div>`;
     }
-    app.innerHTML = html;
+    app.innerHTML = html + switchBtn();
     go(app);
   }).catch(() => { app.innerHTML = `${back}<p>Sorry, we couldn't find that.</p>`; });
 }
