@@ -4,140 +4,162 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>OpenSansad</title>
-<meta name="description" content="See how India's arbitration law changed over the years, and the official reasons for each change.">
+<meta name="description" content="How India's arbitration law changed in 2015, 2019 and 2021, and who said why, in plain words.">
 <style>
-:root { --bg:#f6f4ef; --fg:#1d1c1a; --muted:#6b6860; --line:#e2ded4; --card:#ffffff; --soft:#f0ede5;
-        --accent:#b4532a; --accent-soft:#f6e6dc; --no:#8a8579; }
+:root { --bg:#f7f5f0; --fg:#1d1c1a; --muted:#66635b; --line:#e2ded4; --card:#ffffff; --soft:#f0ede5;
+        --accent:#b4532a; --accent-soft:#f8e8de;
+        --add:#2f7d4f; --add-soft:#e3f2e8; --chg:#a8650f; --chg-soft:#fbefd9; --del:#b03a3a; --del-soft:#f8e1e1; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
   --bg:#151513; --fg:#eceae4; --muted:#a3a097; --line:#34332f; --card:#1f1e1c; --soft:#272622;
-  --accent:#e58a5f; --accent-soft:#3a2a21; --no:#8f8b80; } }
+  --accent:#e58a5f; --accent-soft:#3a2a21;
+  --add:#6cc08a; --add-soft:#1e3326; --chg:#e0a24f; --chg-soft:#3a2d17; --del:#e07a7a; --del-soft:#3a1f1f; } }
 * { box-sizing:border-box; }
 body { margin:0; background:var(--bg); color:var(--fg);
-       font:16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+       font:18px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
 a { color:var(--accent); }
 button { font:inherit; color:inherit; }
-.wrap { max-width:820px; margin:0 auto; padding:0 16px; }
+.wrap { max-width:760px; margin:0 auto; padding:0 16px; }
 header { border-bottom:1px solid var(--line); background:var(--card); }
-header .wrap { display:flex; align-items:center; justify-content:space-between; gap:12px; height:58px; }
-.brand { font-weight:700; font-size:18px; text-decoration:none; color:var(--fg); }
+header .wrap { display:flex; align-items:center; justify-content:space-between; gap:12px; height:60px; }
+.brand { font-weight:700; font-size:20px; text-decoration:none; color:var(--fg); }
 .brand span { color:var(--accent); }
-header small { color:var(--muted); font-size:13px; text-align:right; }
+header small { color:var(--muted); font-size:15px; }
 
-.hero { padding:44px 0 8px; }
-.hero h1 { font-size:clamp(28px, 5vw, 40px); line-height:1.15; margin:0 0 12px; letter-spacing:-.02em; }
-.act { display:inline-block; background:var(--accent-soft); color:var(--accent); border-radius:20px;
-       padding:4px 12px; font-size:14px; font-weight:600; margin-bottom:14px; }
-.hero p { color:var(--muted); margin:0; font-size:17px; }
-.search { margin:26px 0 8px; }
-.search input { width:100%; padding:15px 18px; font:inherit; font-size:17px; border:1px solid var(--line);
-  border-radius:12px; background:var(--card); color:var(--fg); }
-.search input:focus { outline:2px solid var(--accent); outline-offset:1px; }
-h2 { font-size:14px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); margin:34px 0 12px; font-weight:600; }
-.popular { display:grid; grid-template-columns:repeat(auto-fit, minmax(230px, 1fr)); gap:12px; }
-.pop { text-align:left; background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px;
-  cursor:pointer; transition:border-color .15s, transform .15s; }
-.pop:hover { border-color:var(--accent); transform:translateY(-2px); }
-.pop b { display:block; font-size:16px; margin-bottom:4px; }
-.pop span { color:var(--muted); font-size:14px; }
-.list { background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+.hero { padding:40px 0 4px; }
+.hero h1 { font-size:clamp(30px, 6vw, 44px); line-height:1.15; margin:0 0 14px; letter-spacing:-.02em; }
+.hero p { margin:0; font-size:19px; color:var(--muted); }
+.card { background:var(--card); border:1px solid var(--line); border-radius:16px; padding:20px 22px; margin-top:22px; }
+.card h3 { margin:0 0 6px; font-size:19px; }
+.card p { margin:0; }
+.steps { display:grid; grid-template-columns:repeat(3, 1fr); gap:12px; margin-top:22px; }
+.step { background:var(--card); border:1px solid var(--line); border-radius:16px; padding:16px; text-align:center; font-size:16px; }
+.step b { display:block; font-size:30px; line-height:1.2; }
+.search { margin:30px 0 4px; }
+.search input { width:100%; padding:16px 18px; font:inherit; border:2px solid var(--line); border-radius:14px;
+  background:var(--card); color:var(--fg); }
+.search input:focus { outline:none; border-color:var(--accent); }
+h2 { font-size:24px; margin:36px 0 14px; letter-spacing:-.01em; }
+.qs { display:grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap:12px; }
+.q { display:flex; gap:14px; align-items:flex-start; text-align:left; background:var(--card); border:2px solid var(--line);
+  border-radius:16px; padding:16px; cursor:pointer; transition:border-color .15s, transform .15s; }
+.q:hover, .q:focus-visible { border-color:var(--accent); transform:translateY(-2px); outline:none; }
+.q .ic { font-size:30px; line-height:1; flex:none; }
+.q b { display:block; font-size:18px; line-height:1.3; margin-bottom:4px; }
+.q span { color:var(--muted); font-size:15px; }
+.key { display:grid; gap:10px; }
+.key div { display:flex; gap:12px; align-items:flex-start; }
+.key .ic { font-size:24px; line-height:1.3; flex:none; width:30px; text-align:center; }
+.key b { font-weight:600; }
+details.all { margin-top:36px; }
+details.all > summary { cursor:pointer; font-size:18px; color:var(--accent); font-weight:600; }
+.list { background:var(--card); border:1px solid var(--line); border-radius:14px; overflow:hidden; margin-top:12px; }
 .row { display:flex; align-items:center; justify-content:space-between; gap:12px; width:100%; text-align:left;
-  background:none; border:0; border-top:1px solid var(--line); padding:13px 16px; cursor:pointer; }
+  background:none; border:0; border-top:1px solid var(--line); padding:13px 16px; cursor:pointer; font-size:16px; }
 .row:first-child { border-top:0; }
 .row:hover { background:var(--soft); }
-.row .t b { font-weight:600; }
-.row .t span { color:var(--muted); }
-.pill { flex:none; font-size:12px; border-radius:12px; padding:2px 10px; background:var(--accent-soft); color:var(--accent); font-weight:600; }
-.pill.none { background:var(--soft); color:var(--muted); font-weight:500; }
+.row span.t span { color:var(--muted); }
+.tag { flex:none; font-size:12px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; border-radius:10px; padding:3px 10px; }
+.tag.added { background:var(--add-soft); color:var(--add); }
+.tag.changed { background:var(--chg-soft); color:var(--chg); }
+.tag.removed { background:var(--del-soft); color:var(--del); }
+.tag.never { background:var(--soft); color:var(--muted); }
 .empty { padding:16px; color:var(--muted); }
-.more { margin-top:10px; background:none; border:0; color:var(--accent); cursor:pointer; padding:4px 0; }
 
-.back { display:inline-block; margin:24px 0 10px; background:none; border:0; color:var(--accent); cursor:pointer; padding:0; font-size:15px; }
-.detail h1 { font-size:clamp(26px, 4.5vw, 34px); margin:0; letter-spacing:-.01em; line-height:1.2; }
-.detail .sub { color:var(--muted); margin:6px 0 26px; font-size:17px; }
-.timeline { position:relative; margin:0 0 30px; padding-left:28px; }
-.timeline::before { content:""; position:absolute; left:8px; top:8px; bottom:8px; width:2px; background:var(--line); }
-.ev { position:relative; margin-bottom:22px; }
-.ev::before { content:""; position:absolute; left:-26px; top:7px; width:14px; height:14px; border-radius:50%;
-  background:var(--card); border:3px solid var(--accent); }
-.ev.origin::before { border-color:var(--muted); }
-.ev .yr { font-weight:700; font-size:20px; }
-.ev .when { color:var(--muted); font-size:14px; margin-left:8px; }
-.box { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px 18px; margin-top:8px; }
-.why { margin-top:14px; padding-top:14px; border-top:1px solid var(--line); }
-.why .lab { font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); font-weight:600; margin-bottom:4px; }
-.why .claim { font-size:17px; font-weight:500; }
-.why blockquote { margin:10px 0 6px; padding:2px 0 2px 14px; border-left:3px solid var(--accent); color:var(--muted); font-style:italic; font-size:15px; }
-.why .who { font-size:14px; color:var(--muted); }
-.why .who b { color:var(--fg); font-weight:600; }
-.why.none .claim { color:var(--no); font-weight:400; font-size:16px; }
-details { margin-top:12px; }
-details summary { cursor:pointer; color:var(--accent); font-size:14px; }
-details .txt { white-space:pre-wrap; font-size:14px; color:var(--muted); margin-top:8px; max-height:340px; overflow:auto;
-  background:var(--soft); border-radius:8px; padding:10px 12px; }
-@media (max-width:520px) { header small { display:none; } }
-footer { color:var(--muted); font-size:14px; padding:30px 0 50px; border-top:1px solid var(--line); margin-top:40px; }
+.back { margin:22px 0 6px; background:none; border:0; color:var(--accent); cursor:pointer; padding:6px 0; font-size:17px; }
+.title { display:flex; gap:14px; align-items:flex-start; }
+.title .ic { font-size:40px; line-height:1.1; }
+.title h1 { font-size:clamp(26px, 5vw, 36px); margin:0; line-height:1.2; letter-spacing:-.01em; }
+.title .sub { color:var(--muted); font-size:16px; margin-top:4px; }
+.path { display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:22px 0 6px; }
+.path .arrow { color:var(--muted); }
+.yr { font-weight:700; font-size:28px; margin:30px 0 8px; display:flex; align-items:center; gap:12px; }
+.yr .tag { font-size:13px; }
+.yr small { font-weight:400; font-size:15px; color:var(--muted); }
+.what { font-size:20px; font-weight:500; }
+.why { margin-top:18px; padding-top:16px; border-top:1px dashed var(--line); }
+.why .lab { font-size:16px; font-weight:700; margin-bottom:8px; }
+.why .who { display:flex; gap:10px; align-items:flex-start; font-size:17px; }
+.why .who .ic { font-size:24px; line-height:1.2; }
+.why .quote { margin:12px 0 0; padding:12px 16px; background:var(--soft); border-left:4px solid var(--accent);
+  border-radius:0 10px 10px 0; font-size:18px; }
+.why .short { margin-top:10px; font-size:16px; color:var(--muted); }
+.why .from { margin-top:10px; font-size:14px; color:var(--muted); }
+.why.none .quote { border-left-color:var(--line); color:var(--muted); }
+details.text { margin-top:16px; }
+details.text summary { cursor:pointer; color:var(--accent); font-size:16px; }
+details.text .txt { white-space:pre-wrap; font-size:14px; color:var(--muted); margin-top:8px; max-height:320px; overflow:auto;
+  background:var(--soft); border-radius:10px; padding:10px 12px; font-family:ui-serif, Georgia, serif; }
+footer { color:var(--muted); font-size:15px; padding:30px 0 50px; border-top:1px solid var(--line); margin-top:44px; }
+@media (max-width:560px) { .steps { grid-template-columns:1fr; } .step { display:flex; gap:12px; align-items:center; text-align:left; }
+  .step b { font-size:24px; } header small { display:none; } }
 </style>
 </head>
 <body>
 <header><div class="wrap">
   <a class="brand" href="#">Open<span>Sansad</span></a>
-  <small>How Indian laws change, and why</small>
+  <small>Laws, explained simply</small>
 </div></header>
 
 <main class="wrap" id="app"><p style="padding:40px 0;color:var(--muted)">Loading…</p></main>
 
 <div class="wrap"><footer>
-  Every reason shown here is quoted word for word from an official record (a Bill, a
-  Lok Sabha debate or a Law Commission report), along with who said it. If no record gives a reason,
-  we say so instead of guessing. <a href="https://github.com/rishitudikeri3-rgb/openSansaad#readme">How this works</a>
+  We never make up a reason. Every reason here is copied word for word from an official
+  record, and we always say who said it. If we can't find one, we tell you.
+  <a href="https://github.com/rishitudikeri3-rgb/openSansaad#readme">How this works</a>
 </footer></div>
 
 <script>
-// plain titles for parts added after 1996 whose heading is not in the data (described from their text)
-const TITLES = {
-  pt1A: "Arbitration Council of India", s11A: "Government's power to change the model fee schedule",
-  s29A: "Time limit for the arbitration decision", s31A: "Who pays the costs", s42A: "Confidentiality",
-  s87: "Which cases the 2015 changes apply to", sch4: "Model fees for arbitrators",
-  sch5: "Grounds for doubting an arbitrator's independence", sch6: "Arbitrator's disclosure form",
-  sch7: "Relationships that disqualify an arbitrator", sch8: "Qualifications of arbitrators",
-};
-const POPULAR = [
-  ["s29A", "Deadline for arbitration decisions", "A time limit added in 2015, and why"],
-  ["s37", "Appealing against arbitration orders", "What you can appeal, and how that changed"],
-  ["s12", "Can an arbitrator be biased?", "Rules on arbitrators' independence"],
-  ["sch8", "Who can be an arbitrator", "Added in 2019, removed in 2021"],
-  ["s36", "Enforcing an arbitration award", "When a decision can be put into effect"],
-  ["pt1A", "Arbitration Council of India", "A new body created in 2019"],
+// questions people actually ask, each pointing at the part of the law that answers it
+const QUESTIONS = [
+  ["s29A", "⏱️", "Is there a deadline to decide a case?", "Yes, since 2015"],
+  ["s12", "🤨", "What if the arbitrator is on one side?", "Rules to stop unfair arbitrators"],
+  ["sch8", "🎓", "Who is allowed to be an arbitrator?", "A list added in 2019, removed in 2021"],
+  ["s37", "↩️", "Can I appeal against a decision?", "What you can appeal"],
+  ["s11", "👉", "Who picks the arbitrator?", "If the two sides can't agree"],
+  ["s36", "✅", "When does the decision have to be followed?", "Putting the decision into effect"],
+  ["s31A", "💰", "Who pays the costs?", "Added in 2015"],
+  ["s42A", "🔒", "Is the case kept private?", "Added in 2019"],
+  ["s29B", "⚡", "Is there a fast-track option?", "A quicker way, added in 2015"],
+  ["pt1A", "🏛️", "What is the Arbitration Council?", "A new body set up in 2019"],
 ];
+// plain names for parts added after 1996 whose heading the data does not carry
+const TITLES = {
+  pt1A: "Arbitration Council of India", s11A: "Government can change the fee list", s29A: "Deadline for the decision",
+  s31A: "Who pays the costs", s42A: "Keeping the case private", s87: "Which cases the 2015 changes apply to",
+  "s43-I": "Rules for grading arbitration centres", sch4: "List of fees for arbitrators",
+  sch5: "Reasons to doubt an arbitrator is fair", sch6: "Form where an arbitrator declares any links to the sides",
+  sch7: "Links that stop someone being an arbitrator", sch8: "Who can be an arbitrator",
+};
 const YEAR = { "3/2016": "2015", "33/2019": "2019", "3/2021": "2021" };
-const WHEN = { "3/2016": "In force from 23 Oct 2015", "33/2019": "Passed in Aug 2019, brought into force in stages",
-               "3/2021": "In force from 4 Nov 2020" };
+const WHEN = { "3/2016": "applies from 23 Oct 2015", "33/2019": "applied in stages from 30 Aug 2019", "3/2021": "applies from 4 Nov 2020" };
+const LABEL = { added: "Added", changed: "Changed", removed: "Removed", never: "Never changed" };
 let ACT = null;
 const app = document.getElementById("app");
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const go = root => root.querySelectorAll("[data-go]").forEach(b => b.onclick = () => location.hash = "#/" + b.dataset.go);
+const titleCase = s => s.toLowerCase().replace(/\b([a-z])/g, c => c.toUpperCase());
+const norm = s => String(s ?? "").toLowerCase().replace(/[^a-z]/g, "");
+const isSch = p => p.startsWith("sch"), isPart = p => p.startsWith("pt");
 
-function name(path) {
-  if (path.startsWith("sch")) return ["", "First", "Second", "Third", "Fourth", "Fifth", "Sixth", "Seventh", "Eighth"][+path.slice(3)] + " Schedule";
-  if (path.startsWith("pt")) return "Part " + path.slice(2).replace(/^1/, "I");
-  return "Section " + path.slice(1).replace("-I", "I");
+function number(path) {   // "Rule 37" / "List 8" / "Part IA", with the lawyers' name alongside
+  if (isSch(path)) { const n = +path.slice(3); return [`List ${n}`, `${["", "First", "Second", "Third", "Fourth", "Fifth", "Sixth", "Seventh", "Eighth"][n]} Schedule`]; }
+  if (isPart(path)) return ["Part IA", "Part IA"];
+  const n = path.slice(1).replace("-I", "I");
+  return [`Rule ${n}`, `Section ${n}`];
 }
-function title(p) {
-  let h = TITLES[p.path] || p.heading || "";
+function title(path, heading) {
+  let h = TITLES[path] || heading || "";
   if (h && h === h.toUpperCase()) h = h.charAt(0) + h.slice(1).toLowerCase();
   return h.replace(/\.$/, "");
 }
-const titleCase = s => s.toLowerCase().replace(/\b([a-z])/g, c => c.toUpperCase());
-const kind = path => path.startsWith("sch") ? "Schedule" : path.startsWith("pt") ? "Part" : "section";
+const question = path => QUESTIONS.find(q => q[0] === path);
 
 fetch("api/act").then(r => r.json()).then(act => {
   ACT = act;
-  act.all = act.provisions.map(p => ({ ...p, added: false }))
-    .concat(act.inserted.map(p => ({ ...p, added: true })))
-    .filter(p => !(p.added && /^s43[A-Z]$|^s43-I$/.test(p.path)));  // the Council's own sections: shown under its Part
+  act.all = act.provisions.map(p => ({ ...p, added: false })).concat(act.inserted.map(p => ({ ...p, added: true })));
   window.addEventListener("hashchange", route);
   route();
-}).catch(() => app.innerHTML = '<p style="padding:40px 0">Could not load the data.</p>');
+}).catch(() => app.innerHTML = '<p style="padding:40px 0">Sorry, the page could not load. Please refresh.</p>');
 
 function route() {
   const h = decodeURIComponent(location.hash.replace(/^#\/?/, ""));
@@ -145,108 +167,144 @@ function route() {
   window.scrollTo(0, 0);
 }
 
+function status(p) { return p.added ? "added" : p.changes ? "changed" : "never"; }
 function row(p) {
-  const pill = p.added ? "Added later" : p.changes ? "Changed" : "Unchanged since 1996";
-  return `<button class="row" data-go="${p.path}"><span class="t"><b>${esc(name(p.path))}</b>${title(p) ? ` <span>· ${esc(title(p))}</span>` : ""}</span>
-    <span class="pill ${p.changes ? "" : "none"}">${pill}</span></button>`;
+  const [n] = number(p.path), t = title(p.path, p.heading), s = status(p);
+  return `<button class="row" data-go="${p.path}"><span class="t">${esc(n)}${t ? ` <span>· ${esc(t)}</span>` : ""}</span>
+    <span class="tag ${s}">${s === "added" ? "New" : LABEL[s]}</span></button>`;
+}
+function qcard([p, ic, q, d]) {
+  return `<button class="q" data-go="${p}"><span class="ic">${ic}</span><span><b>${esc(q)}</b><span>${esc(d)}</span></span></button>`;
 }
 
 function home() {
+  const bySort = (a, b) => a.path.localeCompare(b.path, "en", { numeric: true });
   app.innerHTML = `
     <section class="hero">
-      <div class="act">Arbitration and Conciliation Act, 1996</div>
-      <h1>How has this law changed, and why?</h1>
-      <p>This is India's law on settling disputes through arbitration, outside the courts. Parliament changed it in
-         2015, 2019 and 2021. Pick a topic to see what changed each time, and the official reason given.</p>
+      <h1>Laws change. See how, and why.</h1>
+      <p>Pick a question below. We show you what changed in the law each year, and the reason someone gave for it, in their own words.</p>
     </section>
-    <div class="search"><input id="q" type="search" placeholder="Search a topic, e.g. appeal, arbitrator, time limit, court" aria-label="Search"></div>
+    <div class="card"><h3>⚖️ What law is this?</h3>
+      <p>When two sides have a dispute, say over a business deal, they can skip court and let a neutral person
+      decide. That person is the <b>arbitrator</b>, and this is called <b>arbitration</b>. India's rules for it are in one law
+      from <b>1996</b>. Parliament changed that law <b>3 times</b>: in 2015, 2019 and 2021.</p></div>
+    <div class="steps">
+      <div class="step"><b>1️⃣</b> Tap a question</div>
+      <div class="step"><b>2️⃣</b> See what changed, year by year</div>
+      <div class="step"><b>3️⃣</b> See who said why</div>
+    </div>
+    <div class="search"><input id="q" type="search" placeholder="🔍  Type a word, e.g. appeal, fees, court, deadline" aria-label="Search"></div>
     <div id="results"></div>
     <div id="browse">
-      <h2>Popular topics</h2>
-      <div class="popular">${POPULAR.map(([p, t, d]) => `<button class="pop" data-go="${p}"><b>${esc(t)}</b><span>${esc(d)}</span></button>`).join("")}</div>
-      <h2>Everything that changed</h2>
-      <div class="list">${ACT.all.filter(p => p.changes)
-        .sort((a, b) => a.path.localeCompare(b.path, "en", { numeric: true })).map(row).join("")}</div>
-      <button class="more" id="showall">Show sections that never changed</button>
-      <div class="list" id="unchanged" style="display:none;margin-top:10px">${ACT.all.filter(p => !p.changes).map(row).join("")}</div>
+      <h2>Popular questions</h2>
+      <div class="qs">${QUESTIONS.map(qcard).join("")}</div>
+      <h2>Who gives the reasons?</h2>
+      <div class="card key">
+        <div><span class="ic">🏛️</span><span><b>The Government.</b> Its official reason, printed in the Bill it brought to Parliament.</span></div>
+        <div><span class="ic">🗣️</span><span><b>A Member of Parliament (MP).</b> What one MP said in a debate. This is their own opinion.</span></div>
+        <div><span class="ic">📘</span><span><b>The Law Commission.</b> A group of legal experts who advise the Government.</span></div>
+        <div><span class="ic">❓</span><span><b>No reason found.</b> We couldn't find a written reason, so we don't guess.</span></div>
+      </div>
+      <details class="all"><summary>See every part of the law (${ACT.all.length})</summary>
+        <div class="list">${ACT.all.filter(p => p.changes).sort(bySort).map(row).join("")}</div>
+        <div class="list">${ACT.all.filter(p => !p.changes).map(row).join("")}</div>
+      </details>
     </div>`;
-  document.getElementById("showall").onclick = e => { document.getElementById("unchanged").style.display = ""; e.target.remove(); };
   go(app);
   const q = document.getElementById("q"), res = document.getElementById("results");
   q.oninput = () => {
     const v = q.value.trim().toLowerCase();
     document.getElementById("browse").style.display = v ? "none" : "";
     if (!v) { res.innerHTML = ""; return; }
-    const hits = ACT.all.filter(p => `${name(p.path)} ${title(p)}`.toLowerCase().includes(v)
+    const qs = QUESTIONS.filter(x => `${x[2]} ${x[3]}`.toLowerCase().includes(v));
+    const hits = ACT.all.filter(p => `${number(p.path).join(" ")} ${title(p.path, p.heading)}`.toLowerCase().includes(v)
       || p.path.toLowerCase() === "s" + v);
-    res.innerHTML = `<h2>${hits.length} result${hits.length === 1 ? "" : "s"}</h2><div class="list">`
-      + (hits.length ? hits.map(row).join("") : `<div class="empty">Nothing matches “${esc(q.value)}”. Try another word.</div>`) + "</div>";
+    res.innerHTML = (qs.length ? `<h2>Questions</h2><div class="qs">${qs.map(qcard).join("")}</div>` : "")
+      + `<h2>Parts of the law</h2><div class="list">`
+      + (hits.length ? hits.map(row).join("") : `<div class="empty">Nothing found for “${esc(q.value)}”. Try another word.</div>`) + "</div>";
     go(res);
   };
 }
 
-function whatChanged(path, e) {
-  const es = e.edges;
-  if (es.some(x => x.new === path && x.old == null)) return `This ${kind(path)} was added to the law.`;
-  if (es.some(x => x.old === path && x.new == null)) return `This ${kind(path)} was removed from the law.`;
-  if (es.some(x => x.old === path && x.new === path)) return `The whole ${kind(path)} was rewritten.`;
-  const n = { reworded: 0, added: 0, moved: 0, removed: 0 };
-  es.forEach(x => x.old == null ? n.added++ : x.new == null ? n.removed++ : x.old === x.new ? n.reworded++ : n.moved++);
-  const words = { reworded: "reworded", added: "added", moved: "renumbered", removed: "removed" };
-  const parts = Object.entries(n).filter(([, c]) => c)
-    .map(([k, c]) => `${c} ${k === "added" ? "new " : ""}part${c > 1 ? "s" : ""} ${words[k]}`);
-  const s = parts.join(", ");
+function kind(path) { return isSch(path) ? "list" : isPart(path) ? "part" : "rule"; }
+function eventStatus(path, e) {
+  if (e.edges.some(x => x.new === path && x.old == null)) return "added";
+  if (e.edges.some(x => x.old === path && x.new == null)) return "removed";
+  return "changed";
+}
+function whatHappened(path, e, st) {
+  if (st === "added") return `This ${kind(path)} was added to the law.`;
+  if (st === "removed") return `This ${kind(path)} was taken out of the law.`;
+  if (e.edges.some(x => x.old === path && x.new === path)) return `This ${kind(path)} was completely rewritten.`;
+  const has = { words: 0, added: 0, moved: 0, removed: 0 };
+  e.edges.forEach(x => x.old == null ? has.added++ : x.new == null ? has.removed++ : x.old === x.new ? has.words++ : has.moved++);
+  const bits = [has.words && "some words were changed", has.added && "new points were added",
+                has.moved && "some points were moved around", has.removed && "some points were taken out"].filter(Boolean);
+  const s = bits.join(bits.length > 2 ? ", " : " and ").replace(/, (?=[^,]*$)/, " and ");
   return s.charAt(0).toUpperCase() + s.slice(1) + ".";
 }
 
-function source(it) {
+function who(it) {
   const a = it.attribution || {};
   if (a.role === "government") {
     const bill = (a.where || "").match(/Bill, (\d{4})/);
-    return `<b>Government of India</b>, in the official reasons printed with the ${bill ? bill[1] + " " : ""}Bill${a.signed_by ? `, signed by Minister ${esc(titleCase(a.signed_by))}` : ""}`;
+    return { ic: "🏛️", said: "The Government said:",
+      from: `Official reasons printed in the ${bill ? bill[1] + " " : ""}Bill${a.signed_by ? `, signed by Minister ${titleCase(a.signed_by)}` : ""}.` };
   }
-  if (a.role === "committee") return `<b>Law Commission of India</b>, ${esc((a.by || "").replace(/^Law Commission of India,?\s*/, ""))}`;
+  if (a.role === "committee")
+    return { ic: "📘", said: "The Law Commission said:", from: `Law Commission of India, ${(a.by || "").replace(/^Law Commission of India,?\s*/, "")}.` };
   const m = (a.by || "").match(/^(?:SHRI|SHRIMATI|SMT\.|KUMARI|DR\.|PROF\.|ADV\.)?\s*(.*?)\s*(?:\(([^)]*)\))?$/);
-  const who = m ? titleCase(m[1]) : a.by, seat = m && m[2] ? ` (${titleCase(m[2])})` : "";
+  const name = m ? titleCase(m[1]) : a.by, seat = m && m[2] ? ` (MP for ${titleCase(m[2])})` : "";
   const date = (a.where || "").match(/(\d{1,2} \w{3} \d{4})/);
-  return `<b>${esc(who)}</b>, Member of Parliament${esc(seat)}, speaking in the Lok Sabha${date ? " on " + date[1] : ""}.
-    <i>This is the MP's own view, not necessarily the Government's.</i>`;
+  return { ic: "🗣️", said: `An MP, ${name}${seat}, said:`,
+    from: `Debate in the Lok Sabha${date ? ", " + date[1] : ""}. This is the MP's own opinion, not the Government's official reason.` };
 }
 
-const norm = s => String(s ?? "").toLowerCase().replace(/[^a-z]/g, "");
-const same = (a, b) => norm(a) === norm(b);
-
 function why(e) {
-  return e.intent.map(it => it.status === "sourced"
-    ? `<div class="why"><div class="lab">Why</div>${same(it.claim, it.quote) ? "" : `<div class="claim">${esc(it.claim)}</div>`}
-         <blockquote>“${esc(it.quote.replace(/\s+/g, " ").trim())}”</blockquote><div class="who">— ${source(it)}</div></div>`
-    : `<div class="why none"><div class="lab">Why</div><div class="claim">No reason found in the official records we searched
-         (the Bill, the Lok Sabha debate${e.instrument === "3/2016" ? " and the Law Commission's report" : ""}). We only show reasons we can quote.</div></div>`).join("");
+  return e.intent.map(it => {
+    if (it.status !== "sourced") {
+      const where = e.instrument === "3/2016" ? "the Bill, the debate in Parliament and the Law Commission's report" : "the Bill and the debate in Parliament";
+      return `<div class="why none"><div class="lab">Why?</div><div class="who"><span class="ic">❓</span><span>No reason found.</span></div>
+        <div class="quote">We looked in ${where}, but couldn't find a reason for this change. We only show reasons we can quote word for word, so we don't guess.</div></div>`;
+    }
+    const w = who(it), quote = it.quote.replace(/\s+/g, " ").trim();
+    return `<div class="why"><div class="lab">Why?</div><div class="who"><span class="ic">${w.ic}</span><span>${esc(w.said)}</span></div>
+      <div class="quote">“${esc(quote)}”</div>
+      ${norm(it.claim) === norm(quote) ? "" : `<div class="short"><b>In short:</b> ${esc(it.claim)}</div>`}
+      <div class="from">Source: ${esc(w.from)}</div></div>`;
+  }).join("");
 }
 
 function detail(path) {
-  const back = `<button class="back" onclick="location.hash=''">← All topics</button>`;
+  const back = `<button class="back" onclick="location.hash=''">← Back to questions</button>`;
   fetch(`api/provision/${encodeURIComponent(path)}`).then(r => { if (!r.ok) throw 0; return r.json(); }).then(p => {
-    const years = p.events.map(e => YEAR[e.instrument] || e.instrument);
-    const list = ys => ys.join(", ").replace(/, (?=[^,]*$)/, " and ");
-    const removed = p.events.some(e => e.edges.some(x => x.old === path && x.new == null));
-    const sub = !p.events.length ? "Unchanged since 1996."
-      : !p.in_1996 ? `Added in ${years[0]}${removed ? `, removed in ${years.at(-1)}` : years.length > 1 ? `, changed again in ${list(years.slice(1))}` : ""}.`
-      : `Changed in ${list(years)}.`;
-    const original = p.nodes_1996.filter(n => n.text).map(n => (n.number && n.path !== path ? `(${n.number}) ` : "") + n.text).join("\n\n");
-    let html = `${back}<div class="detail"><h1>${esc(title({ path, heading: p.heading }) || name(path))}</h1>
-      <div class="sub">${esc(name(path))} of the Arbitration and Conciliation Act · ${esc(sub)}</div><div class="timeline">`;
-    if (p.in_1996) html += `<div class="ev origin"><span class="yr">1996</span><span class="when">Original law</span>
-        <div class="box"><div>${p.events.length ? "The law as first passed by Parliament." : "This part of the law has never been changed."}</div>
-        ${original ? `<details><summary>Read the original text</summary><div class="txt">${esc(original)}</div></details>` : ""}</div></div>`;
-    for (const e of p.events) {
-      const ins = Object.values(e.instructions).filter(Boolean).join("\n\n");
-      html += `<div class="ev"><span class="yr">${YEAR[e.instrument] || e.instrument}</span><span class="when">${esc(WHEN[e.instrument] || "")}</span>
-        <div class="box"><div>${esc(whatChanged(path, e))}</div>${why(e)}
-        ${ins ? `<details><summary>Read the official amendment</summary><div class="txt">${esc(ins)}</div></details>` : ""}</div></div>`;
+    const q = question(path), [n, lawyer] = number(path), t = title(path, p.heading);
+    const steps = (p.in_1996 ? [["1996", "never", "Original"]] : [])
+      .concat(p.events.map(e => { const s = eventStatus(path, e); return [YEAR[e.instrument] || e.instrument, s, LABEL[s]]; }));
+    let html = `${back}
+      <div class="title"><span class="ic">${q ? q[1] : "📄"}</span><div><h1>${esc(q ? q[2] : t || n)}</h1>
+        <div class="sub">This is ${esc(n)} of the arbitration law${t && q ? ` (“${esc(t)}”)` : ""}.${n !== lawyer ? ` Lawyers call it ${esc(lawyer)}.` : ""}</div></div></div>
+      <div class="path">${steps.map(([y, s, l]) => `<span class="tag ${s}">${y} · ${l}</span>`).join('<span class="arrow">→</span>')}</div>`;
+    if (p.in_1996) {
+      const original = p.nodes_1996.filter(x => x.text).map(x => (x.number && x.path !== path ? `(${x.number}) ` : "") + x.text).join("\n\n");
+      html += `<div class="yr">1996 <small>the original law</small></div>
+        <div class="card" style="margin-top:0"><div class="what">${p.events.length ? `This is how the ${kind(path)} first read.` : `This ${kind(path)} has never been changed since 1996.`}</div>
+        ${original ? `<details class="text"><summary>📄 Show the original legal words</summary><div class="txt">${esc(original)}</div></details>` : ""}</div>`;
     }
-    app.innerHTML = html + "</div></div>";
-  }).catch(() => { app.innerHTML = `${back}<p>Not found.</p>`; });
+    for (const e of p.events) {
+      const st = eventStatus(path, e), words = Object.values(e.instructions).filter(Boolean).join("\n\n");
+      html += `<div class="yr">${YEAR[e.instrument] || e.instrument} <span class="tag ${st}">${LABEL[st]}</span> <small>${esc(WHEN[e.instrument] || "")}</small></div>
+        <div class="card" style="margin-top:0"><div class="what">${esc(whatHappened(path, e, st))}</div>${why(e)}
+        ${words ? `<details class="text"><summary>📄 Show the exact legal words Parliament used</summary><div class="txt">${esc(words)}</div></details>` : ""}</div>`;
+    }
+    if (path === "pt1A") {
+      const inside = ACT.all.filter(x => /^s43[A-Z]$|^s43-I$/.test(x.path))
+        .sort((a, b) => a.path.replace("-", "").localeCompare(b.path.replace("-", "")));
+      html += `<h2>What's inside this part</h2><div class="list">${inside.map(row).join("")}</div>`;
+    }
+    app.innerHTML = html;
+    go(app);
+  }).catch(() => { app.innerHTML = `${back}<p>Sorry, we couldn't find that.</p>`; });
 }
 </script>
 </body>
