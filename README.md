@@ -8,25 +8,30 @@ nothing to install.
 
 ## Using the demo
 
-The demo shows what the finished app is for: a reader with no legal training picks a topic and
-sees **what changed in the law, when, and the official reason**.
+The demo is built for someone with no legal training. Open it and:
 
-1. **Pick a topic.** Use a *Popular topic* card (e.g. "Who can be an arbitrator"), the search box
-   ("appeal", "time limit", "court"), or the list of everything that changed.
-2. **Read the timeline.** Each topic shows the 1996 original, then one card per amending Act
-   (2015, 2019, 2021): what changed, in plain words ("1 new part added, 2 parts renumbered"),
-   and **why**.
-3. **Every reason is a quote, with who said it.** Government (the official reasons printed with the
-   Bill, signed by the minister), a named MP in the Lok Sabha debate (labelled as the MP's own
-   view), or the Law Commission. Where no official record gives a reason, the app says so
-   instead of guessing.
-4. **Check the source.** "Read the original text" and "Read the official amendment" open the
-   exact wording.
+1. **Tap a question.** Plain questions like "Is there a deadline to decide a case?" or "Who is
+   allowed to be an arbitrator?", or type a word ("appeal", "fees", "court") in the search box.
+   Every part of the law is also listed at the bottom.
+2. **See what changed, year by year.** Each answer shows a strip like
+   `1996 Original → 2015 Changed → 2021 Changed`, then one card per year saying in one sentence
+   what happened ("This rule was added to the law", "Some words were changed and new points were
+   added").
+3. **See who said why.** Under each change, the reason is quoted word for word, marked with who said it:
+   🏛️ the Government (official reasons printed in the Bill, with the minister who signed them),
+   🗣️ an MP in the Lok Sabha debate (labelled as their own opinion, not the Government's), or
+   📘 the Law Commission. ❓ means no reason was found, and the app says so instead of guessing.
+4. **Check the source.** "Show the original legal words" and "Show the exact legal words
+   Parliament used" open the real text.
 
-Good topics to try: **Who can be an arbitrator** (added in 2019, removed in 2021, with the
-Government's reasons for both), **Appealing against arbitration orders** (the clauses were
-renumbered, which the system first got wrong and then corrected; see below), **Enforcing an
-arbitration award** (the system refuses to give a reason it can't quote).
+Sections are called *rules* and Schedules *lists* on the page, with the legal name alongside
+("Rule 37 … Lawyers call it Section 37").
+
+Good questions to try: **Who is allowed to be an arbitrator?** (added in 2019, removed in 2021,
+with the Government's reason for each), **Can I appeal against a decision?** (the clauses were
+renumbered; the system first paired them wrongly and corrected itself, see below), **When does
+the decision have to be followed?** (the system refuses to give a reason it can't quote),
+**What is the Arbitration Council?** (a new Part with its 13 rules).
 
 Everything below explains how the system behind that page works, and how well it works.
 
