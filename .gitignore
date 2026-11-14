@@ -16,6 +16,7 @@ data/raw/*
 !data/raw/.gitkeep
 data/text/*
 !data/text/.gitkeep
+data/chat_cache/
 
 # Notebooks
 .ipynb_checkpoints/

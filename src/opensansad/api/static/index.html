@@ -95,6 +95,28 @@ details.text summary { cursor:pointer; color:var(--accent); font-size:16px; }
 details.text .txt { white-space:pre-wrap; font-size:14px; color:var(--muted); margin-top:8px; max-height:320px; overflow:auto;
   background:var(--soft); border-radius:10px; padding:10px 12px; font-family:ui-serif, Georgia, serif; }
 footer { color:var(--muted); font-size:15px; padding:30px 0 50px; border-top:1px solid var(--line); margin-top:44px; }
+.chat-btn { position:fixed; right:16px; bottom:16px; z-index:20; border:0; border-radius:999px; padding:13px 20px;
+  background:var(--accent); color:#fff; font-size:17px; font-weight:600; cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,.2); }
+.chat { position:fixed; right:16px; bottom:16px; z-index:21; width:min(400px, calc(100vw - 32px)); height:min(560px, calc(100vh - 100px));
+  display:flex; flex-direction:column; background:var(--card); border:1px solid var(--line); border-radius:18px;
+  box-shadow:0 10px 40px rgba(0,0,0,.25); overflow:hidden; }
+.chat[hidden] { display:none; }
+.chat .top { display:flex; justify-content:space-between; align-items:center; padding:12px 16px; border-bottom:1px solid var(--line); font-weight:700; }
+.chat .top button { border:0; background:none; font-size:22px; cursor:pointer; color:var(--muted); }
+.chat .msgs { flex:1; overflow-y:auto; padding:14px; display:flex; flex-direction:column; gap:10px; font-size:16px; line-height:1.5; }
+.chat .m { max-width:92%; padding:10px 13px; border-radius:14px; }
+.chat .m.me { align-self:flex-end; background:var(--accent); color:#fff; border-bottom-right-radius:4px; }
+.chat .m.bot { align-self:flex-start; background:var(--soft); border-bottom-left-radius:4px; }
+.chat .m.bot p { margin:6px 0 0; } .chat .m.bot p:first-child { margin-top:0; }
+.chat .m.bot .r { color:var(--muted); font-size:15px; }
+.chat .m.bot a { cursor:pointer; font-weight:600; }
+.chat .chips { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+.chat .chips button { border:1px solid var(--line); background:var(--card); border-radius:999px; padding:4px 10px; font-size:14px; cursor:pointer; }
+.chat form { display:flex; gap:8px; padding:10px; border-top:1px solid var(--line); }
+.chat input { flex:1; min-width:0; padding:10px 12px; font:inherit; font-size:16px; border:2px solid var(--line); border-radius:12px; background:var(--bg); color:var(--fg); }
+.chat input:focus { outline:none; border-color:var(--accent); }
+.chat form button { border:0; border-radius:12px; padding:0 16px; background:var(--accent); color:#fff; font-weight:600; cursor:pointer; }
+.chat .note { font-size:12px; color:var(--muted); padding:0 12px 8px; }
 @media (max-width:560px) { .steps { grid-template-columns:1fr; } .step { display:flex; gap:12px; align-items:center; text-align:left; }
   .step b { font-size:24px; } .mode button { padding:6px 10px; } }
 </style>
@@ -114,6 +136,14 @@ footer { color:var(--muted); font-size:15px; padding:30px 0 50px; border-top:1px
   and we always say who said it. If we can't find one, we tell you.
   <a href="https://github.com/rishitudikeri3-rgb/openSansaad#readme">How this works</a>
 </footer></div>
+
+<button class="chat-btn" id="chat-open">💬 Ask</button>
+<section class="chat" id="chat" hidden aria-label="Ask a question">
+  <div class="top"><span>💬 Ask about this law</span><button id="chat-close" aria-label="Close">×</button></div>
+  <div class="msgs" id="chat-msgs"></div>
+  <form id="chat-form"><input id="chat-in" maxlength="300" placeholder="Type your question…" aria-label="Your question" autocomplete="off"><button>Send</button></form>
+  <div class="note" id="chat-note">I only repeat what the official record says. I never make up a reason.</div>
+</section>
 
 <script>
 // questions people actually ask, each pointing at the part of the law that answers it
@@ -342,7 +372,21 @@ function who(it) {
     from: `Debate in the Lok Sabha${date ? ", " + date[1] : ""}. This is the MP's own opinion, not the Government's official reason.` };
 }
 
-function why(e) {
+// the other parts of the law one amending section also changed (the Council's own rules
+// count as one part); its reason may be about one of them
+function alsoChanged(path, it) {
+  const council = p => p === "pt1A" || /^s43/.test(p);
+  return (it.touches || []).filter(p => p !== path && !(council(path) && council(p)));
+}
+function alsoNote(path, it) {
+  const o = alsoChanged(path, it);
+  if (!o.length || it.status !== "sourced") return "";
+  const names = o.slice(0, 3).map(p => number(p)[easy() ? 0 : 1]).join(", ") + (o.length > 3 ? ` and ${o.length - 3} more` : "");
+  return easy() ? `⚠️ The same change also made ${names}. This reason may be about that instead.`
+    : `⚠️ The same section of the amending Act also changed ${names}; the reason given may refer to that provision rather than this one.`;
+}
+
+function why(e, path) {
   return e.intent.map(it => {
     if (it.status !== "sourced") {
       if (easy()) return `<div class="why none"><div class="lab">Why?</div><div class="who"><span class="ic">❓</span>
@@ -356,14 +400,14 @@ function why(e) {
       const simple = cap(plain(it.claim).replace(/^(This was done to|To) /, ""));
       const lead = /^(This|The changes)/.test(simple) ? w.easy.replace(/ it was to:$/, ":") : w.easy;
       return `<div class="why"><div class="lab">Why?</div><div class="who"><span class="ic">${w.ic}</span><span>${esc(lead)}</span></div>
-        <div class="simple">${esc(simple)}</div>
+        <div class="simple">${esc(simple)}</div>${alsoNote(path, it) ? `<div class="short">${esc(alsoNote(path, it))}</div>` : ""}
         <details class="text"><summary>💬 See their exact words</summary>
           <div class="quote">“${esc(quote)}”</div><div class="from">${esc(w.from)}</div></details></div>`;
     }
     return `<div class="why"><div class="lab">Why?</div><div class="who"><span class="ic">${w.ic}</span><span>${esc(w.said)}</span></div>
       <div class="quote">“${esc(quote)}”</div>
       ${norm(it.claim) === norm(quote) ? "" : `<div class="short"><b>In short:</b> ${esc(it.claim)}</div>`}
-      <div class="from">Source: ${esc(w.from)}</div></div>`;
+      <div class="from">Source: ${esc(w.from)}</div>${alsoNote(path, it) ? `<div class="short">${esc(alsoNote(path, it))}</div>` : ""}</div>`;
   }).join("");
 }
 
@@ -401,9 +445,9 @@ function detail(path) {
     for (const e of p.events) {
       const st = eventStatus(path, e), y = YEAR[e.instrument] || e.instrument, words = Object.values(e.instructions).filter(Boolean).join("\n\n");
       html += easy()
-        ? `<div class="yr">${DOT[st]} ${y}</div><div class="card" style="margin-top:0"><div class="what">${esc(whatHappened(path, e, st))}</div>${why(e)}</div>`
+        ? `<div class="yr">${DOT[st]} ${y}</div><div class="card" style="margin-top:0"><div class="what">${esc(whatHappened(path, e, st))}</div>${why(e, path)}</div>`
         : `<div class="yr">${y} <span class="tag ${st}">${LABEL[st]}</span> <small>${esc(WHEN[e.instrument] || "")}</small></div>
-        <div class="card" style="margin-top:0"><div class="what">${esc(whatHappened(path, e, st))}</div>${why(e)}
+        <div class="card" style="margin-top:0"><div class="what">${esc(whatHappened(path, e, st))}</div>${why(e, path)}
         ${words ? `<details class="text"><summary>📄 Show the exact legal words Parliament used</summary><div class="txt">${esc(words)}</div></details>` : ""}</div>`;
     }
     if (path === "pt1A") {
@@ -415,6 +459,99 @@ function detail(path) {
     go(app);
   }).catch(() => { app.innerHTML = `${back}<p>Sorry, we couldn't find that.</p>`; });
 }
+
+// ---- chat: picks the part(s) of the law a question is about, then shows their recorded
+// changes and sourced reasons. With the app running locally the AI model does the picking
+// (POST api/chat); on the public page (no server, no key) the browser matches words.
+let AI = true;
+const STOP = new Set("what when where which who whom whose why how does did do is are was were can could should would will the a an of to in on for and or if my me i it this that there their they be by with about from any law rule section act arbitration arbitrator arbitral get have has change changes changed changing amendment amendments idea year".split(" "));
+const OPINION = /\b(good|bad|better|worse|fair|unfair|right|wrong|should|opinion|think|agree|best|worst|benefit|harm|support|oppose)\b/i;
+const OPINION_SAFE = /what if the arbitrator is unfair|is unfair\b.*\?|right to/i;
+const SYN = { appeal: "challenge higher court appealable", cancel: "set aside", secret: "confidentiality", costs: "cost pays fees",
+  fee: "fees costs", time: "time limit", deadline: "time limit", fast: "faster fast track", quick: "faster fast track",
+  biased: "unfair neutral challenge", unfair: "neutral challenge", interim: "temporary orders", judge: "arbitrator" };
+function localRoute(question) {
+  const words = question.toLowerCase().match(/[a-z]+/g) || [];
+  const terms = words.filter(w => w.length > 2 && !STOP.has(w) && !OPINION.test(w)).flatMap(w => [w, ...(SYN[w] || "").split(" ").filter(Boolean)]);
+  const num = question.match(/\b(?:section|rule|s\.?)\s*(\d+[a-z]?)/i), sch = question.match(/\b(?:schedule|list)\s*(\d+)/i);
+  const exact = num ? "s" + num[1].replace(/[a-z]$/, c => c.toUpperCase()) : sch ? "sch" + sch[1] : null;
+  const kindOf = OPINION.test(question) && !OPINION_SAFE.test(question) ? "opinion" : "law";
+  if (exact && ACT.all.some(p => p.path === exact)) return { kind: kindOf, paths: [exact] };
+  const score = new Map();
+  const add = (path, text, w) => { const t = text.toLowerCase(); let n = 0;
+    for (const x of new Set(terms)) if (t.includes(x)) n += x.length > 4 ? 2 : 1;
+    if (n) score.set(path, (score.get(path) || 0) + n * w); };
+  QUESTIONS.forEach(q => add(q[0], `${q[2]} ${q[3]}`, 2));
+  ACT.all.forEach(p => add(p.path, title(p.path, p.heading), p.changes ? 1.2 : 1));
+  const paths = [...score].sort((a, b) => b[1] - a[1]).map(x => x[0]);
+  const top = paths.length ? score.get(paths[0]) : 0;
+  return { kind: paths.length || kindOf === "opinion" ? kindOf : "other", paths: paths.filter(p => score.get(p) >= top * 0.75).slice(0, 2) };
+}
+async function routeQ(question) {
+  if (AI) try {
+    const r = await fetch("api/chat", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ question }) });
+    if (r.ok) { const out = await r.json(); if (out.kind !== "error") return out; }
+    else AI = false;
+  } catch (e) { AI = false; }
+  return localRoute(question);
+}
+function chatReason(it) {
+  if (it.status !== "sourced") return "❓ We couldn't find a reason written down, so we don't guess.";
+  const w = who(it);
+  if (easy()) return `${w.ic} ${w.easy.replace(/ it was to:$/, ":")} ${cap(plain(it.claim).replace(/^(This was done to|To) /, ""))}`;
+  return `${w.ic} ${w.said} “${it.quote.replace(/\s+/g, " ").trim()}” (${w.from.replace(/\.$/, "")})`;
+}
+async function chatAnswer(path) {
+  const p = await fetch(`api/provision/${encodeURIComponent(path)}`).then(r => r.json());
+  const q = question(path), [n] = number(path), t = title(path, p.heading);
+  let h = `<p><b>${esc(q ? q[2] : t || n)}</b>${easy() ? "" : ` <span class="r">(${esc(number(path).join(" / "))})</span>`}</p><p>${esc(story(path, p))}</p>`;
+  for (const e of p.events) {
+    const st = eventStatus(path, e);
+    h += `<p>${DOT[st]} <b>${YEAR[e.instrument] || e.instrument}:</b> ${esc(whatHappened(path, e, st))}</p>`
+      + e.intent.map(it => `<p class="r">${esc(chatReason(it))}</p>` + (alsoNote(path, it) ? `<p class="r">${esc(alsoNote(path, it))}</p>` : "")).join("");
+  }
+  return h + `<p><a data-go="${path}">See the full answer →</a></p>`;
+}
+const chips = () => `<div class="chips">${QUESTIONS.slice(0, 4).map(q => `<button type="button" data-ask="${esc(q[2])}">${q[1]} ${esc(q[2])}</button>`).join("")}</div>`;
+function say(html, who = "bot") {
+  const box = document.getElementById("chat-msgs"), m = document.createElement("div");
+  m.className = "m " + who; m.innerHTML = html; box.appendChild(m); box.scrollTop = box.scrollHeight;
+  m.querySelectorAll("[data-go]").forEach(a => a.onclick = () => { location.hash = "#/" + a.dataset.go; if (innerWidth < 700) toggleChat(false); });
+  m.querySelectorAll("[data-ask]").forEach(b => b.onclick = () => ask(b.dataset.ask));
+  return m;
+}
+async function ask(text) {
+  text = text.trim(); if (!text || !ACT) return;
+  say(esc(text), "me");
+  const wait = say("…");
+  try {
+    const r = await routeQ(text);
+    let html;
+    if (r.kind === "other") html = `<p>I only know about India's arbitration law (made in 1996, changed in 2015, 2019 and 2021). Try one of these:</p>${chips()}`;
+    else if (r.kind === "opinion") html = `<p>I can't say if something is good or bad, or what should happen. That's an opinion,
+      and I only repeat what the official record says. I can show you what changed and who said why:</p>${chips()}`;
+    else if (!r.paths.length) html = `<p>I'm not sure which part of the law that's about. Try other words, or one of these:</p>${chips()}`;
+    else html = (await Promise.all(r.paths.map(chatAnswer))).join("<hr style='border:0;border-top:1px solid var(--line);margin:10px 0'>");
+    wait.innerHTML = html; go(wait); wait.querySelectorAll("[data-go]").forEach(a => a.addEventListener("click", () => { if (innerWidth < 700) toggleChat(false); }));
+    wait.querySelectorAll("[data-ask]").forEach(b => b.onclick = () => ask(b.dataset.ask));
+    document.getElementById("chat-note").textContent = AI
+      ? "The AI only picks which rule your question is about. Every answer comes from the official record."
+      : "On this public page I match your words to the law (the AI helper runs when you run the app yourself). I never make up a reason.";
+  } catch (e) { wait.innerHTML = "Sorry, something went wrong. Please try again."; }
+  document.getElementById("chat-msgs").scrollTop = 1e9;
+}
+function toggleChat(open) {
+  document.getElementById("chat").hidden = !open;
+  document.getElementById("chat-open").hidden = open;
+  if (open) {
+    if (!document.getElementById("chat-msgs").children.length)
+      say(`<p>Hi! Ask me anything about India's arbitration law, like:</p>${chips()}`);
+    document.getElementById("chat-in").focus();
+  }
+}
+document.getElementById("chat-open").onclick = () => toggleChat(true);
+document.getElementById("chat-close").onclick = () => toggleChat(false);
+document.getElementById("chat-form").onsubmit = ev => { ev.preventDefault(); const i = document.getElementById("chat-in"); ask(i.value); i.value = ""; };
 </script>
 </body>
 </html>

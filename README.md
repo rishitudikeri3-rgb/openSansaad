@@ -25,6 +25,20 @@ The Easy view's simple wording comes from a fixed list of word swaps (e.g. *arbi
 *arbitrator*, *expeditious disposal of cases* → *cases being settled faster*) applied to the
 verified reason. It is not new model output, and the exact quote is always one tap away.
 
+**💬 Ask** (bottom right) is a small chatbot. Type a question in your own words ("can I go to a
+higher court if I lose?") and it answers with the matching part of the law: what changed each year
+and who said why, from the same verified records. It never writes an answer of its own: the AI
+model only picks *which* part of the law the question is about, then the page shows that part's
+record. Opinion questions ("was the 2019 change good?") get a polite refusal, and questions
+about anything else are pointed back to the law. The AI routing (Groq, through the same cached
+model client as the agents) runs when you run the app yourself (`make demo`, with `LLM_*` in
+`.env`). The public page is static and can't hold an API key safely, so there the chatbot
+matches your words in the browser instead.
+
+Some amending sections changed several rules at once (2019 s.9 added both the confidentiality
+rule and the protection for arbitrators). Their one stated reason is shown on each rule with a
+⚠️ note naming the others, since it may be about one of them.
+
 Good questions to try: **Who can be an arbitrator?** (added in 2019, removed in 2021, with the
 Government's reason for each), **Can I challenge a decision in a higher court?** (the clauses were
 renumbered; the system first paired them wrongly and corrected itself, see below), **When must

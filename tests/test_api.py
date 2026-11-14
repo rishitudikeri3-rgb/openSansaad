@@ -77,3 +77,46 @@ def test_export_writes_static_copy(tmp_path) -> None:
     assert n == 2  # s37 and the inserted s29A
     assert (tmp_path / "api" / "provision" / "s29A").exists()
     assert "OpenSansad" in (tmp_path / "index.html").read_text()
+
+
+class FakeLLM:
+    def __init__(self, out: dict) -> None:
+        self.out, self.prompts = out, []
+
+    def json(self, role: str, system: str, user: str) -> dict:
+        self.prompts.append(user)
+        return self.out
+
+
+def chat_client(out: dict) -> tuple[TestClient, FakeLLM]:
+    llm = FakeLLM(out)
+    provs = [Provision("s37", "section", "37", "Appealable orders.", "", None, 1)]
+    return TestClient(create_app(Store(provs, LINEAGE, INTENT), llm=llm)), llm
+
+
+def test_chat_routes_to_known_provisions_only() -> None:
+    c, llm = chat_client({"kind": "law", "paths": ["s37", "s99", "s37", "s29A"]})
+    r = c.post("/api/chat", json={"question": "Can I appeal?"}).json()
+    assert r == {"kind": "law", "paths": ["s37", "s29A"], "routed_by": "model"}
+    assert "s37 | Appealable orders." in llm.prompts[0] and "s29A |" in llm.prompts[0]
+
+
+def test_chat_bad_answers_are_dropped_not_repaired() -> None:
+    c, _ = chat_client({"kind": "verdict", "paths": "s37"})
+    assert c.post("/api/chat", json={"question": "x"}).json()["kind"] == "other"
+    c, _ = chat_client({"kind": "opinion", "paths": ["s37"]})
+    assert c.post("/api/chat", json={"question": "Was 2015 good?"}).json()["kind"] == "opinion"
+    assert c.post("/api/chat", json={"question": ""}).status_code == 422
+    assert c.post("/api/chat", json={"question": "x" * 301}).status_code == 422
+
+
+def test_intent_lists_every_provision_its_amending_section_touches() -> None:
+    p = client().get("/api/provision/s37").json()
+    assert p["events"][0]["intent"][0]["touches"] == ["s37"]
+    lineage = {**LINEAGE, "edges": LINEAGE["edges"] + [
+        {"instrument": "3/2016", "old": None, "new": "s29B", "op_type": "insert",
+         "source": "rule", "group": "3/2016|s15", "confidence": 1.0, "rationale": None}]}
+    provs = [Provision("s37", "section", "37", "Appealable orders.", "", None, 1)]
+    c = TestClient(create_app(Store(provs, lineage, INTENT)))
+    it = c.get("/api/provision/s29A").json()["events"][0]["intent"][0]
+    assert it["touches"] == ["s29A", "s29B"]
