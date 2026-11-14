@@ -506,32 +506,38 @@ async function routeQ(question) {
 // and verified reasons as the detail page; no model-written text. Legal detail is one tap away.
 const listYears = ys => ys.length < 2 ? ys.join("") : ys.slice(0, -1).join(", ") + " and " + ys[ys.length - 1];
 const low = s => s.charAt(0).toLowerCase() + s.slice(1);
-function chatReason(it, y, path) {
-  if (it.status !== "sourced") return `${y}: We couldn't find a reason written down.`;
-  const a = it.attribution || {}, official = a.role === "government" || a.role === "committee";
-  const by = a.role === "government" ? "The Government" : a.role === "committee" ? "Legal experts (the Law Commission)" : "An MP";
-  const claim = plain(it.claim).replace(/\s+/g, " ").trim().replace(/\.$/, "");
-  const aim = claim.replace(/^(?:This was done to|The amendment (?:is intended to|aims to|was made to|seeks to)|To) /i, "");
-  const said = aim === claim && /^(this|the|it|these)\b/i.test(claim) ? `said: ${cap(claim)}` : `said it was to ${low(aim)}`;
-  const also = alsoChanged(path, it);
-  return `${y}: ${by} ${said}${official ? "" : " (their own view)"}.`
-    + (also.length ? ` (This may be about ${number(also[0])[0]} instead.)` : "");
+// the one reason the chat gives: the latest stated by the Government, else the Law Commission,
+// else an MP; a reason recorded for a change that also made other rules is skipped (it may be
+// about them). Cut at ", which …" only, so the words left are still the record's.
+function bestReason(path, p) {
+  const rank = it => ({ government: 3, committee: 2 }[(it.attribution || {}).role] || 1);
+  const all = p.events.flatMap(e => e.intent.map(it => ({ it, y: YEAR[e.instrument] || e.instrument })))
+    .filter(x => x.it.status === "sourced" && !alsoChanged(path, x.it).length);
+  return all.sort((a, b) => rank(b.it) - rank(a.it) || b.y.localeCompare(a.y))[0];
 }
 async function chatAnswer(path) {
   const p = await fetch(`api/provision/${encodeURIComponent(path)}`).then(r => r.json());
-  const q = question(path), t = title(path, p.heading) || number(path)[0];
   const sts = p.events.map(e => [YEAR[e.instrument] || e.instrument, eventStatus(path, e)]);
   const changedYs = sts.filter(([, st]) => st === "changed").map(([y]) => y);
   const added = sts.find(([, st]) => st === "added"), removed = sts.find(([, st]) => st === "removed");
-  const bits = [p.in_1996 ? "It's been in the law since 1996" : added ? `It was added in ${added[0]}` : "It's part of the law"];
-  if (changedYs.length) bits.push(`changed in ${listYears(changedYs)}`);
-  if (removed) bits.push(`taken out in ${removed[0]}`);
-  const life = bits.length > 1 ? bits.slice(0, -1).join(", ") + " and " + bits[bits.length - 1]
-    : bits[0] + (p.in_1996 ? " and has never changed" : "");
-  const lines = p.events.flatMap(e => e.intent.map(it => chatReason(it, YEAR[e.instrument] || e.instrument, path)));
-  return `<p><b>${esc(q ? q[2] : t)}</b></p><p>${esc(life)}.</p>`
-    + (lines.length ? `<p><b>Why it changed:</b></p>` + lines.map(x => `<p>${esc(x)}</p>`).join("") : "")
-    + `<p><a data-go="${path}">See the full story →</a></p>`;
+  const bits = [p.in_1996 ? "has been in the law since 1996" : added ? `was added in ${added[0]}` : "is part of the law"];
+  const was = p.in_1996 ? "was " : "";
+  if (changedYs.length) bits.push(`${was}changed in ${listYears(changedYs)}`);
+  if (removed) bits.push(`${was}removed in ${removed[0]}`);
+  if (bits.length === 1 && p.in_1996) bits.push("has never changed");
+  const life = `This ${kind(path)} ` + (bits.length > 1 ? bits.slice(0, -1).join(", ") + " and " + bits[bits.length - 1] : bits[0]);
+  let why = "";
+  if (p.events.length) {
+    const r = bestReason(path, p);
+    if (!r) why = "We couldn't find a written reason.";
+    else {
+      const role = (r.it.attribution || {}).role, by = role === "government" ? "The Government" : role === "committee" ? "The Law Commission" : "An MP";
+      const claim = plain(r.it.claim).replace(/\s+/g, " ").trim().replace(/\.$/, "").split(/, which\b/)[0];
+      const aim = claim.replace(/^(?:This was done to|The amendment (?:is intended to|aims to|was made to|seeks to)|To) /i, "");
+      why = `${by} said ${aim === claim ? "it " + low(claim).replace(/^this /, "") : "it was to " + low(aim)}.`;
+    }
+  }
+  return `<p>${esc(life)}.</p>${why ? `<p>${esc(why)}</p>` : ""}<p class="r"><a data-go="${path}">More →</a></p>`;
 }
 const chips = () => `<div class="chips">${QUESTIONS.slice(0, 4).map(q => `<button type="button" data-ask="${esc(q[2])}">${q[1]} ${esc(q[2])}</button>`).join("")}</div>`;
 function say(html, who = "bot") {
@@ -552,9 +558,7 @@ async function ask(text) {
     else if (r.kind === "opinion") html = `<p>I can't say if something is good or bad, or what should happen. That's an opinion,
       and I only repeat what the official record says. I can show you what changed and who said why:</p>${chips()}`;
     else if (!r.paths.length) html = `<p>I'm not sure which part of the law that's about. Try other words, or one of these:</p>${chips()}`;
-    else html = (await chatAnswer(r.paths[0]))
-      + (r.paths.length > 1 ? `<p class="r">Also see: ${r.paths.slice(1).map(x => { const a = ACT.all.find(p => p.path === x) || {};
-          return `<a data-go="${x}">${esc((question(x) || [])[2] || title(x, a.heading) || number(x)[0])}</a>`; }).join(", ")}</p>` : "");
+    else html = await chatAnswer(r.paths[0]);
     wait.innerHTML = html; go(wait); wait.querySelectorAll("[data-go]").forEach(a => a.addEventListener("click", () => { if (innerWidth < 700) toggleChat(false); }));
     wait.querySelectorAll("[data-ask]").forEach(b => b.onclick = () => ask(b.dataset.ask));
     document.getElementById("chat-note").textContent = {
