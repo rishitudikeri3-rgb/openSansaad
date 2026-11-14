@@ -29,3 +29,5 @@ data/chat_cache/
 
 # Static demo build (published on the gh-pages branch, not on master)
 site/
+worker/.wrangler/
+worker/node_modules/
