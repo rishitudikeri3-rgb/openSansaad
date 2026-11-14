@@ -26,8 +26,9 @@ The Easy view's simple wording comes from a fixed list of word swaps (e.g. *arbi
 verified reason. It is not new model output, and the exact quote is always one tap away.
 
 **💬 Ask** (bottom right) is a small chatbot. Type a question in your own words ("can I go to a
-higher court if I lose?") and it answers with the matching part of the law: what changed each year
-and who said why, from the same verified records. It never writes an answer of its own: the AI
+higher court if I lose?") and it answers in plain sentences with the matching part of the law:
+what changed each year and who said why, from the same verified records. The sentences follow
+fixed patterns filled in from the record. It never writes an answer of its own: the AI
 model only picks *which* part of the law the question is about, then the page shows that part's
 record. Opinion questions ("was the 2019 change good?") get a polite refusal, and questions
 about anything else are pointed back to the law. The AI routing (Groq, through the same cached
