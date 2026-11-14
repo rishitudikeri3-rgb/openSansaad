@@ -32,8 +32,9 @@ model only picks *which* part of the law the question is about, then the page sh
 record. Opinion questions ("was the 2019 change good?") get a polite refusal, and questions
 about anything else are pointed back to the law. The AI routing (Groq, through the same cached
 model client as the agents) runs when you run the app yourself (`make demo`, with `LLM_*` in
-`.env`). The public page is static and can't hold an API key safely, so there the chatbot
-matches your words in the browser instead.
+`.env`). The public page is static and can't hold an API key, so it asks a small Cloudflare
+Worker (`worker/chat.js`) that keeps the key as a secret and does the same routing. If the
+Worker is busy or missing, the page matches your words in the browser instead, and says so.
 
 Some amending sections changed several rules at once (2019 s.9 added both the confidentiality
 rule and the protection for arbitrators). Their one stated reason is shown on each rule with a
@@ -206,6 +207,15 @@ make test                 # 263 offline tests
 python -m opensansad.eval.genealogy      # genealogy evaluation (replays from cache)
 python -m opensansad.workflows.intent    # intent + verification (replays from cache)
 make site                 # static export of the demo (published on gh-pages)
+```
+
+Chat on the public page (Cloudflare Worker, free plan; needs Node, e.g. `sudo apt install nodejs npm`):
+
+```bash
+cd worker && npx wrangler login && cd ..   # once, in a browser
+make chat-worker-key      # copies LLM_API_KEY from .env into the Worker's secrets
+make chat-worker          # deploys; prints https://opensansad-chat.<you>.workers.dev
+# put that URL in .env as CHAT_URL, then `make site` and publish site/
 ```
 
 Write-ups: [`docs/recon.md`](docs/recon.md) (source and Act selection),

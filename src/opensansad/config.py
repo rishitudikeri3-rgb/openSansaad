@@ -33,6 +33,8 @@ class Settings(BaseSettings):
     llm_api_key: SecretStr | None = None
     model_reasoning: str | None = None
     model_bulk: str | None = None
+    # demo chat router deployed as a Cloudflare Worker (worker/); written into the static export
+    chat_url: str | None = None
 
     # Ingestion. The cache refuses to fetch until the placeholder is replaced with a real contact.
     user_agent: str = "OpenSansad/0.1 (academic research project; contact: <your-email>)"

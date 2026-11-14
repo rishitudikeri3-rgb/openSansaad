@@ -9,8 +9,10 @@ Reads only committed / derived data: the 1996 clause tree (Postgres), the system
 results (`data/intent/`). The one exception is `POST /api/chat` (the Query Agent), which asks
 the bulk model, through `agents/llm.py`, only *which provisions* a question is about, or that
 it asks for an opinion; the page then shows those provisions' recorded changes and sourced
-reasons. The model never writes the answer. The static export has no chat endpoint (the key
-cannot ship in a public page): there the page matches words in the browser instead.
+reasons. The model never writes the answer. The static export cannot hold the key: it ships
+the router's prompt and catalogue (`api/chat-config`) for the Cloudflare Worker in `worker/`,
+which keeps the key as a secret and answers the same way, and `chat.json` naming the Worker's
+URL (`CHAT_URL`). Without one, the page matches words in the browser instead.
 """
 
 import json
@@ -128,6 +130,14 @@ class Store:
                        if e["instrument"] == inst and e["group"].split("|")[1].split(".")[0] == sec
                        for p in (e["old"], e["new"]) if p})
 
+    def chat_catalogue(self) -> dict[str, str]:
+        """Top-level provisions the chat router may name: id -> heading (or a CHAT_NAMES name)."""
+        changed = self.changed_tops()
+        cat = {p.path: p.heading or "" for p in sorted(self.provisions.values(), key=lambda p: p.ord)
+               if p.node_type in ("section", "schedule")}
+        cat |= {p: self.headings.get(p, "") for p in sorted(set(changed) - set(self.provisions))}
+        return {p: CHAT_NAMES.get(p) or h for p, h in cat.items()}
+
     def _intent(self, unit: str) -> dict:
         r = self.intent.get(unit)
         if r is None:
@@ -172,12 +182,17 @@ class ChatIn(BaseModel):
     question: str = Field(min_length=1, max_length=300)
 
 
+def chat_prompt(catalogue: dict[str, str], question: str) -> str:
+    # worker/chat.js builds the same text from `api/chat-config`
+    return "Parts of the Act (id | heading):\n" + "\n".join(
+        f"{p} | {h}" for p, h in catalogue.items()) + f"\n\nQuestion: {question}"
+
+
 def route_question(llm, catalogue: dict[str, str], question: str) -> dict:
     """Query Agent: the model picks provisions from the catalogue; anything else is dropped."""
     from opensansad.agents.llm import LLMError
 
-    user = "Parts of the Act (id | heading):\n" + "\n".join(
-        f"{p} | {h}" for p, h in catalogue.items()) + f"\n\nQuestion: {question}"
+    user = chat_prompt(catalogue, question)
     for role in ("bulk", "reasoning"):  # the 20B model sometimes fails Groq's JSON check
         try:
             out = llm.json(role, CHAT_SYSTEM, user)
@@ -248,12 +263,8 @@ def create_app(store: Store | None = None, llm=None) -> FastAPI:
                 state["llm"] = chat_llm()
             except Exception as e:  # no key in .env, or the agents extra not installed
                 raise HTTPException(503, f"chat unavailable: {e}") from None
-        changed = s.changed_tops()
-        catalogue = {p.path: p.heading or "" for p in sorted(
-            s.provisions.values(), key=lambda p: p.ord) if p.node_type in ("section", "schedule")}
-        catalogue |= {p: s.headings.get(p, "") for p in sorted(set(changed) - set(s.provisions))}
-        catalogue = {p: CHAT_NAMES.get(p) or h for p, h in catalogue.items()}
-        return route_question(state["llm"], catalogue, body.question) | {"routed_by": "model"}
+        return route_question(state["llm"], s.chat_catalogue(), body.question) | {
+            "routed_by": "model"}
 
     @app.get("/")
     def index() -> FileResponse:
@@ -262,17 +273,27 @@ def create_app(store: Store | None = None, llm=None) -> FastAPI:
     return app
 
 
-def export(out: Path, store: Store | None = None) -> int:
+def export(out: Path, store: Store | None = None, chat_url: str | None = None) -> int:
     """Write the page and every API response as static files: the same page then runs
-    from any static host, with no database (`api/act`, `api/provision/<path>`)."""
+    from any static host, with no database (`api/act`, `api/provision/<path>`), plus the chat
+    router's prompt and catalogue (`api/chat-config`, read by the Worker) and, when a Worker
+    URL is configured, `chat.json` pointing the page at it."""
     from fastapi.testclient import TestClient
 
-    client = TestClient(create_app(store or Store.load()))
+    from opensansad.config import get_settings
+
+    store = store or Store.load()
+    chat_url = chat_url if chat_url is not None else get_settings().chat_url
+    client = TestClient(create_app(store))
     act = client.get("/api/act").json()
     (out / "api" / "provision").mkdir(parents=True, exist_ok=True)
     (out / "index.html").write_text((STATIC / "index.html").read_text())
     (out / ".nojekyll").write_text("")
     (out / "api" / "act").write_text(json.dumps(act, ensure_ascii=False))
+    (out / "api" / "chat-config").write_text(json.dumps(
+        {"system": CHAT_SYSTEM, "catalogue": store.chat_catalogue()}, ensure_ascii=False))
+    if chat_url:
+        (out / "chat.json").write_text(json.dumps({"url": chat_url}))
     paths = [p["path"] for p in act["provisions"]] + [p["path"] for p in act["inserted"]]
     for path in paths:
         r = client.get(f"/api/provision/{path}")

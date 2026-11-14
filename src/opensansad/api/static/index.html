@@ -462,8 +462,10 @@ function detail(path) {
 
 // ---- chat: picks the part(s) of the law a question is about, then shows their recorded
 // changes and sourced reasons. With the app running locally the AI model does the picking
-// (POST api/chat); on the public page (no server, no key) the browser matches words.
-let AI = true;
+// (POST api/chat); on the public page the Worker named in chat.json does it (it keeps the key);
+// with neither, the browser matches words.
+let AI = true, NOTE = "ai", CHAT_URL = "api/chat";
+fetch("chat.json").then(r => r.ok ? r.json() : null).then(c => { if (c && c.url) CHAT_URL = c.url; }).catch(() => {});
 const STOP = new Set("what when where which who whom whose why how does did do is are was were can could should would will the a an of to in on for and or if my me i it this that there their they be by with about from any law rule section act arbitration arbitrator arbitral get have has change changes changed changing amendment amendments idea year".split(" "));
 const OPINION = /\b(good|bad|better|worse|fair|unfair|right|wrong|should|opinion|think|agree|best|worst|benefit|harm|support|oppose)\b/i;
 const OPINION_SAFE = /what if the arbitrator is unfair|is unfair\b.*\?|right to/i;
@@ -489,10 +491,11 @@ function localRoute(question) {
 }
 async function routeQ(question) {
   if (AI) try {
-    const r = await fetch("api/chat", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ question }) });
-    if (r.ok) { const out = await r.json(); if (out.kind !== "error") return out; }
-    else AI = false;
-  } catch (e) { AI = false; }
+    const r = await fetch(CHAT_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ question }) });
+    if (r.ok) { const out = await r.json(); if (out.kind !== "error") { NOTE = "ai"; return out; } }
+    else if ([404, 405, 501, 503].includes(r.status)) AI = false;   // no router here: stop asking
+  } catch (e) { if (CHAT_URL === "api/chat") AI = false; }
+  NOTE = AI ? "busy" : "words";
   return localRoute(question);
 }
 function chatReason(it) {
@@ -534,9 +537,11 @@ async function ask(text) {
     else html = (await Promise.all(r.paths.map(chatAnswer))).join("<hr style='border:0;border-top:1px solid var(--line);margin:10px 0'>");
     wait.innerHTML = html; go(wait); wait.querySelectorAll("[data-go]").forEach(a => a.addEventListener("click", () => { if (innerWidth < 700) toggleChat(false); }));
     wait.querySelectorAll("[data-ask]").forEach(b => b.onclick = () => ask(b.dataset.ask));
-    document.getElementById("chat-note").textContent = AI
-      ? "The AI only picks which rule your question is about. Every answer comes from the official record."
-      : "On this public page I match your words to the law (the AI helper runs when you run the app yourself). I never make up a reason.";
+    document.getElementById("chat-note").textContent = {
+      ai: "The AI only picks which rule your question is about. Every answer comes from the official record.",
+      busy: "The AI helper is busy, so I matched your words to the law this time. I never make up a reason.",
+      words: "I matched your words to the law (the AI helper isn't available here). I never make up a reason.",
+    }[NOTE];
   } catch (e) { wait.innerHTML = "Sorry, something went wrong. Please try again."; }
   document.getElementById("chat-msgs").scrollTop = 1e9;
 }

@@ -1,3 +1,5 @@
+import json
+
 from fastapi.testclient import TestClient
 
 from opensansad.api.app import Provision, Store, create_app
@@ -73,10 +75,16 @@ def test_export_writes_static_copy(tmp_path) -> None:
     from opensansad.api.app import export
 
     provs = [Provision("s37", "section", "37", "Appealable orders.", "", None, 1)]
-    n = export(tmp_path, Store(provs, LINEAGE, INTENT))
+    n = export(tmp_path, Store(provs, LINEAGE, INTENT), chat_url="")  # not from .env
     assert n == 2  # s37 and the inserted s29A
     assert (tmp_path / "api" / "provision" / "s29A").exists()
     assert "OpenSansad" in (tmp_path / "index.html").read_text()
+    cfg = json.loads((tmp_path / "api" / "chat-config").read_text())
+    assert cfg["catalogue"] == {"s37": "Appealable orders.",
+                                "s29A": "Time limit for arbitral award (deadline for the decision)"}
+    assert "Reply with JSON only" in cfg["system"] and not (tmp_path / "chat.json").exists()
+    export(tmp_path, Store(provs, LINEAGE, INTENT), chat_url="https://chat.example.dev")
+    assert json.loads((tmp_path / "chat.json").read_text()) == {"url": "https://chat.example.dev"}
 
 
 class FakeLLM:

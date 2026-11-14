@@ -1,4 +1,4 @@
-.PHONY: install up down logs test test-integration migrate lint worker demo site
+.PHONY: install up down logs test test-integration migrate lint worker demo site chat-worker chat-worker-key
 
 install:
 	uv sync --all-extras
@@ -32,3 +32,11 @@ demo:
 
 site:
 	rm -rf site && uv run python -m opensansad.api.app export site
+
+# chat router for the static demo (Cloudflare Worker, needs Node + `npx wrangler login`)
+chat-worker:
+	cd worker && npx --yes wrangler@4 deploy
+
+# copies LLM_API_KEY from .env into the Worker's secrets (never printed)
+chat-worker-key:
+	@grep -m1 '^LLM_API_KEY=' .env | cut -d= -f2- | (cd worker && npx --yes wrangler@4 secret put LLM_API_KEY)
