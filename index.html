@@ -479,6 +479,9 @@ function localRoute(question) {
   const exact = num ? "s" + num[1].replace(/[a-z]$/, c => c.toUpperCase()) : sch ? "sch" + sch[1] : null;
   const kindOf = OPINION.test(question) && !OPINION_SAFE.test(question) ? "opinion" : "law";
   if (exact && ACT.all.some(p => p.path === exact)) return { kind: kindOf, paths: [exact] };
+  const asked = new Set(words);   // one of the listed questions, in (nearly) the same words
+  const same = QUESTIONS.find(q => { const qw = q[2].toLowerCase().match(/[a-z]+/g); return qw.filter(w => asked.has(w)).length >= qw.length * 0.8; });
+  if (same) return { kind: "law", paths: [same[0]] };
   const score = new Map();
   const add = (path, text, w) => { const t = text.toLowerCase(); let n = 0;
     for (const x of new Set(terms)) if (t.includes(x)) n += x.length > 4 ? 2 : 1;
@@ -498,22 +501,42 @@ async function routeQ(question) {
   NOTE = AI ? "busy" : "words";
   return localRoute(question);
 }
-function chatReason(it) {
-  if (it.status !== "sourced") return "❓ We couldn't find a reason written down, so we don't guess.";
-  const w = who(it);
-  if (easy()) return `${w.ic} ${w.easy.replace(/ it was to:$/, ":")} ${cap(plain(it.claim).replace(/^(This was done to|To) /, ""))}`;
-  return `${w.ic} ${w.said} “${it.quote.replace(/\s+/g, " ").trim()}” (${w.from.replace(/\.$/, "")})`;
+// chat answers in plain sentences, assembled from the record: the same facts and verified
+// reasons as the detail page, joined by fixed sentence patterns (no model-written text)
+const low = s => s.charAt(0).toLowerCase() + s.slice(1);
+const listYears = ys => ys.length < 2 ? ys.join("") : ys.slice(0, -1).join(", ") + " and " + ys[ys.length - 1];
+function chatReason(it, y) {
+  if (it.status !== "sourced") return `We couldn't find a reason for the ${y} change written down anywhere, so we won't guess.`;
+  const a = it.attribution || {}, w = who(it);
+  const by = a.role === "government" ? "the Government" : a.role === "committee" ? "the Law Commission (a group of legal experts)"
+    : w.said.replace(/^An MP, /, "an MP, ").replace(/ said:$/, "").replace(/\)$/, "),");
+  const mp = a.role !== "government" && a.role !== "committee";
+  const claim = (easy() ? plain(it.claim) : it.claim).replace(/\s+/g, " ").trim().replace(/\.$/, "");
+  const m = claim.match(/^(?:This was done to|The amendment (?:is intended to|aims to|was made to|seeks to)|To) (.*)$/i);
+  let out = m ? `Why? ${cap(by)} said it was done to ${m[1]}.` : `Why? ${cap(by)} explained it like this: ${low(claim)}.`;
+  if (mp && easy()) out += " That is the MP's own view, not the Government's official reason.";
+  if (!easy()) out += ` Their exact words were: “${it.quote.replace(/\s+/g, " ").trim()}” (${w.from.replace(/\.$/, "")}).`;
+  return out;
 }
 async function chatAnswer(path) {
   const p = await fetch(`api/provision/${encodeURIComponent(path)}`).then(r => r.json());
-  const q = question(path), [n] = number(path), t = title(path, p.heading);
-  let h = `<p><b>${esc(q ? q[2] : t || n)}</b>${easy() ? "" : ` <span class="r">(${esc(number(path).join(" / "))})</span>`}</p><p>${esc(story(path, p))}</p>`;
+  const q = question(path), [n, lawyer] = number(path), t = title(path, p.heading), k = kind(path);
+  const name = easy() ? `the ${k} about “${t || (q ? q[2] : n)}”` : `${n} (${lawyer}${t ? `, “${t}”` : ""})`;
+  const sts = p.events.map(e => [YEAR[e.instrument] || e.instrument, eventStatus(path, e)]);
+  const changedYs = sts.filter(([, st]) => st === "changed").map(([y]) => y);
+  const added = sts.find(([, st]) => st === "added"), removed = sts.find(([, st]) => st === "removed");
+  let life = p.in_1996 ? `It has been part of the law since 1996` : added ? `It was added to the law in ${added[0]}` : `It is part of the law`;
+  const later = [changedYs.length && `${p.in_1996 ? "was" : "was then"} changed in ${listYears(changedYs)}`,
+                 removed && `was taken out in ${removed[0]}`].filter(Boolean);
+  life += later.length ? ` and ${later.join(", and ")}.` : p.in_1996 ? " and has never been changed." : ".";
+  const paras = [`This is covered by ${name}. ${life}`];
   for (const e of p.events) {
-    const st = eventStatus(path, e);
-    h += `<p>${DOT[st]} <b>${YEAR[e.instrument] || e.instrument}:</b> ${esc(whatHappened(path, e, st))}</p>`
-      + e.intent.map(it => `<p class="r">${esc(chatReason(it))}</p>` + (alsoNote(path, it) ? `<p class="r">${esc(alsoNote(path, it))}</p>` : "")).join("");
+    const st = eventStatus(path, e), y = YEAR[e.instrument] || e.instrument;
+    const what = low(whatHappened(path, e, st)).replace(/\.$/, "");
+    paras.push(`In ${y}, ${what}. ` + e.intent.map(it => chatReason(it, y)
+      + (alsoNote(path, it) ? ` (That same part of the ${y} law also changed ${alsoChanged(path, it).slice(0, 3).map(x => number(x)[easy() ? 0 : 1]).join(", ")}, so this reason may really be about that.)` : "")).join(" "));
   }
-  return h + `<p><a data-go="${path}">See the full answer →</a></p>`;
+  return paras.map(x => `<p>${esc(x)}</p>`).join("") + `<p><a data-go="${path}">See the full answer →</a></p>`;
 }
 const chips = () => `<div class="chips">${QUESTIONS.slice(0, 4).map(q => `<button type="button" data-ask="${esc(q[2])}">${q[1]} ${esc(q[2])}</button>`).join("")}</div>`;
 function say(html, who = "bot") {
@@ -534,7 +557,8 @@ async function ask(text) {
     else if (r.kind === "opinion") html = `<p>I can't say if something is good or bad, or what should happen. That's an opinion,
       and I only repeat what the official record says. I can show you what changed and who said why:</p>${chips()}`;
     else if (!r.paths.length) html = `<p>I'm not sure which part of the law that's about. Try other words, or one of these:</p>${chips()}`;
-    else html = (await Promise.all(r.paths.map(chatAnswer))).join("<hr style='border:0;border-top:1px solid var(--line);margin:10px 0'>");
+    else html = (r.paths.length > 1 ? `<p>Your question touches ${r.paths.length === 2 ? "two" : "three"} parts of the law. Here they are:</p>` : "")
+      + (await Promise.all(r.paths.map(chatAnswer))).join("<hr style='border:0;border-top:1px solid var(--line);margin:10px 0'>");
     wait.innerHTML = html; go(wait); wait.querySelectorAll("[data-go]").forEach(a => a.addEventListener("click", () => { if (innerWidth < 700) toggleChat(false); }));
     wait.querySelectorAll("[data-ask]").forEach(b => b.onclick = () => ask(b.dataset.ask));
     document.getElementById("chat-note").textContent = {
