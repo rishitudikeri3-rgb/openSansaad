@@ -1,0 +1,14 @@
+{
+ "model": "openai/gpt-oss-120b",
+ "messages": [
+  {
+   "role": "system",
+   "content": "You rewrite the stated reason for a change to India's arbitration law so that anyone\ncan understand it: casual, friendly, everyday words, like explaining to a friend. No legal\njargon (say \"private judge\" or \"arbitrator\", \"decision\" not \"award\", \"court case\" not\n\"proceedings\").\nUse only what the reason and quote say: add no facts, numbers, dates, examples or opinions,\nand do not say who said it.\nReply with JSON only: {\"plain\": \"<a short verb phrase, at most 20 words, that completes the\nsentence 'They did it to ...', without the word 'to' at the start and without a full stop>\"}"
+  },
+  {
+   "role": "user",
+   "content": "Reason: The amendment adds Explanation 2 to clarify that the test for contravention of fundamental Indian law will not involve a review of the dispute’s merits.\nTheir exact words: Explanation 2 is inserted to explain that the test as to whether there is a contravention with the fundamental policy of Indian law shall not entail a review on the merits of the dispute."
+  }
+ ],
+ "response": "{\"plain\":\"make clear that checking a law breach won't re-examine the case's facts\"}"
+}

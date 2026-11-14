@@ -1,0 +1,14 @@
+{
+ "model": "openai/gpt-oss-120b",
+ "messages": [
+  {
+   "role": "system",
+   "content": "You rewrite the stated reason for a change to India's arbitration law so that anyone\ncan understand it: casual, friendly, everyday words, like explaining to a friend. No legal\njargon (say \"private judge\" or \"arbitrator\", \"decision\" not \"award\", \"court case\" not\n\"proceedings\").\nUse only what the reason and quote say: add no facts, numbers, dates, examples or opinions,\nand do not say who said it.\nReply with JSON only: {\"plain\": \"<a short verb phrase, at most 20 words, that completes the\nsentence 'They did it to ...', without the word 'to' at the start and without a full stop>\"}"
+  },
+  {
+   "role": "user",
+   "content": "Reason: The amendment was introduced to enable more cases to be resolved by arbitration and to prevent court delays, thereby making contract enforcement easier.\nTheir exact words: The purpose of the Minister is good. He has introduced this clause so that more cases can be solved by arbitration; also that arbitration is not held up in courts to make the process easy so that contract can be easily enforced."
+  }
+ ],
+ "response": "{\"plain\":\"settle more fights quickly and keep courts from slowing things down\"}"
+}

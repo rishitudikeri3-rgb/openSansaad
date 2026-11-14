@@ -1,0 +1,14 @@
+{
+ "model": "openai/gpt-oss-120b",
+ "messages": [
+  {
+   "role": "system",
+   "content": "You rewrite the stated reason for a change to India's arbitration law so that anyone\ncan understand it: casual, friendly, everyday words, like explaining to a friend. No legal\njargon (say \"private judge\" or \"arbitrator\", \"decision\" not \"award\", \"court case\" not\n\"proceedings\").\nUse only what the reason and quote say: add no facts, numbers, dates, examples or opinions,\nand do not say who said it.\nReply with JSON only: {\"plain\": \"<a short verb phrase, at most 20 words, that completes the\nsentence 'They did it to ...', without the word 'to' at the start and without a full stop>\"}"
+  },
+  {
+   "role": "user",
+   "content": "Reason: The amendment was made to strengthen institutional arbitration in India by establishing an independent body for grading arbitral institutions and accrediting arbitrators.\nTheir exact words: With a view to strengthen institutional arbitration in the country, the said Committee, inter alia, recommended for the establishment of an independent body for grading of arbitral institutions and accreditation of arbitrators, etc."
+  }
+ ],
+ "response": "{\"plain\":\"boost private-judge system by setting up a body that grades institutions and certifies judges\"}"
+}

@@ -21,21 +21,24 @@ The page has two versions, switched at the top right:
   quote with its source line, the reason as the system recorded it, the original 1996 wording, the
   exact amendment text, and a list of every part of the law.
 
-The Easy view's simple wording comes from a fixed list of word swaps (e.g. *arbitral tribunal* →
-*arbitrator*, *expeditious disposal of cases* → *cases being settled faster*) applied to the
-verified reason. It is not new model output, and the exact quote is always one tap away.
+The Easy view's casual wording is written by the AI, once, from each verified reason and its
+quote (`python -m opensansad.api.plain`; cached and committed, so the page never calls a model
+to show it). A rewrite that adds numbers, names a speaker or runs long is rejected. Who said it
+always comes from the record, and the exact quote is one tap away.
 
-**💬 Ask** (bottom right) is a small chatbot. Type a question in your own words ("can I go to a
-higher court if I lose?") and it answers in plain sentences with the matching part of the law:
-what changed each year and who said why, from the same verified records. The sentences follow
-fixed patterns filled in from the record. It never writes an answer of its own: the AI
-model only picks *which* part of the law the question is about, then the page shows that part's
-record. Opinion questions ("was the 2019 change good?") get a polite refusal, and questions
-about anything else are pointed back to the law. The AI routing (Groq, through the same cached
-model client as the agents) runs when you run the app yourself (`make demo`, with `LLM_*` in
-`.env`). The public page is static and can't hold an API key, so it asks a small Cloudflare
-Worker (`worker/chat.js`) that keeps the key as a secret and does the same routing. If the
-Worker is busy or missing, the page matches your words in the browser instead, and says so.
+**💬 Ask** (bottom right) is a chatbot. Type a question in your own words ("can I go to a higher
+court if I lose?") and the AI answers like a friend would, in two or three sentences. It works in
+two steps: first it picks which part of the law the question is about; then it writes the reply
+using **only** that part's recorded history and its one verified reason. A reply is checked
+before it is shown: it must not mention a year the record doesn't have, it must say who gave the
+reason (and that an MP's reason is just their own view), and it must admit when no reason was
+found. A reply that fails is re-asked once, then replaced by a fixed two-line answer. "More →"
+opens the full page with the exact words and sources. Opinion questions ("was the 2019 change
+good?") are politely declined.
+
+On the public page the AI runs in a small Cloudflare Worker (`worker/chat.js`) that keeps the
+Groq key as a secret; locally, `make demo` with `LLM_*` in `.env` does the same. If the AI is
+busy, the page answers with the short fixed version and says so.
 
 Some amending sections changed several rules at once (2019 s.9 added both the confidentiality
 rule and the protection for arbitrators). Their one stated reason is shown on each rule with a

@@ -128,3 +128,30 @@ def test_intent_lists_every_provision_its_amending_section_touches() -> None:
     c = TestClient(create_app(Store(provs, lineage, INTENT)))
     it = c.get("/api/provision/s29A").json()["events"][0]["intent"][0]
     assert it["touches"] == ["s29A", "s29B"]
+
+
+def test_chat_writes_a_reply_only_inside_the_facts() -> None:
+    facts = ("about: Deadline\nhistory: This rule was added in 2015.\n"
+             "reason: The Government said it was to make cases faster.")
+    c, _ = chat_client({"reply": "Yep! It came in 2015 and the Government said it's to speed cases up."})
+    assert c.post("/api/chat", json={"question": "q", "facts": facts}).json()["reply"].startswith("Yep")
+    c, _ = chat_client({"reply": "It came in 2016 to speed things up."})  # wrong year, no speaker
+    assert c.post("/api/chat", json={"question": "q", "facts": facts}).json() == {"reply": None}
+
+
+def test_check_reply_needs_speaker_and_admits_no_reason() -> None:
+    from opensansad.api.app import check_reply
+
+    mp = "history: x\nreason: An MP said it was to help (their own view, not the Government's)."
+    assert check_reply("An MP reckoned it would help, just their view though.", mp) == []
+    assert check_reply("It was to help.", mp) == [
+        "does not say who gave the reason", "does not say the MP's reason is their own view"]
+    none = "history: This rule was added in 2019.\nreason: none found"
+    assert check_reply("Added in 2019, but I couldn't find a reason written down.", none) == []
+    assert check_reply("Added in 2019 to make things fair.", none) == ["does not say no reason was found"]
+
+
+def test_easy_wording_is_served_with_the_reason() -> None:
+    provs = [Provision("s37", "section", "37", "Appealable orders.", "", None, 1)]
+    c = TestClient(create_app(Store(provs, LINEAGE, INTENT, plain={"3/2016|s20": "limit appeals"})))
+    assert c.get("/api/provision/s37").json()["events"][0]["intent"][0]["plain"] == "limit appeals"

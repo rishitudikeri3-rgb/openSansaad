@@ -1,0 +1,14 @@
+{
+ "model": "openai/gpt-oss-120b",
+ "messages": [
+  {
+   "role": "system",
+   "content": "You rewrite the stated reason for a change to India's arbitration law so that anyone\ncan understand it: casual, friendly, everyday words, like explaining to a friend. No legal\njargon (say \"private judge\" or \"arbitrator\", \"decision\" not \"award\", \"court case\" not\n\"proceedings\").\nUse only what the reason and quote say: add no facts, numbers, dates, examples or opinions,\nand do not say who said it.\nReply with JSON only: {\"plain\": \"<a short verb phrase, at most 20 words, that completes the\nsentence 'They did it to ...', without the word 'to' at the start and without a full stop>\"}"
+  },
+  {
+   "role": "user",
+   "content": "Reason: To empower the Central Government to amend the Fourth Schedule by notification in the Official Gazette after laying the same in draft form before each House of Parliament.\nTheir exact words: Clause 7 of the Bill seeks to insert a new section 11A in the principal Act to empower the Central Government to amend the Fourth Schedule by notification in the Official Gazette after laying the same in draft form before each House of Parliament.\n\nYour answer 'let the government update the list after showing a draft to Parliament' was rejected: names who said it (leave that out). Try again."
+  }
+ ],
+ "response": "{\"plain\":\"let the government change the list after sharing a draft with Parliament\"}"
+}

@@ -1,0 +1,14 @@
+{
+ "model": "openai/gpt-oss-120b",
+ "messages": [
+  {
+   "role": "system",
+   "content": "You rewrite the stated reason for a change to India's arbitration law so that anyone\ncan understand it: casual, friendly, everyday words, like explaining to a friend. No legal\njargon (say \"private judge\" or \"arbitrator\", \"decision\" not \"award\", \"court case\" not\n\"proceedings\").\nUse only what the reason and quote say: add no facts, numbers, dates, examples or opinions,\nand do not say who said it.\nReply with JSON only: {\"plain\": \"<a short verb phrase, at most 20 words, that completes the\nsentence 'They did it to ...', without the word 'to' at the start and without a full stop>\"}"
+  },
+  {
+   "role": "user",
+   "content": "Reason: The amendment rationalizes the law and provides greater incentive for the High Court and/or Supreme Court to delegate the power of appointment to specialized, external persons or institutions.\nTheir exact words: This would rationalize the law and provide greater incentive for the High Court and/or Supreme Court to delegate the power of appointment (being a non-judicial act) to specialized, external persons or institutions."
+  }
+ ],
+ "response": "{\"plain\":\"make the law simpler and give courts a reason to let outside experts pick people\"}"
+}

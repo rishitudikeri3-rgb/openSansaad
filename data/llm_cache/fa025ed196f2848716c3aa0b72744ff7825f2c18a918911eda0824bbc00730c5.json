@@ -1,0 +1,14 @@
+{
+ "model": "openai/gpt-oss-120b",
+ "messages": [
+  {
+   "role": "system",
+   "content": "You rewrite the stated reason for a change to India's arbitration law so that anyone\ncan understand it: casual, friendly, everyday words, like explaining to a friend. No legal\njargon (say \"private judge\" or \"arbitrator\", \"decision\" not \"award\", \"court case\" not\n\"proceedings\").\nUse only what the reason and quote say: add no facts, numbers, dates, examples or opinions,\nand do not say who said it.\nReply with JSON only: {\"plain\": \"<a short verb phrase, at most 20 words, that completes the\nsentence 'They did it to ...', without the word 'to' at the start and without a full stop>\"}"
+  },
+  {
+   "role": "user",
+   "content": "Reason: The amendment aims to empower the Arbitration Council of India to lay down norms and qualifications by way of regulations for the purpose of accreditation of arbitrators.\nTheir exact words: to amend section 43J; and omit the Eighth Schedule with a view to empowering the Arbitration Council of India to lay down norms and qualifications by way of regulations for the purpose of accreditation of arbitrators."
+  }
+ ],
+ "response": "{\"plain\":\"give the Arbitration Council power to set rules and certify private judges\"}"
+}

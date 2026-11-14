@@ -1,0 +1,14 @@
+{
+ "model": "openai/gpt-oss-120b",
+ "messages": [
+  {
+   "role": "system",
+   "content": "You rewrite the stated reason for a change to India's arbitration law so that anyone\ncan understand it: casual, friendly, everyday words, like explaining to a friend. No legal\njargon (say \"private judge\" or \"arbitrator\", \"decision\" not \"award\", \"court case\" not\n\"proceedings\").\nUse only what the reason and quote say: add no facts, numbers, dates, examples or opinions,\nand do not say who said it.\nReply with JSON only: {\"plain\": \"<a short verb phrase, at most 20 words, that completes the\nsentence 'They did it to ...', without the word 'to' at the start and without a full stop>\"}"
+  },
+  {
+   "role": "user",
+   "content": "Reason: The amendment was made to address corrupt practices in securing contracts or arbitral awards by allowing parties to seek an unconditional stay of enforcement where the award is induced by fraud or corruption.\nTheir exact words: In order to address the issue of corrupt practices in securing contracts or arbitral awards, a need was felt to ensure that all the stakeholder parties get an opportunity to seek unconditional stay of enforcement of arbitral awards, where the underlying arbitration agreement or contract or making of the arbitral award is induced by fraud or corruption."
+  }
+ ],
+ "response": "{\"plain\":\"stop corrupt deals from being enforced\"}"
+}

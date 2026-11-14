@@ -8,14 +8,17 @@ Reads only committed / derived data: the 1996 clause tree (Postgres), the system
 (`data/genealogy/`, written by the genealogy eval in `agentic-bulk` mode) and the intent
 results (`data/intent/`). The one exception is `POST /api/chat` (the Query Agent), which asks
 the bulk model, through `agents/llm.py`, only *which provisions* a question is about, or that
-it asks for an opinion; the page then shows those provisions' recorded changes and sourced
-reasons. The model never writes the answer. The static export cannot hold the key: it ships
+it asks for an opinion; then (a second call, `facts` set) words a short casual reply from the
+facts the page sends (the provision's history and its one verified reason), kept only if it
+passes `check_reply` (no years outside the facts, who gave the reason named, "couldn't find"
+when none was). A rejected reply falls back to the page's fixed two-line answer. The static export cannot hold the key: it ships
 the router's prompt and catalogue (`api/chat-config`) for the Cloudflare Worker in `worker/`,
 which keeps the key as a secret and answers the same way, and `chat.json` naming the Worker's
 URL (`CHAT_URL`). Without one, the page matches words in the browser instead.
 """
 
 import json
+import re
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -27,6 +30,7 @@ from opensansad.config import PROJECT_ROOT
 
 LINEAGE = PROJECT_ROOT / "data" / "genealogy" / "arbitration-1996.json"
 INTENT = PROJECT_ROOT / "data" / "intent" / "arbitration-1996.json"
+PLAIN = INTENT.with_suffix(".plain.json")  # Easy-view wording (api/plain.py)
 EVAL = PROJECT_ROOT / "data" / "eval" / "genealogy.json"
 STATIC = Path(__file__).parent / "static"
 
@@ -57,7 +61,9 @@ class Provision:
 
 class Store:
     def __init__(self, provisions: list[Provision], lineage: dict, intent: dict,
-                 evaluation: dict | None = None, headings: dict[str, str] | None = None):
+                 evaluation: dict | None = None, headings: dict[str, str] | None = None,
+                 plain: dict[str, str] | None = None):
+        self.plain = plain or {}
         self.provisions = {p.path: p for p in provisions}
         self.headings = headings or {}  # headings of provisions inserted after 1996
         self.evaluation = evaluation or {}
@@ -85,7 +91,7 @@ class Store:
         def read(p: Path) -> dict:
             return json.loads(p.read_text()) if p.exists() else {}
         return cls(provs, read(LINEAGE) or {"edges": [], "instructions": {}}, read(INTENT),
-                   read(EVAL), headings)
+                   read(EVAL), headings, read(PLAIN))
 
     def top(self, path: str) -> str:
         return path.split(".")[0]
@@ -146,7 +152,7 @@ class Store:
                 "attribution")
         return {k: r.get(k) for k in keep} | {
             "tiers_searched": [a["tier"] for a in r.get("attempts", [])],
-            "touches": self.unit_tops(unit)}
+            "touches": self.unit_tops(unit), "plain": self.plain.get(unit)}
 
 
 CHAT_SYSTEM = """You route questions about India's Arbitration and Conciliation Act, 1996 (and its
@@ -178,8 +184,59 @@ CHAT_NAMES = {
 }
 
 
+CHAT_WRITE_SYSTEM = """You're the friendly chat helper on a website about India's arbitration law
+(arbitration = settling a fight with a private judge, the arbitrator, instead of a court).
+Reply like a chill friend texting back: casual, warm, everyday words, 2 or 3 short sentences,
+no legal jargon, no lists, at most one emoji.
+Your reply MUST cover both: (1) the history (when this part of the law came in or changed),
+and (2) the reason, saying who gave it ("the Government", "the Law Commission", or "an MP",
+and that an MP's reason is just their own view), or, if the facts say "none found", that you
+couldn't find a reason written down.
+Use ONLY the facts given. You do not know what the law actually says, so never answer yes or
+no about what it allows or requires; never add facts, numbers, years, names or opinions.
+Reply with JSON only: {"reply": "<your answer>"}"""
+
+
 class ChatIn(BaseModel):
     question: str = Field(min_length=1, max_length=300)
+    facts: str | None = Field(default=None, max_length=1200)
+
+
+def check_reply(reply: str, facts: str) -> list[str]:
+    """A written reply is kept only if it stays inside the facts it was given (worker/chat.js
+    applies the same checks)."""
+    problems = []
+    if not reply or len(reply) > 500:
+        problems.append("empty or too long")
+    if set(re.findall(r"\b1[89]\d\d\b|\b20\d\d\b", reply)) - set(re.findall(r"\b\d{4}\b", facts)):
+        problems.append("year not in the facts")
+    who = re.search(r"reason: (The Government|The Law Commission|An MP)", facts)
+    if who and {"The Government": "government", "The Law Commission": "law commission",
+                "An MP": "mp"}[who[1]] not in reply.lower().replace("mps", "mp"):
+        problems.append("does not say who gave the reason")
+    if "(their own view" in facts and not re.search(r"(?i)\bown (view|opinion|take)|\bopinion\b|\btheir view\b", reply):
+        problems.append("does not say the MP's reason is their own view")
+    if "reason: none found" in facts and not re.search(
+            r"(?i)couldn.?t find|could not find|no (written )?reason|not sure why|don.?t know why", reply):
+        problems.append("does not say no reason was found")
+    return problems
+
+
+def write_reply(llm, question: str, facts: str) -> str | None:
+    """The bulk model words the answer from the page's facts; None if it fails the checks."""
+    from opensansad.agents.llm import LLMError
+
+    user = f"Question: {question}\n\nFacts:\n{facts}"
+    for _ in range(2):  # one re-ask with the problems listed, never a repair
+        try:
+            reply = str(llm.json("bulk", CHAT_WRITE_SYSTEM, user).get("reply") or "").strip()
+        except LLMError:
+            return None
+        problems = check_reply(reply, facts)
+        if not problems:
+            return reply
+        user += f"\n\nYour reply {reply!r} was rejected: {'; '.join(problems)}. Try again."
+    return None
 
 
 def chat_prompt(catalogue: dict[str, str], question: str) -> str:
@@ -263,6 +320,8 @@ def create_app(store: Store | None = None, llm=None) -> FastAPI:
                 state["llm"] = chat_llm()
             except Exception as e:  # no key in .env, or the agents extra not installed
                 raise HTTPException(503, f"chat unavailable: {e}") from None
+        if body.facts:
+            return {"reply": write_reply(state["llm"], body.question, body.facts)}
         return route_question(state["llm"], s.chat_catalogue(), body.question) | {
             "routed_by": "model"}
 
@@ -291,7 +350,8 @@ def export(out: Path, store: Store | None = None, chat_url: str | None = None) -
     (out / ".nojekyll").write_text("")
     (out / "api" / "act").write_text(json.dumps(act, ensure_ascii=False))
     (out / "api" / "chat-config").write_text(json.dumps(
-        {"system": CHAT_SYSTEM, "catalogue": store.chat_catalogue()}, ensure_ascii=False))
+        {"system": CHAT_SYSTEM, "write_system": CHAT_WRITE_SYSTEM,
+         "catalogue": store.chat_catalogue()}, ensure_ascii=False))
     if chat_url:
         (out / "chat.json").write_text(json.dumps({"url": chat_url}))
     paths = [p["path"] for p in act["provisions"]] + [p["path"] for p in act["inserted"]]

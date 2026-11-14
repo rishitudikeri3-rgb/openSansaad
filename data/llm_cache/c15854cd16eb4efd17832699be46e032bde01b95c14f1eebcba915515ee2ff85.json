@@ -1,0 +1,14 @@
+{
+ "model": "openai/gpt-oss-120b",
+ "messages": [
+  {
+   "role": "system",
+   "content": "You rewrite the stated reason for a change to India's arbitration law so that anyone\ncan understand it: casual, friendly, everyday words, like explaining to a friend. No legal\njargon (say \"private judge\" or \"arbitrator\", \"decision\" not \"award\", \"court case\" not\n\"proceedings\").\nUse only what the reason and quote say: add no facts, numbers, dates, examples or opinions,\nand do not say who said it.\nReply with JSON only: {\"plain\": \"<a short verb phrase, at most 20 words, that completes the\nsentence 'They did it to ...', without the word 'to' at the start and without a full stop>\"}"
+  },
+  {
+   "role": "user",
+   "content": "Reason: The amendment is intended to ensure that the statement of claim and defence is completed within six months of the arbitrator’s appointment.\nTheir exact words: (iv) to amend section 23 of the Act relating to \"Statement of claim and defence\" so as to provide that the statement of claim and defence shall be completed within a period of six months from the date the arbitrator receives the notice of appointment;"
+  }
+ ],
+ "response": "{\"plain\":\"make sure claim and defence papers are done within six months of the private judge's appointment\"}"
+}

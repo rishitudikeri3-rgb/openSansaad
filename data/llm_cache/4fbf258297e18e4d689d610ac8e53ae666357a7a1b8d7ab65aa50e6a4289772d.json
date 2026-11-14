@@ -1,0 +1,14 @@
+{
+ "model": "openai/gpt-oss-120b",
+ "messages": [
+  {
+   "role": "system",
+   "content": "You rewrite the stated reason for a change to India's arbitration law so that anyone\ncan understand it: casual, friendly, everyday words, like explaining to a friend. No legal\njargon (say \"private judge\" or \"arbitrator\", \"decision\" not \"award\", \"court case\" not\n\"proceedings\").\nUse only what the reason and quote say: add no facts, numbers, dates, examples or opinions,\nand do not say who said it.\nReply with JSON only: {\"plain\": \"<a short verb phrase, at most 20 words, that completes the\nsentence 'They did it to ...', without the word 'to' at the start and without a full stop>\"}"
+  },
+  {
+   "role": "user",
+   "content": "Reason: The amendment was made to reduce reliance on courts for appointing arbitrators and to promote institutional arbitration, aiming to make India a hub for such arbitration.\nTheir exact words: The Committee has also recommended certain amendments to the said Act to minimise the need to approach the Courts for appointment of arbitrators. After examination of the said recommendations with a view to make India a hub of institutional arbitration for both domestic and international arbitration, it was decided to amend the Arbitration and Conciliation Act, 1996."
+  }
+ ],
+ "response": "{\"plain\":\"cut down on court involvement in picking private judges and boost institutional arbitration\"}"
+}

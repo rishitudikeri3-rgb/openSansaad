@@ -1,14 +1,15 @@
 // OpenSansad chat router, deployed as a Cloudflare Worker so the public (static) demo can use
 // the model without shipping the API key. Same contract as POST /api/chat in api/app.py:
-// the model only names which provisions a question is about ({kind, paths}); the page renders
-// their recorded changes and sourced reasons. The prompt and catalogue are read from the
+// the model names which provisions a question is about ({kind, paths}); a second request with
+// `facts` (from the page: the provision's history + one verified reason) gets a short casual
+// reply, kept only if it passes the same checks as check_reply() in app.py. The prompt and catalogue are read from the
 // site's own `api/chat-config` (written by `make site`), so they have one source: app.py.
 //
 // Secrets: LLM_API_KEY. Vars (wrangler.toml): SITE_URL, ALLOWED_ORIGIN, LLM_BASE_URL,
 // MODEL_BULK, MODEL_REASONING.
 
 const KINDS = ["law", "opinion", "other"];
-const PER_MINUTE = 10; // per client IP, per Worker instance (best effort; Groq's free tier caps the rest)
+const PER_MINUTE = 20; // per client IP, per instance: two requests per question (best effort; Groq's free tier caps the rest)
 const hits = new Map();
 
 function cors(env) {
@@ -63,6 +64,40 @@ function validate(out, catalogue) {
   return { kind, paths: seen.slice(0, 3) };
 }
 
+// same checks as check_reply() in api/app.py
+function checkReply(reply, facts) {
+  const problems = [];
+  if (!reply || reply.length > 500) problems.push("empty or too long");
+  const years = new Set(facts.match(/\b\d{4}\b/g) || []);
+  if ((reply.match(/\b1[89]\d\d\b|\b20\d\d\b/g) || []).some(y => !years.has(y))) problems.push("year not in the facts");
+  const who = facts.match(/reason: (The Government|The Law Commission|An MP)/);
+  if (who && !reply.toLowerCase().replace(/mps/g, "mp").includes({ "The Government": "government", "The Law Commission": "law commission", "An MP": "mp" }[who[1]]))
+    problems.push("does not say who gave the reason");
+  if (facts.includes("(their own view") && !/\bown (view|opinion|take)|\bopinion\b|\btheir view\b/i.test(reply))
+    problems.push("does not say the MP's reason is their own view");
+  if (facts.includes("reason: none found") && !/couldn.?t find|could not find|no (written )?reason|not sure why|don.?t know why/i.test(reply))
+    problems.push("does not say no reason was found");
+  return problems;
+}
+
+async function write(env, question, facts) {
+  const { write_system } = await config(env);
+  let user = `Question: ${question}\n\nFacts:\n${facts}`;
+  for (let i = 0; i < 2; i++) { // one re-ask with the problems listed, never a repair
+    let reply;
+    try {
+      reply = String((await ask(env, env.MODEL_BULK, write_system, user)).reply ?? "").trim();
+    } catch (e) {
+      console.log(String(e));
+      return { reply: null };
+    }
+    const problems = checkReply(reply, facts);
+    if (!problems.length) return { reply };
+    user += `\n\nYour reply ${JSON.stringify(reply)} was rejected: ${problems.join("; ")}. Try again.`;
+  }
+  return { reply: null };
+}
+
 async function route(env, question) {
   const { system, catalogue } = await config(env);
   // same text as chat_prompt() in api/app.py
@@ -83,9 +118,11 @@ export default {
   async fetch(request, env, ctx) {
     if (request.method === "OPTIONS") return new Response(null, { headers: cors(env) });
     if (request.method !== "POST") return reply(env, { error: "POST a JSON {question}" }, 405);
-    let question;
+    let question, facts;
     try {
-      question = String((await request.json()).question ?? "").trim();
+      const body = await request.json();
+      question = String(body.question ?? "").trim();
+      facts = body.facts == null ? null : String(body.facts).slice(0, 1200);
     } catch {
       return reply(env, { error: "invalid JSON" }, 400);
     }
@@ -95,13 +132,14 @@ export default {
 
     // repeated questions are answered from Cloudflare's cache, not the model (free-tier quota;
     // the Cache API is a no-op on *.workers.dev, so this applies once on a custom domain)
-    const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(question.toLowerCase().replace(/\s+/g, " ")));
+    const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(
+      question.toLowerCase().replace(/\s+/g, " ") + "\n" + (facts || "")));
     const key = new Request(`https://chat-cache.invalid/${[...new Uint8Array(digest)].map(b => b.toString(16).padStart(2, "0")).join("")}`);
     const hit = await caches.default.match(key);
     if (hit) return reply(env, await hit.json());
 
-    const out = await route(env, question);
-    if (out.kind !== "error")
+    const out = facts ? await write(env, question, facts) : await route(env, question);
+    if (out.kind !== "error" && out.reply !== null)
       ctx.waitUntil(caches.default.put(key, new Response(JSON.stringify(out), {
         headers: { "Content-Type": "application/json", "Cache-Control": "max-age=86400" } })));
     return reply(env, out);

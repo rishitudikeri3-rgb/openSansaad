@@ -1,0 +1,14 @@
+{
+ "model": "openai/gpt-oss-120b",
+ "messages": [
+  {
+   "role": "system",
+   "content": "You rewrite the stated reason for a change to India's arbitration law so that anyone\ncan understand it: casual, friendly, everyday words, like explaining to a friend. No legal\njargon (say \"private judge\" or \"arbitrator\", \"decision\" not \"award\", \"court case\" not\n\"proceedings\").\nUse only what the reason and quote say: add no facts, numbers, dates, examples or opinions,\nand do not say who said it.\nReply with JSON only: {\"plain\": \"<a short verb phrase, at most 20 words, that completes the\nsentence 'They did it to ...', without the word 'to' at the start and without a full stop>\"}"
+  },
+  {
+   "role": "user",
+   "content": "Reason: The amendment aims to empower the arbitral tribunal to grant interim measures that the court can grant, making such orders enforceable as court orders.\nTheir exact words: Section 17 is to be amended for empowering the Arbitral Tribunal to grant all kinds of interim measures which the court is empowered to grant, under Section 9 and such order shall be 'enforceable in the same manner as if it is an order of the court’."
+  }
+ ],
+ "response": "{\"plain\":\"let private judges issue temporary orders that can be enforced just like court orders\"}"
+}
